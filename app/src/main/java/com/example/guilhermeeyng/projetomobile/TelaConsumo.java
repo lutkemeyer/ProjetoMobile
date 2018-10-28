@@ -45,6 +45,8 @@ public class TelaConsumo extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
 
         final LinearLayout conteudoLayout = findViewById(R.id.conteudoLayoutSelecaoCarro);
+
+        // gerencia a animação do menu
         actionMenu = new ActionMenuTelaConsumo(conteudoLayout, new BounceInterpolator());
 
         actionBar.setElevation(0);
@@ -59,15 +61,22 @@ public class TelaConsumo extends AppCompatActivity {
         lblAno = findViewById(R.id.lblAno);
         lstVeiculos = findViewById(R.id.lstVeiculos);
 
+        // pega todas as marcas do banco
         spMarca.setAdapter(new AdapterMarca(TelaConsumo.this, "Selecione a marca", new Dao(TelaConsumo.this).getAllMarcas()));
 
+        // deixa a seta do spinner na cor branca
         spMarca.getBackground().setColorFilter(getResources().getColor(R.color.colorLight), PorterDuff.Mode.SRC_ATOP);
         spModelo.getBackground().setColorFilter(getResources().getColor(R.color.colorLight), PorterDuff.Mode.SRC_ATOP);
         spAno.getBackground().setColorFilter(getResources().getColor(R.color.colorLight), PorterDuff.Mode.SRC_ATOP);
 
         listeners();
     }
-
+    /*
+    quando seleciona item do spinner de marca, carrega todos os modelos daquela marca no spinner de modelos
+    quando seleciona item do spinner de modelo, carrega todos os anos daquele modelo no spinner de anos
+    quando seleciona item do spinner de ano, carrega todos os veiculos daquele ano no listview
+    quando seleciona um item no listview de veiculos, altera o botao superior para "salvar" permitindo que seja salvo
+    */
     public void listeners(){
         spMarca.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -139,12 +148,20 @@ public class TelaConsumo extends AppCompatActivity {
         });
 
     }
+    /*
+    carrega o menu "não encontrei" no topo
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.consumo_menu, menu);
         this.botaoMenu = menu.getItem(0);
         return super.onCreateOptionsMenu(menu);
     }
+    /*
+    adiciona ação de voltar no botao de voltar e
+    caso o botao superior esteja como "nao encontrei" ele abre o menu de selecao manual de consumo
+    e caso esteja como salvar, ele salva no banco, o carro selecionado
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -161,18 +178,26 @@ public class TelaConsumo extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    /*
+    metodo chamado quando clica em voltar tanto no celular, quanto no icone superior de voltar
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.in_right,R.anim.out_front);
     }
 
+    /*
+    metodo chamado quando clica no botao de inserir consumo manualmente
+     */
     public void onClickInserirManualmente(View view){
         DialogInserirConsumoManualmente dialog = new DialogInserirConsumoManualmente(TelaConsumo.this);
         dialog.show();
     }
 
+    /*
+    metodo que salva no banco de dados o veiculo selecionado
+     */
     private void salvar() {
         Veiculo veiculo = ((AdapterVeiculo)lstVeiculos.getAdapter()).getVeiculoSelecionado();
         new Dao(TelaConsumo.this).salvarConsumo(veiculo);
