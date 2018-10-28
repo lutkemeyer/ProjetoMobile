@@ -293,6 +293,7 @@ public class Dao {
         private Context context;
         private ProgressDialog progressDialog;
         private int linhasPopuladas = 0;
+        private String nomeTabelaPopulada = "";
 
         public PopularBanco(Context context) {
             this.context = context;
@@ -318,6 +319,7 @@ public class Dao {
             for (int i = 0; i < lista.size(); i++) {
                 db.execSQL(lista.get(i));
                 this.linhasPopuladas = i;
+                this.nomeTabelaPopulada = lista.get(i).split(" ")[2].replace("`", "");
                 publishProgress();
             }
 
@@ -328,7 +330,7 @@ public class Dao {
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
-            progressDialog.setMessage("Dados inseridos: " + linhasPopuladas + "");
+            progressDialog.setMessage("Dados inseridos: " + linhasPopuladas + " (" + nomeTabelaPopulada + ")");
         }
 
         @Override

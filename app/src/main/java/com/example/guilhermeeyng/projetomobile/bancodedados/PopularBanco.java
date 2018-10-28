@@ -27,6 +27,7 @@ public class PopularBanco extends AsyncTask<Void,Void,Void> {
     private Context context;
     private ProgressDialog progressDialog;
     private int linhasPopuladas = 0;
+    private String nomeTabelaPopulada = "";
 
     public PopularBanco(Context context){
         this.context = context;
@@ -36,8 +37,8 @@ public class PopularBanco extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPreExecute() {
         progressDialog = new ProgressDialog(context);
-        progressDialog.setTitle("Populando o banco... (titulo)");
-        progressDialog.setMessage("Populando o banco... (msg)");
+        progressDialog.setTitle("Populando o banco...");
+        progressDialog.setMessage("Populando o banco...");
         progressDialog.show();
         super.onPreExecute();
     }
@@ -51,14 +52,13 @@ public class PopularBanco extends AsyncTask<Void,Void,Void> {
         linhas += linhasTabelaTiposMotores();
         linhas += linhasTabelaVeiculos();
 
-        // melhorar contagem de dados (com sql especifico talvez)
-
         SQLiteDatabase db = this.banco.getWritableDatabase();
         if(linhas == 0){
             ArrayList<String> lista =  getAllLinhas("inserts.txt");
             for(int i = 0; i < lista.size(); i++){
                 db.execSQL(lista.get(i));
                 this.linhasPopuladas = i;
+                this.nomeTabelaPopulada = lista.get(i);
                 publishProgress();
             }
         }
@@ -69,7 +69,7 @@ public class PopularBanco extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
-        progressDialog.setMessage("Dados inseridos: " + linhasPopuladas + "");
+        progressDialog.setMessage("Dados inseridos: " + linhasPopuladas + " (" + nomeTabelaPopulada + ")");
     }
 
     @Override
