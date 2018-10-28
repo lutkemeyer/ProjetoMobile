@@ -6,5 +6,8 @@
     <color name="colorAccent">#00529b</color>
     <color name="colorLight">#ffffff</color>
 
+    <color name="buttonDialogColorDisabled">#5500529b</color>
+    <color name="buttonDialogColorEnabled">@color/colorAccent</color>
+
     <color name="colorIcons">@color/colorLight</color>
 </resources>

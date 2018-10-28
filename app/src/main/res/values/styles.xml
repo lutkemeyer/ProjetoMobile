@@ -21,4 +21,13 @@
         <item name="android:textColor">@color/colorPrimaryLight</item>
     </style>
 
+    <style name="MyButtonDialog" parent="@style/Theme.AppCompat.Dialog.Alert">
+        <item name="android:buttonBarButtonStyle">@style/BotaoDialog</item>
+    </style>
+
+    <style name="BotaoDialog">
+        <item name="android:textColor">@drawable/seletor_botao1</item>
+    </style>
+
+
 </resources>

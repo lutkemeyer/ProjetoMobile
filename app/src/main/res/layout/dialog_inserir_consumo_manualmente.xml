@@ -2,10 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".TelaInserirConsumoManual">
-
-    <!-- TODO: Update blank fragment layout -->
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +13,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Insira o consumo manualmente"
+            android:text="@string/titulo_dialog_inserir_consumo_manualmente"
             android:textColor="@color/colorAccent"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -26,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Selecione o combustível"
+            android:text="@string/lbl_selecione_o_combustivel"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -91,7 +88,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center|start"
-                android:text="km/L" />
+                android:text="@string/medida_consumo" />
         </LinearLayout>
 
         <LinearLayout
@@ -115,7 +112,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center|start"
-                android:text="km/L" />
+                android:text="@string/medida_consumo" />
         </LinearLayout>
 
         <LinearLayout
@@ -129,6 +126,7 @@
                 android:id="@+id/btnCancelar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/BotaoDialog"
                 android:background="@android:color/transparent"
                 android:text="@string/btn_cancelar"
                 android:textColor="@color/colorAccent" />
@@ -137,10 +135,10 @@
                 android:id="@+id/btnSalvar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/BotaoDialog"
                 android:background="@android:color/transparent"
                 android:enabled="false"
-                android:text="@string/btn_salvar"
-                android:textColor="@color/colorAccent" />
+                android:text="@string/btn_salvar" />
         </LinearLayout>
 
     </LinearLayout>

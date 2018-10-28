@@ -68,6 +68,7 @@ public class DialogInserirConsumoManualmente extends AlertDialog {
             }
         });
 
+        // se clicar no radiobutton flex, exibe os campos de gasolina e etanol
         rbFlex.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean marcado) {
@@ -80,7 +81,7 @@ public class DialogInserirConsumoManualmente extends AlertDialog {
                 }
             }
         });
-
+        // se clicar no radiobutton gasolina, exibe o campo de gasolina
         rbGasolina.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean marcado) {
@@ -89,7 +90,7 @@ public class DialogInserirConsumoManualmente extends AlertDialog {
                 }
             }
         });
-
+        // se clicar no radiobutton etanol, exibe o campo de etanol
         rbEtanol.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean marcado) {
@@ -98,7 +99,7 @@ public class DialogInserirConsumoManualmente extends AlertDialog {
                 }
             }
         });
-
+        // se clicar no radiobutton diesel, exibe o campo de diesel
         rbDiesel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean marcado) {
@@ -194,9 +195,5 @@ public class DialogInserirConsumoManualmente extends AlertDialog {
                 btnSalvar.setEnabled(false);
             }
         }
-    }
-
-    public void mostra(String s){
-        Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
     }
 }

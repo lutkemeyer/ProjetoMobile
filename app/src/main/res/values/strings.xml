@@ -64,6 +64,9 @@
     <string name="litros_de_gasolina">/L de gasolina</string>
     <string name="litros_de_etanol">/L de etanol</string>
     <string name="litros_de">/L de</string>
+    <string name="titulo_dialog_inserir_consumo_manualmente">Insira o consumo manualmente</string>
+    <string name="lbl_selecione_o_combustivel">Selecione o combustível</string>
+    <string name="medida_consumo">km/L</string>
 
 
 </resources>
