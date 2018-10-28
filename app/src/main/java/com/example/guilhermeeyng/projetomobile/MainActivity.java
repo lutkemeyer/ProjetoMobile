@@ -44,20 +44,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Endereco enderecoDestinoSelecionado;
     private int duracao, distancia;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // gerencia a animacao do menu
         actionMenuTelaMain = new ActionMenuTelaMain(MainActivity.this);
 
         txtOrigem = findViewById(R.id.txtOrigem);
         txtDestino = findViewById(R.id.txtDestino);
 
-        new Dao(MainActivity.this).existeBanco();
-
+        // puxa os enderecos cadastrados no banco
         ArrayList<Endereco> enderecos = new Dao(MainActivity.this).getAllEnderecos();
 
+        // insere os enderecos no autocomplete dos campos
         txtOrigem.setAdapter(new AdapterEndereco(MainActivity.this, android.R.layout.select_dialog_item, enderecos, true));
         txtDestino.setAdapter(new AdapterEndereco(MainActivity.this, android.R.layout.select_dialog_item, enderecos, false));
 
@@ -69,6 +71,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_bolinhas);
+
+
+        /*
+        o mapa só é colocado na tela neste momento, substituindo por um container setado no layout
+        assim que o mapa é carregado, ele chama o OnMapReady, nesta mesma classe
+         */
 
         SupportMapFragment mapFrag = SupportMapFragment.newInstance();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
