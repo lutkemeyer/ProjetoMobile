@@ -9,5 +9,9 @@
     <color name="buttonDialogColorDisabled">#5500529b</color>
     <color name="buttonDialogColorEnabled">@color/colorAccent</color>
 
+
+    <color name="button1ColorDisabled">#33000000</color>
+    <color name="button1ColorEnabled">@color/colorPrimary</color>
+
     <color name="colorIcons">@color/colorLight</color>
 </resources>

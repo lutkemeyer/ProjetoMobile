@@ -17,6 +17,7 @@ import com.example.guilhermeeyng.projetomobile.bancodedados.Dao;
 import com.example.guilhermeeyng.projetomobile.entidades.Endereco;
 import com.example.guilhermeeyng.projetomobile.utilitarios.ActionMenuTelaMain;
 import com.example.guilhermeeyng.projetomobile.utilitarios.Dialogs;
+import com.example.guilhermeeyng.projetomobile.utilitarios.TextChangeListener;
 import com.example.guilhermeeyng.projetomobile.utilitarios.TipoRetornoDirectionsAPI;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ProgressDialog progressDialog;
 
     private AutoCompleteTextView txtOrigem, txtDestino;
+    private Button btnCalcular;
 
     private ActionMenuTelaMain actionMenuTelaMain;
     private String origem, destino;
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         txtOrigem = findViewById(R.id.txtOrigem);
         txtDestino = findViewById(R.id.txtDestino);
+        btnCalcular = findViewById(R.id.btnCalcular);
 
         // puxa os enderecos cadastrados no banco
         ArrayList<Endereco> enderecos = new Dao(MainActivity.this).getAllEnderecos();
@@ -91,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     /*
     pega o endereço que foi selecionado no campo, e aponta para
     variaveis que depois serão usadas para armazenar no banco
+    verifica se pode calcular rota todas as vezes que o texto muda nos campos
      */
     private void listeners() {
         txtOrigem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -105,6 +109,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 enderecoDestinoSelecionado = (Endereco)txtOrigem.getAdapter().getItem(position);
             }
         });
+        txtOrigem.addTextChangedListener(new TextChangeListener(){
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                super.onTextChanged(s, start, before, count);
+                verificaSePodeCalcularRota();
+            }
+        });
+        txtDestino.addTextChangedListener(new TextChangeListener(){
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                super.onTextChanged(s, start, before, count);
+                verificaSePodeCalcularRota();
+            }
+        });
+    }
+
+    /*
+    chamado todas as vezes que alguem digita nos campos, se tiver algo nos dois campos, o botao é ativado
+     */
+    private void verificaSePodeCalcularRota() {
+        btnCalcular.setEnabled(!txtOrigem.getText().toString().isEmpty() && !txtDestino.getText().toString().isEmpty());
     }
 
     /*

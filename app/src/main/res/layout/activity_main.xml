@@ -84,10 +84,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/background_layout_botao1_enabled"
+                    android:background="@drawable/seletor_botao_1"
                     android:onClick="onClickCalcularRota"
-                    android:text="@string/btn_calcular"
-                    android:textColor="@color/colorPrimary" />
+                    android:enabled="false"
+                    android:text="@string/btn_calcular"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
