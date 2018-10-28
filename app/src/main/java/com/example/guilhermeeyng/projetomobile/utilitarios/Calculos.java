@@ -10,8 +10,8 @@ public class Calculos {
     private static final double TAXA_ESTRADA = 0.9;
     private static final double TAXA_CIDADE = 0.1;
 
-    public static double litros(double consumo, double km){
-        return km/consumo;
+    public static double litros(double consumo, double metros){
+        return (metros/Double.valueOf(1000))/consumo;
     }
     public static double valorGasto(double litros, double valorCombustivel){
         return litros * valorCombustivel;

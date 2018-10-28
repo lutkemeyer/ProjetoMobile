@@ -45,8 +45,7 @@ public class DirectionFinder {
     private String createUrl() throws UnsupportedEncodingException {
         String urlOrigem = URLEncoder.encode(origin, "utf-8");
         String urlDestino = URLEncoder.encode(destination, "utf-8");
-
-        return DIRECTION_URL_API + "origin=" + urlOrigem + "&destination=" + urlDestino + "&key=" + GOOGLE_API_KEY;
+        return DIRECTION_URL_API + "origin=" + urlOrigem + "&destination=" + urlDestino + "&language=pt-BR" + "&key=" + GOOGLE_API_KEY;
     }
 
     private class DownloadRawData extends AsyncTask<String, Void, String> {
@@ -101,7 +100,7 @@ public class DirectionFinder {
             JSONObject jsonEndLocation = jsonLeg.getJSONObject("end_location");
             JSONObject jsonStartLocation = jsonLeg.getJSONObject("start_location");
 
-            rota.setDistancia( new Distance(jsonDistance.getString("text"), jsonDistance.getInt("value")) );
+            rota.setDistancia( new Distancia(jsonDistance.getString("text"), jsonDistance.getInt("value")) );
             rota.setDuracao( new Duracao(jsonDuration.getString("text"), jsonDuration.getInt("value")) );
             rota.setEnderecoFinal( jsonLeg.getString("end_address") );
             rota.setEnderecoInicial( jsonLeg.getString("start_address") );

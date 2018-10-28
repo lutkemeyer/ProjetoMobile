@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private Endereco enderecoOrigemSelecionado;
     private Endereco enderecoDestinoSelecionado;
-    private int duracao, distancia;
+    private Duracao duracao;
+    private Distancia distancia;
 
 
     @Override
@@ -198,8 +199,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         Bundle bundle = new Bundle();
                         bundle.putString( getString(R.string.bundle_origem), origem);
                         bundle.putString( getString(R.string.bundle_destino), destino);
-                        bundle.putInt( getString(R.string.bundle_distancia), distancia);
-                        bundle.putInt( getString(R.string.bundle_duracao), duracao);
+                        bundle.putSerializable( getString(R.string.bundle_distancia), distancia);
+                        bundle.putSerializable( getString(R.string.bundle_duracao), duracao);
 
                         Intent it = new Intent(MainActivity.this, TelaEstimativaGastos.class);
 
@@ -262,8 +263,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         for (Rota rota : rotas) {
 
-            this.distancia = rota.getDistancia().getValor();
-            this.duracao = rota.getDuracao().getValor();
+            this.distancia = rota.getDistancia();
+            this.duracao = rota.getDuracao();
 
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(rota.getLocalInicial(), 16));
 
@@ -287,8 +288,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         }
 
-        ((TextView) findViewById(R.id.lblDuracao)).setText( Util.converteTempo(duracao) );
-        ((TextView) findViewById(R.id.lblDistancia)).setText( rota.getDistancia().getValor() + "");
+        ((TextView) findViewById(R.id.lblDuracao)).setText( duracao.getTexto() );
+        ((TextView) findViewById(R.id.lblDistancia)).setText( distancia.getTexto() );
     }
     /*
     assim que finaliza o calculo da rota, retorna o resultado

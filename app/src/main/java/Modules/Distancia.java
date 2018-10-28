@@ -1,14 +1,16 @@
 package Modules;
 
+import java.io.Serializable;
+
 /**
  * Created by Mai Thanh Hiep on 4/3/2016.
  */
-public class Distance {
+public class Distancia implements Serializable{
 
     private String texto;
-    private int valor;
+    private int valor; // valor em metros
 
-    public Distance(String texto, int valor) {
+    public Distancia(String texto, int valor) {
         this.texto = texto;
         this.valor = valor;
     }

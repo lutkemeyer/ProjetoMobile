@@ -9,16 +9,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.guilhermeeyng.projetomobile.bancodedados.Dao;
 import com.example.guilhermeeyng.projetomobile.entidades.Veiculo;
 import com.example.guilhermeeyng.projetomobile.utilitarios.Calculos;
 import com.example.guilhermeeyng.projetomobile.utilitarios.TextChangeListener;
 
-import static com.example.guilhermeeyng.projetomobile.utilitarios.Util.converteTempo;
+import Modules.Distancia;
+import Modules.Duracao;
+
 import static com.example.guilhermeeyng.projetomobile.utilitarios.Util.toConsumo;
-import static com.example.guilhermeeyng.projetomobile.utilitarios.Util.toKm;
 import static com.example.guilhermeeyng.projetomobile.utilitarios.Util.toLitros;
 import static com.example.guilhermeeyng.projetomobile.utilitarios.Util.toMonetary;
 
@@ -40,11 +40,13 @@ public class TelaEstimativaGastos extends AppCompatActivity {
 
     private LinearLayout llValorComb2, llConsumo2, llEstimativa2;
 
-    private double valorLitro1, valorLitro2, consumo1, litros1, consumo2, litros2, valorGasto1, valorGasto2, distancia;
+    private double valorLitro1, valorLitro2, consumo1, litros1, consumo2, litros2, valorGasto1, valorGasto2;
+
+    private Distancia distancia;
+    private Duracao duracao;
 
     private Veiculo veiculoUsuario;
     private String origem, destino;
-    private int duracao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,10 +100,9 @@ public class TelaEstimativaGastos extends AppCompatActivity {
         if(bundle != null){
             this.origem = bundle.getString( getResources().getString(R.string.bundle_origem) );
             this.destino = bundle.getString( getResources().getString(R.string.bundle_destino) );
-            this.distancia = Calculos.km( bundle.getInt( getResources().getString(R.string.bundle_distancia) ) );
-            this.duracao = bundle.getInt( getResources().getString(R.string.bundle_duracao) );
+            this.distancia = (Distancia)bundle.getSerializable( getResources().getString(R.string.bundle_distancia) );
+            this.duracao = (Duracao)bundle.getSerializable( getResources().getString(R.string.bundle_duracao) );
         }
-
     }
     /*
     seta para cada variavel os dados calculados
@@ -110,13 +111,13 @@ public class TelaEstimativaGastos extends AppCompatActivity {
         if(veiculoUsuario.getTipoCombustivel().getNome().equalsIgnoreCase("FLEX")){
             this.consumo1 = Calculos.consumo(veiculoUsuario, "GASOLINA");
             this.consumo2 = Calculos.consumo(veiculoUsuario, "ETANOL");
-            this.litros1 = Calculos.litros( consumo1, distancia );
-            this.litros2 = Calculos.litros( consumo2, distancia );
+            this.litros1 = Calculos.litros( consumo1, distancia.getValor() );
+            this.litros2 = Calculos.litros( consumo2, distancia.getValor() );
             this.valorGasto1 = Calculos.valorGasto( litros1, valorLitro1);
             this.valorGasto2 = Calculos.valorGasto( litros2, valorLitro2);
         }else{
             this.consumo1 = Calculos.consumo(veiculoUsuario, veiculoUsuario.getTipoCombustivel().getNome().toUpperCase());
-            this.litros1 = Calculos.litros( consumo1, distancia );
+            this.litros1 = Calculos.litros( consumo1, distancia.getValor() );
             this.valorGasto1 = Calculos.valorGasto(litros1, valorLitro1);
         }
     }
@@ -127,11 +128,8 @@ public class TelaEstimativaGastos extends AppCompatActivity {
 
         lblOrigem.setText(origem);
         lblDestino.setText(destino);
-        lblDistancia.setText( toKm(distancia) );
-
-        Log.i("Script", "duracao: "+duracao);
-        Log.i("Script", "convertido: "+converteTempo( duracao ));
-        lblDuracao.setText( converteTempo(duracao) );
+        lblDistancia.setText( distancia.getTexto() );
+        lblDuracao.setText( duracao.getTexto() );
 
         lblResultadoConsumo1.setText( toConsumo(consumo1) );
         lblResultadoConsumo2.setText( toConsumo(consumo2) );

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Rota {
 
-    private Distance distancia;
+    private Distancia distancia;
     private Duracao duracao;
     private String enderecoFinal;
     private LatLng localFinal;
@@ -14,7 +14,7 @@ public class Rota {
 
     private List<LatLng> pontos;
 
-    public Rota(Distance distancia, Duracao duracao, String enderecoFinal, LatLng localFinal, String enderecoInicial, LatLng localInicial, List<LatLng> pontos) {
+    public Rota(Distancia distancia, Duracao duracao, String enderecoFinal, LatLng localFinal, String enderecoInicial, LatLng localInicial, List<LatLng> pontos) {
         this.distancia = distancia;
         this.duracao = duracao;
         this.enderecoFinal = enderecoFinal;
@@ -26,11 +26,11 @@ public class Rota {
     public Rota() {
     }
 
-    public Distance getDistancia() {
+    public Distancia getDistancia() {
         return distancia;
     }
 
-    public void setDistancia(Distance distancia) {
+    public void setDistancia(Distancia distancia) {
         this.distancia = distancia;
     }
 

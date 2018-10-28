@@ -1,9 +1,11 @@
 package Modules;
 
-public class Duracao {
+import java.io.Serializable;
+
+public class Duracao implements Serializable{
 
     private String texto;
-    private int valor;
+    private int valor; // valor em segundos
 
     public Duracao(String texto, int valor) {
         this.texto = texto;

@@ -20,13 +20,11 @@ import java.util.List;
 
 public class AdapterEndereco  extends ArrayAdapter<Endereco> {
 
-    private Context context;
     private ArrayList<Endereco> enderecos;
     private boolean isOrigem;
 
     public AdapterEndereco(@NonNull Context context, int resource, @NonNull ArrayList<Endereco> enderecos, boolean isOrigem) {
         super(context, resource, enderecos);
-        this.context = context;
         this.enderecos = enderecos;
         this.isOrigem = isOrigem;
     }
