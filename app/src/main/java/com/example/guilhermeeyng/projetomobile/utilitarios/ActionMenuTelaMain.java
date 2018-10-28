@@ -13,6 +13,9 @@ import android.view.animation.Interpolator;
 
 import com.example.guilhermeeyng.projetomobile.R;
 
+/*
+classe responsável por gerenciar a animação, abrir e fechar o menu da tela MainActivity
+ */
 public class ActionMenuTelaMain {
 
     private Context context;

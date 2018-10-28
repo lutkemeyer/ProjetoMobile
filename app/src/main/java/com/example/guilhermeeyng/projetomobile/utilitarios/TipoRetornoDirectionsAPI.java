@@ -1,5 +1,8 @@
 package com.example.guilhermeeyng.projetomobile.utilitarios;
 
+/*
+enum criado para mapear o tipo do retorno do google maps com a mensagem
+ */
 public enum TipoRetornoDirectionsAPI {
 
     OK("Rota encontrada com sucesso"),

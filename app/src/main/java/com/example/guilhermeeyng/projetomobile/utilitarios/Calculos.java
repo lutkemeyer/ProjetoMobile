@@ -2,6 +2,9 @@ package com.example.guilhermeeyng.projetomobile.utilitarios;
 
 import com.example.guilhermeeyng.projetomobile.entidades.Veiculo;
 
+/*
+classe responsável por realizar os calculos especificos da aplicacao
+ */
 public class Calculos {
 
     private static final double TAXA_ESTRADA = 0.9;

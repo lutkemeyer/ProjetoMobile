@@ -8,6 +8,9 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.animation.Interpolator;
 
+/*
+classe responsável por gerenciar a animação, abrir e fechar o menu da tela de consumo
+ */
 public class ActionMenuTelaConsumo {
 
     private View conteudoLayout;

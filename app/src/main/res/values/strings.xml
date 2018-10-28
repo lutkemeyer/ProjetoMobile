@@ -67,6 +67,10 @@
     <string name="titulo_dialog_inserir_consumo_manualmente">Insira o consumo manualmente</string>
     <string name="lbl_selecione_o_combustivel">Selecione o combustível</string>
     <string name="medida_consumo">km/L</string>
+    <string name="titulo_dialog_nao_informou_consumo">Você ainda não informou o consumo do seu veículo</string>
+    <string name="mensagem_dialog_nao_informou_consumo">Deseja informar o consumo agora?</string>
+    <string name="botao_positivo_dialog_nao_informou_consumo">Sim</string>
+    <string name="botao_negativo_dialog_nao_informou_consumo">Não</string>
 
 
 </resources>

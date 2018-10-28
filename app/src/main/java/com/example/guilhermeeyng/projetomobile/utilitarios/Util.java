@@ -3,6 +3,9 @@ package com.example.guilhermeeyng.projetomobile.utilitarios;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+/*
+classe reponsavel por conter metodos que auxiliam no app, geralmente conversores
+ */
 public class Util {
     public static String toMonetary(double v){
         return NumberFormat.getCurrencyInstance(new Locale("pt","BR")).format(v);

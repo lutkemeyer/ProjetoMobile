@@ -5,6 +5,9 @@ import android.graphics.drawable.Drawable;
 
 import com.example.guilhermeeyng.projetomobile.R;
 
+/*
+enum criado para mapear o nome da marca com a logo armazenada nos drawables
+ */
 public enum LogoMarcaAutomotiva {
     AUDI(R.drawable.logo_audi),
     BENTLEY(R.drawable.logo_bentley),
