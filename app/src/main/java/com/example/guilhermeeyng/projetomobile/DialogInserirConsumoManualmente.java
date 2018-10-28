@@ -1,5 +1,8 @@
 package com.example.guilhermeeyng.projetomobile;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -8,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -24,6 +28,7 @@ import com.example.guilhermeeyng.projetomobile.utilitarios.TextChangeListener;
 
 public class DialogInserirConsumoManualmente extends AlertDialog {
 
+    private Button btnInsiraConsumoManualmente;
     private Context ctx;
     private Button btnSalvar, btnCancelar;
     private EditText txtConsumo1, txtConsumo2;
@@ -33,9 +38,11 @@ public class DialogInserirConsumoManualmente extends AlertDialog {
     private double consumo1;
     private double consumo2;
 
-    protected DialogInserirConsumoManualmente(@NonNull Context context) {
-        super(context);
-        this.ctx = context;
+    protected DialogInserirConsumoManualmente(@NonNull Context ctx, Button btnInsiraConsumoManualmente) {
+        super(ctx);
+        this.ctx = ctx;
+        this.btnInsiraConsumoManualmente = btnInsiraConsumoManualmente;
+        getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
     }
 
     @Override
@@ -68,6 +75,10 @@ public class DialogInserirConsumoManualmente extends AlertDialog {
             }
         });
 
+        listeners();
+    }
+
+    private void listeners() {
         // se clicar no radiobutton flex, exibe os campos de gasolina e etanol
         rbFlex.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -122,7 +133,6 @@ public class DialogInserirConsumoManualmente extends AlertDialog {
                 confereSeEstaCerto(txtConsumo1.getText().toString(), String.valueOf(s));
             }
         });
-
     }
 
     public void salvar(){

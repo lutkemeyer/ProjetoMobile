@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -28,6 +29,7 @@ public class TelaConsumo extends AppCompatActivity {
 
     private Spinner spMarca, spModelo, spAno;
     private TextView lblModelo, lblAno;
+    private Button btnInserirConsumoManualmente;
     private ActionMenuTelaConsumo actionMenu;
     private ListView lstVeiculos;
 
@@ -60,6 +62,7 @@ public class TelaConsumo extends AppCompatActivity {
         lblModelo = findViewById(R.id.lblModelo);
         lblAno = findViewById(R.id.lblAno);
         lstVeiculos = findViewById(R.id.lstVeiculos);
+        btnInserirConsumoManualmente = findViewById(R.id.btnInserirConsumoManualmente);
 
         // pega todas as marcas do banco
         spMarca.setAdapter(new AdapterMarca(TelaConsumo.this, "Selecione a marca", new Dao(TelaConsumo.this).getAllMarcas()));
@@ -190,10 +193,10 @@ public class TelaConsumo extends AppCompatActivity {
     metodo chamado quando clica no botao de inserir consumo manualmente
      */
     public void onClickInserirManualmente(View view){
-        DialogInserirConsumoManualmente dialog = new DialogInserirConsumoManualmente(TelaConsumo.this);
+        DialogInserirConsumoManualmente dialog = new DialogInserirConsumoManualmente(TelaConsumo.this, btnInserirConsumoManualmente);
         dialog.show();
+        actionMenu.fechar();
     }
-
     /*
     metodo que salva no banco de dados o veiculo selecionado
      */
