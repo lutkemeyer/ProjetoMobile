@@ -19,6 +19,7 @@ import com.example.guilhermeeyng.projetomobile.utilitarios.ActionMenuTelaMain;
 import com.example.guilhermeeyng.projetomobile.utilitarios.Dialogs;
 import com.example.guilhermeeyng.projetomobile.utilitarios.TextChangeListener;
 import com.example.guilhermeeyng.projetomobile.utilitarios.TipoRetornoDirectionsAPI;
+import com.example.guilhermeeyng.projetomobile.utilitarios.Util;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 
@@ -265,8 +266,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             this.duracao = rota.getDuracao().getValor();
 
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(rota.getLocalInicial(), 16));
-            ((TextView) findViewById(R.id.lblDuracao)).setText(rota.getDuracao().getValor() + "");
-            ((TextView) findViewById(R.id.lblDistancia)).setText(rota.getDistancia().getValor() + "");
 
             marcadoresDeOrigem.add(map.addMarker(new MarkerOptions()
                     .title(rota.getEnderecoInicial())
@@ -285,7 +284,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
 
             polylinePaths.add(map.addPolyline(polylineOptions));
+
         }
+
+        ((TextView) findViewById(R.id.lblDuracao)).setText( Util.converteTempo(duracao) );
+        ((TextView) findViewById(R.id.lblDistancia)).setText( rota.getDistancia().getValor() + "");
     }
     /*
     assim que finaliza o calculo da rota, retorna o resultado

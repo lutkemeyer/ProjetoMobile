@@ -184,9 +184,8 @@ public class TelaConsumo extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.anim.in_right,R.anim.out_front);
+        overridePendingTransition(R.anim.in_front,R.anim.out_left);
     }
-
     /*
     metodo chamado quando clica no botao de inserir consumo manualmente
      */

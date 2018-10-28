@@ -128,6 +128,9 @@ public class TelaEstimativaGastos extends AppCompatActivity {
         lblOrigem.setText(origem);
         lblDestino.setText(destino);
         lblDistancia.setText( toKm(distancia) );
+
+        Log.i("Script", "duracao: "+duracao);
+        Log.i("Script", "convertido: "+converteTempo( duracao ));
         lblDuracao.setText( converteTempo(duracao) );
 
         lblResultadoConsumo1.setText( toConsumo(consumo1) );
@@ -218,6 +221,6 @@ public class TelaEstimativaGastos extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.anim.in_left, R.anim.out_front);
+        overridePendingTransition(R.anim.in_front, R.anim.out_right);
     }
 }
