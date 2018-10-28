@@ -151,6 +151,7 @@ public class Dao {
                 } while (cursor.moveToNext());
             }
         }
+        Log.i("Script", modelos.toString());
         db.close();
         return modelos;
     }
@@ -192,7 +193,6 @@ public class Dao {
                 } while (cursor.moveToNext());
             }
         }
-        Log.i("Script", enderecos.toString());
         db.close();
         return enderecos;
     }

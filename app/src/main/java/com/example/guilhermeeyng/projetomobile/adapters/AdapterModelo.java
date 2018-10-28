@@ -26,7 +26,7 @@ public class AdapterModelo extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return modelos.size();
+        return modelos.size() + 1;
     }
 
     @Override
