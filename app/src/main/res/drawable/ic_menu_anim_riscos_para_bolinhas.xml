@@ -1,0 +1,7 @@
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_menu_bolinhas">
+    <target
+        android:name="menu"
+        android:animation="@animator/ic_menu_riscos_para_bolinhas"/>
+</animated-vector>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_layout_container">12dp</dimen>
+    <dimen name="elevation_layout_container">8dp</dimen>
+    <dimen name="padding_layout_container">20dp</dimen>
+    <dimen name="tamanho_ic_pequeno">20dp</dimen>
+    <dimen name="margin_para_icone">5dp</dimen>
+    <dimen name="padding_ic_edittext">5dp</dimen>
+    <dimen name="margin_bottom_lbl_descricao_spinner">5dp</dimen>
+    <dimen name="margin_start_lbl_descricao_spinner">15dp</dimen>
+    <dimen name="margin_top_lbl_descricao">15dp</dimen>
+    <dimen name="margin_btn_menu">12dp</dimen>
+    <dimen name="margin_pequena">5dp</dimen>
+    <dimen name="margin_grande">15dp</dimen>
+    <dimen name="padding_item">15dp</dimen>
+    <dimen name="margin_label_item">10dp</dimen>
+    <dimen name="height_label_item">45dp</dimen>
+    <dimen name="padding_vertical_lv_item">20dp</dimen>
+    <dimen name="padding_horizontal_lv_item">15dp</dimen>
+    <dimen name="width_img">40dp</dimen>
+    <dimen name="margin_horizontal_lv_item">8dp</dimen>
+    <dimen name="height_label_detalhes">20dp</dimen>
+</resources>

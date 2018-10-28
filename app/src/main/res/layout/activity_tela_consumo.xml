@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TelaConsumo">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_btn_menu"
+        android:background="@drawable/background_layout_botao2"
+        android:elevation="0dp"
+        android:onClick="onClickInserirManualmente"
+        android:text="@string/btn_inserir_consumo_manualmente"
+        app:layout_constraintEnd_toStartOf="@+id/frameLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp">
+
+        <com.example.guilhermeeyng.projetomobile.customviews.DiagonalView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/conteudoLayoutSelecaoCarro"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_layout_content"
+        android:elevation="@dimen/elevation_layout_container"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/margin_layout_container"
+        android:layout_marginBottom="@dimen/margin_layout_container"
+        android:layout_marginEnd="@dimen/margin_layout_container">
+
+        <TextView
+            android:id="@+id/lblMarca"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/lbl_marca"
+            android:textColor="@color/colorLight" />
+
+        <Spinner
+            android:id="@+id/spMarca"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/lblModelo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/lbl_modelo"
+            android:textColor="@color/colorLight"
+            android:visibility="gone" />
+
+        <Spinner
+            android:id="@+id/spModelo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/lblAno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_bottom_lbl_descricao_spinner"
+            android:layout_marginStart="@dimen/margin_start_lbl_descricao_spinner"
+            android:layout_marginTop="@dimen/margin_top_lbl_descricao"
+            android:text="@string/lbl_ano"
+            android:textColor="@color/colorLight"
+            android:visibility="gone" />
+
+        <Spinner
+            android:id="@+id/spAno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <ListView
+            android:id="@+id/lstVeiculos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"/>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

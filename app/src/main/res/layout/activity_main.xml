@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/conteudoLayoutMain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <com.example.guilhermeeyng.projetomobile.customviews.DiagonalView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/containerMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_btn_menu"
+            android:background="@drawable/background_layout_botao2"
+            android:onClick="onClickConfiguracoesDeConsumo"
+            android:text="@string/btn_configuracoes_consumo"
+            android:textColor="@color/colorPrimary" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/conteudoLayoutMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_layout_content"
+        android:elevation="@dimen/elevation_layout_container"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_layout_container"
+        android:layout_marginBottom="@dimen/margin_layout_container"
+        android:layout_marginEnd="@dimen/margin_layout_container"
+        android:layout_marginStart="@dimen/margin_layout_container">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <AutoCompleteTextView
+                android:id="@+id/txtOrigem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_inicio"
+                android:drawablePadding="@dimen/padding_ic_edittext"
+                android:ems="10"
+                android:hint="@string/hint_txt_origem"
+                android:inputType="textPersonName"
+                android:completionThreshold="1"
+                android:textColor="@color/colorLight"
+                android:textColorHint="@color/colorPrimaryLight"/>
+            <AutoCompleteTextView
+                android:id="@+id/txtDestino"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_fim"
+                android:drawablePadding="@dimen/padding_ic_edittext"
+                android:ems="10"
+                android:hint="@string/hint_txt_destino"
+                android:textColor="@color/colorLight"
+                android:textColorHint="@color/colorPrimaryLight" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btnCalcular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_layout_botao1"
+                    android:onClick="onClickCalcularRota"
+                    android:text="@string/btn_calcular"
+                    android:textColor="@color/colorPrimary" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="@dimen/tamanho_ic_pequeno"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_distancia" />
+                    <TextView
+                        android:id="@+id/lblDistancia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_para_icone"
+                        android:gravity="center|start"
+                        android:text="@string/lbl_distancia"
+                        android:textColor="@color/colorLight" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="@dimen/tamanho_ic_pequeno"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_tempo" />
+                    <TextView
+                        android:id="@+id/lblDuracao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_para_icone"
+                        android:gravity="center|start"
+                        android:text="@string/lbl_duracao"
+                        android:textColor="@color/colorLight" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryLight"
+            android:orientation="vertical" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

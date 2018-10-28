@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TelaEstimativaGastos">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/conteudoLayoutMain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.example.guilhermeeyng.projetomobile.customviews.DiagonalView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/conteudoLayoutMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_layout_content"
+        android:elevation="@dimen/elevation_layout_container"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_layout_container"
+        android:layout_marginBottom="@dimen/margin_layout_container"
+        android:layout_marginEnd="@dimen/margin_layout_container"
+        android:layout_marginStart="@dimen/margin_layout_container">
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Valor do combustível"
+            android:textColor="@color/colorLight" />
+
+        <LinearLayout
+            android:id="@+id/llValorComb1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/txtValorCombustivel1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:drawableStart="@drawable/ic_dinheiro"
+                android:ems="10"
+                android:hint="@string/hint_txt_valor_combustivel"
+                android:inputType="numberDecimal"
+                android:text="4.45"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/colorPrimaryLight" />
+
+            <TextView
+                android:id="@+id/lblTipoCombustivel1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center|start"
+                android:text="/L de "
+                android:textColor="@color/colorLight" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llValorComb2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/txtValorCombustivel2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:drawableStart="@drawable/ic_dinheiro"
+                android:ems="10"
+                android:hint="@string/hint_txt_valor_combustivel"
+                android:inputType="numberDecimal"
+                android:text="4.45"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/colorPrimaryLight" />
+
+            <TextView
+                android:id="@+id/lblTipoCombustivel2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center|start"
+                android:text="/L de "
+                android:textColor="@color/colorLight" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linhaOrigem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_pequena"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="De:"
+                android:textColor="@color/colorLight" />
+
+            <TextView
+                android:id="@+id/lblOrigem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rua bla bla bla"
+                android:textColor="@color/colorLight" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linhaDestino"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_grande"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="Até:"
+                android:textColor="@color/colorLight" />
+
+            <TextView
+                android:id="@+id/lblDestino"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rua bla bla bla"
+                android:textColor="@color/colorLight" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linhaEstimativas"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginBottom="@dimen/margin_grande"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/margin_pequena"
+                android:layout_weight="1"
+                android:background="@drawable/background_separador"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Distância"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorLight" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_distancia" />
+
+                    <TextView
+                        android:id="@+id/lblDistancia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center|start"
+                        android:text="@string/lbl_distancia"
+                        android:textColor="@color/colorLight" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/background_separador"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Duração"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorLight" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_tempo" />
+
+                    <TextView
+                        android:id="@+id/lblDuracao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center|start"
+                        android:text="@string/lbl_duracao"
+                        android:textColor="@color/colorLight" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- item 2 -->
+
+            <!-- item 3 -->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llConsumo1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lblConsumo1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="Consumo usando [comb]:"
+                android:textColor="@color/colorLight" />
+
+            <TextView
+                android:id="@+id/lblResultadoConsumo1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="end"
+                android:text="0 km/L"
+                android:textColor="@color/colorPrimaryLight" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llConsumo2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lblConsumo2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="Consumo usando [comb]:"
+                android:textColor="@color/colorLight" />
+
+            <TextView
+                android:id="@+id/lblResultadoConsumo2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="end"
+                android:text="0 km/L"
+                android:textColor="@color/colorPrimaryLight" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorLight" />
+
+        <LinearLayout
+            android:id="@+id/llEstimativa1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblEstimativaLitros1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:text="Estimativa de litros de [comb]:"
+                    android:textColor="@color/colorLight" />
+
+                <TextView
+                    android:id="@+id/lblResultadoLitros1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="end"
+                    android:text="5L"
+                    android:textColor="@color/colorPrimaryLight" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblEstimativaGastos1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:text="Estimativa de gasto usando [comb]:"
+                    android:textColor="@color/colorLight" />
+
+                <TextView
+                    android:id="@+id/lblResultadoGastos1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="end"
+                    android:text="R$ 0,00"
+                    android:textColor="@color/colorPrimaryLight"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorLight" />
+
+        <LinearLayout
+            android:id="@+id/llEstimativa2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblEstimativaLitros2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:text="Estimativa de litros de [comb]:"
+                    android:textColor="@color/colorLight" />
+
+                <TextView
+                    android:id="@+id/lblResultadoLitros2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="end"
+                    android:text="5L"
+                    android:textColor="@color/colorPrimaryLight" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblEstimativaGastos2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:text="Estimativa de gasto usando [comb]:"
+                    android:textColor="@color/colorLight" />
+
+                <TextView
+                    android:id="@+id/lblResultadoGasto2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="end"
+                    android:text="R$ 0,00"
+                    android:textColor="@color/colorPrimaryLight"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
