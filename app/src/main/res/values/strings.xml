@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ProjetoMobile</string>
 
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAMUKpB5eZi8N4sJt4oVVBYfq2l_ndYDRQ</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyD216ZoaQJEiYYGYBYS2ujSKKumY5744gQ</string>
 
     <!-- ============================= ICONES =========================== -->
 

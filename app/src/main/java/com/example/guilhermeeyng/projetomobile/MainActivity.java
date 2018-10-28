@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         if(!((AdapterEndereco)txtDestino.getAdapter()).containsEndereco(destino)){
-            enderecoOrigemSelecionado = new Endereco(0, destino, 1);
+            enderecoDestinoSelecionado = new Endereco(0, destino, 1);
         }
 
         new Dao(MainActivity.this).addEnderecos(enderecoOrigemSelecionado , enderecoDestinoSelecionado);
@@ -301,9 +301,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if(tipoRetornoDirectionsAPI.equals(TipoRetornoDirectionsAPI.OK)){
             menu.getItem(0).setVisible(true);
         }
-        menu.getItem(0).setVisible(true);
-        distancia = 2440;
-        duracao = 8342;
         mostra(tipoRetornoDirectionsAPI.getMensagem());
     }
     /*
