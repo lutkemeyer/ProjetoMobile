@@ -216,6 +216,10 @@ public class Dao {
         db.close();
         return qtd;
     }
+    /*
+    pega o veiculo do usuario, se estiver vazia indica que o usuario
+    ainda nao selecionou o consumo
+     */
     public boolean selecionouConsumo() {
         Veiculo v = getVeiculoUsuario();
         return v.getConsEtanolEstrada() > 0.0 || v.getConsEtanolCidade() > 0.0 || v.getConsGasDieselEstrada() > 0.0 || v.getConsGasDieselCidade() > 0.0;
@@ -250,6 +254,9 @@ public class Dao {
         long resultado = db.update(Veiculo.NOME_TABELA, valores, Veiculo.ID + "=1", null);
         db.close();
     }
+    /*
+    verifica a primeira linha da tabela de veiculos, que é onde é armazenado o veiculo do usuario
+     */
     public Veiculo getVeiculoUsuario() {
         Veiculo veiculo = new Veiculo();
         SQLiteDatabase db = banco.getReadableDatabase();
@@ -287,6 +294,9 @@ public class Dao {
 
         return veiculo;
     }
+    /*
+    inner class responsavel por popular o banco, e mostrar em tempo real a inserção
+     */
     public class PopularBanco extends AsyncTask<Void, Void, Void> {
 
         private Banco banco;
