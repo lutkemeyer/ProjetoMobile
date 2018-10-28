@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // verifica se ja existe o banco e se ainda nao foi populado, insere todos os itens no banco
+        new Dao(MainActivity.this).existeBanco();
+
         // gerencia a animacao do menu
         actionMenuTelaMain = new ActionMenuTelaMain(MainActivity.this);
 
@@ -150,9 +153,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return;
         }
 
-        new Dao(MainActivity.this).addEnderecos(
-                enderecoOrigemSelecionado != null ? enderecoOrigemSelecionado : new Endereco(0, origem, 1),
-                enderecoDestinoSelecionado != null ? enderecoDestinoSelecionado : new Endereco(0, destino, 1));
+        if(!((AdapterEndereco)txtOrigem.getAdapter()).containsEndereco(origem)){
+            enderecoOrigemSelecionado = new Endereco(0, origem, 1);
+        }
+
+        if(!((AdapterEndereco)txtDestino.getAdapter()).containsEndereco(destino)){
+            enderecoOrigemSelecionado = new Endereco(0, destino, 1);
+        }
+
+        new Dao(MainActivity.this).addEnderecos(enderecoOrigemSelecionado , enderecoDestinoSelecionado);
 
         try {
             new DirectionFinder(this, origem, destino).execute();

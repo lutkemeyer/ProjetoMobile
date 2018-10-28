@@ -158,11 +158,13 @@ public class Dao {
         SQLiteDatabase db = banco.getWritableDatabase();
         for (Endereco end : enderecos) {
             if (end.getId() != 0) { // atualiza a qtd de um endereco que ja está no banco
+                Log.i("Script", "atualizou " + end);
                 ContentValues valores = new ContentValues();
                 valores.put(Endereco.NOME, end.getNome());
                 valores.put(Endereco.QTD, end.getQtd() + 1);
-                int resultado = db.update(Endereco.NOME_TABELA, valores, Endereco.ID + " = " + end.getId(), null);
+                long resultado = db.update(Endereco.NOME_TABELA, valores, Endereco.ID + " = " + end.getId(), null);
             } else { // insere no banco um endereco novo
+                Log.i("Script", "inseriu " + end);
                 ContentValues valores = new ContentValues();
                 valores.put(Endereco.NOME, end.getNome());
                 valores.put(Endereco.QTD, 1);
@@ -175,7 +177,7 @@ public class Dao {
         ArrayList<Endereco> enderecos = new ArrayList<>();
         SQLiteDatabase db = banco.getReadableDatabase();
 
-        String sql = "SELECT * FROM " + Endereco.NOME_TABELA + ";";
+        String sql = "SELECT * FROM " + Endereco.NOME_TABELA + " ORDER BY " + Endereco.QTD + " DESC;";
 
         Cursor cursor = db.rawQuery(sql, null);
 
@@ -190,6 +192,7 @@ public class Dao {
                 } while (cursor.moveToNext());
             }
         }
+        Log.i("Script", enderecos.toString());
         db.close();
         return enderecos;
     }
@@ -216,6 +219,73 @@ public class Dao {
     public boolean selecionouConsumo() {
         Veiculo v = getVeiculoUsuario();
         return v.getConsEtanolEstrada() > 0.0 || v.getConsEtanolCidade() > 0.0 || v.getConsGasDieselEstrada() > 0.0 || v.getConsGasDieselCidade() > 0.0;
+    }
+    public void salvarConsumo(Veiculo veiculo) {
+        ContentValues valores = new ContentValues();
+        valores.put(Veiculo.ID, 1);
+        valores.put(Veiculo.TIPO_COMBUSTIVEL, veiculo.getTipoCombustivel().getId());
+
+        switch (veiculo.getTipoCombustivel().getNome().toUpperCase()) {
+            case "FLEX":
+                valores.put(Veiculo.CONS_ETANOL_CIDADE, veiculo.getConsEtanolCidade());
+                valores.put(Veiculo.CONS_ETANOL_ESTRADA, veiculo.getConsEtanolEstrada());
+                valores.put(Veiculo.CONS_GAS_DIESEL_CIDADE, veiculo.getConsGasDieselCidade());
+                valores.put(Veiculo.CONS_GAS_DIESEL_ESTRADA, veiculo.getConsGasDieselEstrada());
+                break;
+            case "GASOLINA":
+                valores.put(Veiculo.CONS_GAS_DIESEL_CIDADE, veiculo.getConsGasDieselCidade());
+                valores.put(Veiculo.CONS_GAS_DIESEL_ESTRADA, veiculo.getConsGasDieselEstrada());
+                break;
+            case "ETANOL":
+                valores.put(Veiculo.CONS_ETANOL_CIDADE, veiculo.getConsEtanolCidade());
+                valores.put(Veiculo.CONS_ETANOL_ESTRADA, veiculo.getConsEtanolEstrada());
+                break;
+            case "DIESEL":
+                valores.put(Veiculo.CONS_GAS_DIESEL_CIDADE, veiculo.getConsGasDieselCidade());
+                valores.put(Veiculo.CONS_GAS_DIESEL_ESTRADA, veiculo.getConsGasDieselEstrada());
+                break;
+        }
+
+        SQLiteDatabase db = banco.getWritableDatabase();
+        long resultado = db.update(Veiculo.NOME_TABELA, valores, Veiculo.ID + "=1", null);
+        db.close();
+    }
+    public Veiculo getVeiculoUsuario() {
+        Veiculo veiculo = new Veiculo();
+        SQLiteDatabase db = banco.getReadableDatabase();
+
+        String sql = "SELECT " + Veiculo.NOME_TABELA + "." + Veiculo.CONS_ETANOL_CIDADE + ", " +
+                Veiculo.NOME_TABELA + "." + Veiculo.CONS_ETANOL_ESTRADA + ", " +
+                Veiculo.NOME_TABELA + "." + Veiculo.CONS_GAS_DIESEL_CIDADE + ", " +
+                Veiculo.NOME_TABELA + "." + Veiculo.CONS_GAS_DIESEL_ESTRADA + ", " +
+                Veiculo.NOME_TABELA + "." + Veiculo.TIPO_COMBUSTIVEL + ", " +
+                TipoCombustivel.NOME_TABELA + "." + TipoCombustivel.NOME + " " +
+                "FROM " + Veiculo.NOME_TABELA + " INNER JOIN " + TipoCombustivel.NOME_TABELA + " " +
+                "ON " + Veiculo.NOME_TABELA + "." + Veiculo.TIPO_COMBUSTIVEL + " = " + TipoCombustivel.NOME_TABELA + "." + TipoCombustivel.ID + " " +
+                "WHERE " + Veiculo.NOME_TABELA + "." + Veiculo.ID + " = 1";
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                int idTipoCombustivel = cursor.getInt(cursor.getColumnIndexOrThrow(Veiculo.TIPO_COMBUSTIVEL));
+                String nomeCombustivel = cursor.getString(cursor.getColumnIndexOrThrow(TipoCombustivel.NOME));
+                double consEtanolCidade = cursor.getDouble(cursor.getColumnIndexOrThrow(Veiculo.CONS_ETANOL_CIDADE));
+                double consEtanolEstrada = cursor.getDouble(cursor.getColumnIndexOrThrow(Veiculo.CONS_ETANOL_ESTRADA));
+                double consGasDieselCidade = cursor.getDouble(cursor.getColumnIndexOrThrow(Veiculo.CONS_GAS_DIESEL_CIDADE));
+                double consGasDieselEstrada = cursor.getDouble(cursor.getColumnIndexOrThrow(Veiculo.CONS_GAS_DIESEL_ESTRADA));
+                veiculo.setTipoCombustivel(new TipoCombustivel(idTipoCombustivel, nomeCombustivel));
+                veiculo.setConsEtanolCidade(consEtanolCidade);
+                veiculo.setConsEtanolEstrada(consEtanolEstrada);
+                veiculo.setConsGasDieselCidade(consGasDieselCidade);
+                veiculo.setConsGasDieselEstrada(consGasDieselEstrada);
+            }
+        }
+
+        db.close();
+
+        return veiculo;
     }
     public class PopularBanco extends AsyncTask<Void, Void, Void> {
 
@@ -286,72 +356,5 @@ public class Dao {
             }
             return linhas;
         }
-    }
-    public void salvarConsumo(Veiculo veiculo) {
-        ContentValues valores = new ContentValues();
-        valores.put(Veiculo.ID, 1);
-        valores.put(Veiculo.TIPO_COMBUSTIVEL, veiculo.getTipoCombustivel().getId());
-
-        switch (veiculo.getTipoCombustivel().getNome().toUpperCase()) {
-            case "FLEX":
-                valores.put(Veiculo.CONS_ETANOL_CIDADE, veiculo.getConsEtanolCidade());
-                valores.put(Veiculo.CONS_ETANOL_ESTRADA, veiculo.getConsEtanolEstrada());
-                valores.put(Veiculo.CONS_GAS_DIESEL_CIDADE, veiculo.getConsGasDieselCidade());
-                valores.put(Veiculo.CONS_GAS_DIESEL_ESTRADA, veiculo.getConsGasDieselEstrada());
-                break;
-            case "GASOLINA":
-                valores.put(Veiculo.CONS_GAS_DIESEL_CIDADE, veiculo.getConsGasDieselCidade());
-                valores.put(Veiculo.CONS_GAS_DIESEL_ESTRADA, veiculo.getConsGasDieselEstrada());
-                break;
-            case "ETANOL":
-                valores.put(Veiculo.CONS_ETANOL_CIDADE, veiculo.getConsEtanolCidade());
-                valores.put(Veiculo.CONS_ETANOL_ESTRADA, veiculo.getConsEtanolEstrada());
-                break;
-            case "DIESEL":
-                valores.put(Veiculo.CONS_GAS_DIESEL_CIDADE, veiculo.getConsGasDieselCidade());
-                valores.put(Veiculo.CONS_GAS_DIESEL_ESTRADA, veiculo.getConsGasDieselEstrada());
-                break;
-        }
-
-        SQLiteDatabase db = banco.getWritableDatabase();
-        long resultado = db.update(Veiculo.NOME_TABELA, valores, Veiculo.ID + "=1", null);
-        db.close();
-    }
-    public Veiculo getVeiculoUsuario() {
-        Veiculo veiculo = new Veiculo();
-        SQLiteDatabase db = banco.getReadableDatabase();
-
-        String sql = "SELECT " + Veiculo.NOME_TABELA + "." + Veiculo.CONS_ETANOL_CIDADE + ", " +
-                Veiculo.NOME_TABELA + "." + Veiculo.CONS_ETANOL_ESTRADA + ", " +
-                Veiculo.NOME_TABELA + "." + Veiculo.CONS_GAS_DIESEL_CIDADE + ", " +
-                Veiculo.NOME_TABELA + "." + Veiculo.CONS_GAS_DIESEL_ESTRADA + ", " +
-                Veiculo.NOME_TABELA + "." + Veiculo.TIPO_COMBUSTIVEL + ", " +
-                TipoCombustivel.NOME_TABELA + "." + TipoCombustivel.NOME + " " +
-                "FROM " + Veiculo.NOME_TABELA + " INNER JOIN " + TipoCombustivel.NOME_TABELA + " " +
-                "ON " + Veiculo.NOME_TABELA + "." + Veiculo.TIPO_COMBUSTIVEL + " = " + TipoCombustivel.NOME_TABELA + "." + TipoCombustivel.ID + " " +
-                "WHERE " + Veiculo.NOME_TABELA + "." + Veiculo.ID + " = 1";
-
-        Cursor cursor = db.rawQuery(sql, null);
-
-        if (cursor != null) {
-            if (cursor.getCount() > 0) {
-                cursor.moveToFirst();
-                int idTipoCombustivel = cursor.getInt(cursor.getColumnIndexOrThrow(Veiculo.TIPO_COMBUSTIVEL));
-                String nomeCombustivel = cursor.getString(cursor.getColumnIndexOrThrow(TipoCombustivel.NOME));
-                double consEtanolCidade = cursor.getDouble(cursor.getColumnIndexOrThrow(Veiculo.CONS_ETANOL_CIDADE));
-                double consEtanolEstrada = cursor.getDouble(cursor.getColumnIndexOrThrow(Veiculo.CONS_ETANOL_ESTRADA));
-                double consGasDieselCidade = cursor.getDouble(cursor.getColumnIndexOrThrow(Veiculo.CONS_GAS_DIESEL_CIDADE));
-                double consGasDieselEstrada = cursor.getDouble(cursor.getColumnIndexOrThrow(Veiculo.CONS_GAS_DIESEL_ESTRADA));
-                veiculo.setTipoCombustivel(new TipoCombustivel(idTipoCombustivel, nomeCombustivel));
-                veiculo.setConsEtanolCidade(consEtanolCidade);
-                veiculo.setConsEtanolEstrada(consEtanolEstrada);
-                veiculo.setConsGasDieselCidade(consGasDieselCidade);
-                veiculo.setConsGasDieselEstrada(consGasDieselEstrada);
-            }
-        }
-
-        db.close();
-
-        return veiculo;
     }
 }

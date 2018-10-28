@@ -73,6 +73,7 @@
                 android:drawablePadding="@dimen/padding_ic_edittext"
                 android:ems="10"
                 android:hint="@string/hint_txt_destino"
+                android:completionThreshold="1"
                 android:textColor="@color/colorLight"
                 android:textColorHint="@color/colorPrimaryLight" />
             <LinearLayout

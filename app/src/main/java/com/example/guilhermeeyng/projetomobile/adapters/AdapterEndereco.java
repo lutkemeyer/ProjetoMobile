@@ -94,4 +94,14 @@ public class AdapterEndereco  extends ArrayAdapter<Endereco> {
             return ((Endereco) resultValue).getNome();
         }
     };
+
+    public boolean containsEndereco(String nome){
+        boolean contains = false;
+        for(Endereco end : enderecos){
+            if(end.getNome().equals(nome.trim())){
+                contains = true;
+            }
+        }
+        return contains;
+    }
 }
