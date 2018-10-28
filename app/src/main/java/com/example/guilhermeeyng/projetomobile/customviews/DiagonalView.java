@@ -14,11 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+/*
+Classe responsável por gerar a view diagonal no fundo do layout
+ */
 public class DiagonalView extends View{
 
     private Paint paint;
     private Path path;
-
 
     public DiagonalView(Context context) {
         this(context, null);
