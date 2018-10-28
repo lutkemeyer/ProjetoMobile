@@ -11,8 +11,8 @@ public class Distancia implements Serializable{
     private int valor; // valor em metros
 
     public Distancia(String texto, int valor) {
-        this.texto = texto;
-        this.valor = valor;
+        setTexto(texto);
+        setValor(valor);
     }
 
     public String getTexto() {
