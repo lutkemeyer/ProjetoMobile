@@ -82,25 +82,47 @@ public class TelaEstimativaGastos extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        // carrega o veiculo do usuario para que possa ser calculado o rendimento
         veiculoUsuario = new Dao(TelaEstimativaGastos.this).getVeiculoUsuario();
         Log.i("Script", "Carro usuario: " + veiculoUsuario);
         getDados();
+        calcularGastos();
         preencheDados();
         listeners();
     }
-
+    /*
+    pega os dados que foram passados pela tela MainActivity, como origem, destino, duracao e distancia
+     */
     public void getDados() {
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
-            // adicionar bundle contains key
             this.origem = bundle.getString( getResources().getString(R.string.bundle_origem) );
             this.destino = bundle.getString( getResources().getString(R.string.bundle_destino) );
             this.distancia = Calculos.km( bundle.getInt( getResources().getString(R.string.bundle_distancia) ) );
             this.duracao = bundle.getInt( getResources().getString(R.string.bundle_duracao) );
         }
-        calcularGastos();
-    }
 
+    }
+    /*
+    seta para cada variavel os dados calculados
+     */
+    private void calcularGastos() {
+        if(veiculoUsuario.getTipoCombustivel().getNome().equalsIgnoreCase("FLEX")){
+            this.consumo1 = Calculos.consumo(veiculoUsuario, "GASOLINA");
+            this.consumo2 = Calculos.consumo(veiculoUsuario, "ETANOL");
+            this.litros1 = Calculos.litros( consumo1, distancia );
+            this.litros2 = Calculos.litros( consumo2, distancia );
+            this.valorGasto1 = Calculos.valorGasto( litros1, valorLitro1);
+            this.valorGasto2 = Calculos.valorGasto( litros2, valorLitro2);
+        }else{
+            this.consumo1 = Calculos.consumo(veiculoUsuario, veiculoUsuario.getTipoCombustivel().getNome().toUpperCase());
+            this.litros1 = Calculos.litros( consumo1, distancia );
+            this.valorGasto1 = Calculos.valorGasto(litros1, valorLitro1);
+        }
+    }
+    /*
+    seta nas labels os valores das variaveis
+     */
     private void preencheDados() {
 
         lblOrigem.setText(origem);
@@ -146,7 +168,9 @@ public class TelaEstimativaGastos extends AppCompatActivity {
 
         }
     }
-
+    /*
+    conforme for digitando o valor dos combustiveis, vai calculando automaticamente as labels
+     */
     private void listeners() {
         txtValorCombustivel1.addTextChangedListener(new TextChangeListener(){
             @Override
@@ -176,26 +200,9 @@ public class TelaEstimativaGastos extends AppCompatActivity {
             }
         });
     }
-
-    private void calcularGastos() {
-        if(veiculoUsuario.getTipoCombustivel().getNome().equalsIgnoreCase("FLEX")){
-            this.consumo1 = Calculos.consumo(veiculoUsuario, "GASOLINA");
-            this.consumo2 = Calculos.consumo(veiculoUsuario, "ETANOL");
-            this.litros1 = Calculos.litros( consumo1, distancia );
-            this.litros2 = Calculos.litros( consumo2, distancia );
-            this.valorGasto1 = Calculos.valorGasto( litros1, valorLitro1);
-            this.valorGasto2 = Calculos.valorGasto( litros2, valorLitro2);
-        }else{
-            this.consumo1 = Calculos.consumo(veiculoUsuario, veiculoUsuario.getTipoCombustivel().getNome().toUpperCase());
-            this.litros1 = Calculos.litros( consumo1, distancia );
-            this.valorGasto1 = Calculos.valorGasto(litros1, valorLitro1);
-        }
-    }
-
-    private void mostra(String s) {
-        Toast.makeText(TelaEstimativaGastos.this, s, Toast.LENGTH_SHORT).show();
-    }
-
+    /*
+    adiciona acao de quando clica em voltar no botao superior
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -205,7 +212,9 @@ public class TelaEstimativaGastos extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    /*
+    chamado quando clica em voltar, tanto no botao superior, quanto pelo próprio celular
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
