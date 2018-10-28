@@ -292,7 +292,7 @@ public class Dao {
         private Banco banco;
         private Context context;
         private ProgressDialog progressDialog;
-        private int linhasPopuladas = 0;
+        private int linhasPopuladas = 0, linhasTotais = 0;
         private String nomeTabelaPopulada = "";
 
         public PopularBanco(Context context) {
@@ -311,18 +311,16 @@ public class Dao {
 
         @Override
         protected Void doInBackground(Void... voids) {
-
-            // melhorar contagem de dados (com sql especifico talvez)
-
             SQLiteDatabase db = this.banco.getWritableDatabase();
             ArrayList<String> lista = getAllLinhas("inserts.txt");
+            linhasTotais = lista.size();
             for (int i = 0; i < lista.size(); i++) {
                 db.execSQL(lista.get(i));
                 this.linhasPopuladas = i;
+                // pega o nome da tabela a partir do sql
                 this.nomeTabelaPopulada = lista.get(i).split(" ")[2].replace("`", "");
                 publishProgress();
             }
-
             db.close();
             return null;
         }
@@ -330,7 +328,8 @@ public class Dao {
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
-            progressDialog.setMessage("Dados inseridos: " + linhasPopuladas + " (" + nomeTabelaPopulada + ")");
+            progressDialog.setMessage("Dados inseridos: " + linhasPopuladas + "/" + linhasTotais + "\n" +
+                    "Tabela: " + nomeTabelaPopulada);
         }
 
         @Override
