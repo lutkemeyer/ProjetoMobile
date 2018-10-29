@@ -39,7 +39,7 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Valor do combustível"
+            android:text="@string/lbl_valor_combustivel"
             android:textColor="@color/colorLight" />
 
         <LinearLayout
@@ -57,7 +57,6 @@
                 android:ems="10"
                 android:hint="@string/hint_txt_valor_combustivel"
                 android:inputType="numberDecimal"
-                android:text="4.45"
                 android:textColor="@android:color/white"
                 android:textColorHint="@color/colorPrimaryLight" />
 
@@ -67,7 +66,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center|start"
-                android:text="/L de "
+                android:text="@string/por_litros_de"
                 android:textColor="@color/colorLight" />
 
         </LinearLayout>
@@ -88,7 +87,6 @@
                 android:ems="10"
                 android:hint="@string/hint_txt_valor_combustivel"
                 android:inputType="numberDecimal"
-                android:text="4.45"
                 android:textColor="@android:color/white"
                 android:textColorHint="@color/colorPrimaryLight" />
 
@@ -98,7 +96,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center|start"
-                android:text="/L de "
+                android:text="@string/por_litros_de"
                 android:textColor="@color/colorLight" />
 
         </LinearLayout>
@@ -113,14 +111,13 @@
             <TextView
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:text="De:"
+                android:text="@string/lbl_origem"
                 android:textColor="@color/colorLight" />
 
             <TextView
                 android:id="@+id/lblOrigem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rua bla bla bla"
                 android:textColor="@color/colorLight" />
         </LinearLayout>
 
@@ -134,14 +131,13 @@
             <TextView
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:text="Até:"
+                android:text="@string/lbl_destino"
                 android:textColor="@color/colorLight" />
 
             <TextView
                 android:id="@+id/lblDestino"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rua bla bla bla"
                 android:textColor="@color/colorLight" />
         </LinearLayout>
 
@@ -164,7 +160,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Distância"
+                    android:text="@string/distancia"
                     android:textAlignment="center"
                     android:textColor="@color/colorLight" />
 

@@ -151,7 +151,6 @@ public class Dao {
                 } while (cursor.moveToNext());
             }
         }
-        Log.i("Script", modelos.toString());
         db.close();
         return modelos;
     }
@@ -159,13 +158,11 @@ public class Dao {
         SQLiteDatabase db = banco.getWritableDatabase();
         for (Endereco end : enderecos) {
             if (end.getId() != 0) { // atualiza a qtd de um endereco que ja está no banco
-                Log.i("Script", "atualizou " + end);
                 ContentValues valores = new ContentValues();
                 valores.put(Endereco.NOME, end.getNome());
                 valores.put(Endereco.QTD, end.getQtd() + 1);
                 long resultado = db.update(Endereco.NOME_TABELA, valores, Endereco.ID + " = " + end.getId(), null);
             } else { // insere no banco um endereco novo
-                Log.i("Script", "inseriu " + end);
                 ContentValues valores = new ContentValues();
                 valores.put(Endereco.NOME, end.getNome());
                 valores.put(Endereco.QTD, 1);

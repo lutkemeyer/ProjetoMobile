@@ -86,7 +86,6 @@ public class TelaEstimativaGastos extends AppCompatActivity {
 
         // carrega o veiculo do usuario para que possa ser calculado o rendimento
         veiculoUsuario = new Dao(TelaEstimativaGastos.this).getVeiculoUsuario();
-        Log.i("Script", "Carro usuario: " + veiculoUsuario);
         getDados();
         calcularGastos();
         preencheDados();
@@ -146,8 +145,8 @@ public class TelaEstimativaGastos extends AppCompatActivity {
             llValorComb2.setVisibility(View.VISIBLE);
             llConsumo2.setVisibility(View.VISIBLE);
 
-            txtValorCombustivel1.setHint(R.string.hint_txt_valor_combustivel_um);
-            txtValorCombustivel2.setHint(R.string.hint_txt_valor_combustivel_dois);
+            txtValorCombustivel1.setHint(getString( R.string.hint_txt_valor_combustivel ) + " gasolina");
+            txtValorCombustivel2.setHint(getString( R.string.hint_txt_valor_combustivel ) + " etanol");
 
             lblConsumo1.setText(R.string.lbl_consumo_usando_gasolina);
             lblConsumo2.setText(R.string.lbl_consumo_usando_etanol);
@@ -157,8 +156,8 @@ public class TelaEstimativaGastos extends AppCompatActivity {
             lblEstimativaGastos2.setText(R.string.lbl_estimativa_gasto_etanol);
         }else{
 
-            lblTipoCombustivel1.setText(getString(R.string.litros_de) + " " + veiculoUsuario.getTipoCombustivel().getNome().toLowerCase());
-
+            lblTipoCombustivel1.setText(getString(R.string.por_litros_de) + " " + veiculoUsuario.getTipoCombustivel().getNome().toLowerCase());
+            txtValorCombustivel1.setHint(getString( R.string.hint_txt_valor_combustivel) + " " + veiculoUsuario.getTipoCombustivel().getNome().toLowerCase());
             llValorComb2.setVisibility(View.GONE);
             llConsumo2.setVisibility(View.GONE);
             llEstimativa2.setVisibility(View.GONE);
