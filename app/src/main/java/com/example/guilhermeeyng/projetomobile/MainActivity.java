@@ -150,6 +150,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.origem = txtOrigem.getText().toString();
         this.destino = txtDestino.getText().toString();
 
+        actionMenuTelaMain.fechar();
+
         if (origem.isEmpty() || destino.isEmpty()) {
             mostra("Insira o endereço de origem e destino!");
             return;
