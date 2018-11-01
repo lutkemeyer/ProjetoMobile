@@ -163,6 +163,7 @@ public class DialogInserirConsumoManualmente extends AlertDialog {
             veiculo.setConsGasDieselEstrada(consumo1);
         }
         new Dao(ctx).salvarConsumo(veiculo);
+        dismiss();
     }
 
     public void cancelar(){

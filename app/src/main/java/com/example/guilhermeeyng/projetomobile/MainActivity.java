@@ -43,11 +43,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private String origem, destino;
     private Menu menu;
 
-    private Endereco enderecoOrigemSelecionado;
-    private Endereco enderecoDestinoSelecionado;
+    private Endereco enderecoOrigemSelecionado,enderecoDestinoSelecionado;
     private Duracao duracao;
     private Distancia distancia;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         listeners();
     }
-
     /*
     pega o endereço que foi selecionado no campo, e aponta para
     variaveis que depois serão usadas para armazenar no banco

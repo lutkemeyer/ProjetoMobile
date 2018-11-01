@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.guilhermeeyng.projetomobile.R;
 import com.example.guilhermeeyng.projetomobile.entidades.Ano;
 import com.example.guilhermeeyng.projetomobile.entidades.Endereco;
 import com.example.guilhermeeyng.projetomobile.entidades.Marca;
@@ -310,8 +311,8 @@ public class Dao {
         @Override
         protected void onPreExecute() {
             progressDialog = new ProgressDialog(context);
-            progressDialog.setTitle("Populando o banco...");
-            progressDialog.setMessage("Populando o banco...");
+            progressDialog.setTitle(context.getString(R.string.title_progress_popular_banco));
+            progressDialog.setMessage(context.getString(R.string.msg_progress_popular_banco));
             progressDialog.show();
             super.onPreExecute();
         }
@@ -335,7 +336,7 @@ public class Dao {
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
-            progressDialog.setMessage("Dados inseridos: " + linhasPopuladas + "/" + linhasTotais + "\n" +
+            progressDialog.setMessage(context.getString(R.string.msg_progress_popular_banco_dados_inseridos) + linhasPopuladas + "/" + linhasTotais + "\n" +
                     "Tabela: " + nomeTabelaPopulada);
         }
 

@@ -1,24 +1,29 @@
 <resources>
     <string name="app_name">ProjetoMobile</string>
 
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyD216ZoaQJEiYYGYBYS2ujSKKumY5744gQ</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDiygpoDUm0RNtn1y8XPpG-xqoFEjKGQeE</string>
 
     <!-- ============================= ICONES =========================== -->
 
     <string name="ic_menu_bolinhas">M45 30,L50 30,  M45 50,L50 50,  M45 70,L50 70</string>
     <string name="ic_menu_riscos">M20 30,L80 30,  M20 50,L80 50,  M20 70,L80 70</string>
 
-
-
     <string name="titulo_tela_selecao_carro">CONSUMO</string>
     <string name="titulo_tela_pirncipal">PROJETO MOBILE</string>
+    <string name="titulo_dialog_nao_informou_consumo">Você ainda não informou o consumo do seu veículo</string>
+    <string name="titulo_dialog_inserir_consumo_manualmente">Insira o consumo manualmente</string>
+    <string name="mensagem_dialog_nao_informou_consumo">Deseja informar o consumo agora?</string>
 
+    <string name="title_progress_encontrando_caminho">Aguarde</string>
+    <string name="text_progress_encontrando_caminho">Encontrando o melhor caminho...</string>
 
     <string name="btn_menu_nao_encontrei">NÃO ENCONTREI</string>
     <string name="btn_menu_salvar">SALVAR</string>
     <string name="btn_salvar">SALVAR</string>
     <string name="btn_cancelar">CANCELAR</string>
     <string name="btn_calcular">CALCULAR</string>
+    <string name="btn_inserir_consumo_manualmente">Insira o consumo manualmente</string>
+    <string name="btn_configuracoes_consumo">Configurações de consumo</string>
 
     <string name="rb_flex">Flex</string>
     <string name="rb_gasolina">Gasolina</string>
@@ -35,21 +40,9 @@
     <string name="lbl_distancia">0 km</string>
     <string name="lbl_duracao">0 min</string>
     <string name="lbl_consumo">0 km/L</string>
-
-    <string name="bundle_origem">ORIGEM</string>
-    <string name="bundle_destino">DESTINO</string>
-    <string name="bundle_distancia">DISTANCIA</string>
-    <string name="bundle_duracao">DURACAO</string>
-    <string name="mn_item_consumo">Não encontrei</string>
-    <string name="mn_estimargastos">Estimar gastos</string>
-    <string name="btn_inserir_consumo_manualmente">Insira o consumo manualmente</string>
     <string name="lbl_marca">Marca do seu veículo:</string>
     <string name="lbl_modelo">Modelo do seu veículo:</string>
     <string name="lbl_ano">Ano do seu veículo:</string>
-    <string name="btn_configuracoes_consumo">Configurações de consumo</string>
-    <string name="msg_insira_endereco_origem_destino">Insira o endereço de origem e destino!</string>
-    <string name="title_progress_encontrando_caminho">Aguarde</string>
-    <string name="text_progress_encontrando_caminho">Encontrando o melhor caminho...</string>
     <string name="lbl_consumo_usando_gasolina">Consumo usando gasolina</string>
     <string name="lbl_consumo_usando_etanol">Consumo usando etanol</string>
     <string name="lbl_estimativa_litros_gasolina">Estimativa de litros de gasolina</string>
@@ -59,20 +52,31 @@
     <string name="lbl_consumo_usando">Consumo usando</string>
     <string name="lbl_estimativa_litros">Estimativa de litros de</string>
     <string name="lbl_estimativa_gasto_usando">Estimativa de gasto usando</string>
-    <string name="litros_de_gasolina">/L de gasolina</string>
-    <string name="litros_de_etanol">/L de etanol</string>
-    <string name="por_litros_de">/L de</string>
-    <string name="titulo_dialog_inserir_consumo_manualmente">Insira o consumo manualmente</string>
-    <string name="lbl_selecione_o_combustivel">Selecione o combustível</string>
-    <string name="medida_consumo">km/L</string>
-    <string name="titulo_dialog_nao_informou_consumo">Você ainda não informou o consumo do seu veículo</string>
-    <string name="mensagem_dialog_nao_informou_consumo">Deseja informar o consumo agora?</string>
-    <string name="botao_positivo_dialog_nao_informou_consumo">Sim</string>
-    <string name="botao_negativo_dialog_nao_informou_consumo">Não</string>
     <string name="lbl_valor_combustivel">Valor do combustível</string>
     <string name="lbl_origem">De:</string>
     <string name="lbl_destino">Até:</string>
-    <string name="distancia">Distância</string>
+    <string name="lbl_selecione_o_combustivel">Selecione o combustível</string>
 
+    <string name="bundle_origem">ORIGEM</string>
+    <string name="bundle_destino">DESTINO</string>
+    <string name="bundle_distancia">DISTANCIA</string>
+    <string name="bundle_duracao">DURACAO</string>
+
+    <string name="mn_item_consumo">Não encontrei</string>
+    <string name="mn_estimargastos">Estimar gastos</string>
+
+    <string name="msg_insira_endereco_origem_destino">Insira o endereço de origem e destino!</string>
+
+    <string name="litros_de_gasolina">/L de gasolina</string>
+    <string name="litros_de_etanol">/L de etanol</string>
+    <string name="por_litros_de">/L de</string>
+    <string name="distancia">Distância</string>
+    <string name="medida_consumo">km/L</string>
+
+    <string name="botao_positivo_dialog_nao_informou_consumo">Sim</string>
+    <string name="botao_negativo_dialog_nao_informou_consumo">Não</string>
+    <string name="title_progress_popular_banco">Populando o banco...</string>
+    <string name="msg_progress_popular_banco">Populando o banco...</string>
+    <string name="msg_progress_popular_banco_dados_inseridos">Dados inseridos:</string>
 
 </resources>
