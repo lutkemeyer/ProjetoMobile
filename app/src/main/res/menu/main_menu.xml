@@ -7,4 +7,11 @@
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_enviar"
         android:visible="false"/>
+
+    <item
+        android:id="@+id/mn_preferencias"
+        android:title="Preferências"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_preferencias"/>
+
 </menu>

@@ -210,6 +210,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }else{
                     Dialogs.naoInseriuConsumo(MainActivity.this);
                 }
+                break;
+            case R.id.mn_preferencias:
+                Intent it = new Intent(MainActivity.this, TelaConfiguracoes.class);
+                startActivityForResult(it, 0);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
