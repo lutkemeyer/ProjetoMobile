@@ -115,9 +115,10 @@ public class TelaConfiguracoes extends AppCompatActivity {
                     aplicarTema(Tema.CUSTOMIZADO);
                     containerTemaCustomizado.setVisibility(View.VISIBLE);
                 }else{
-                    containerTemaCustomizado.setVisibility(View.GONE);
                     if(!swTemaClaro.isChecked() && !swTemaEscuro.isChecked() && !swTemaPadrao.isChecked()){
                         swTemaCustomizado.setChecked(true);
+                    }else{
+                        containerTemaCustomizado.setVisibility(View.GONE);
                     }
                 }
             }

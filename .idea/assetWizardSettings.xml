@@ -28,7 +28,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_preferencias" />
+                            <entry key="color" value="ff0011" />
+                            <entry key="outputName" value="ic_tune_black_24dp" />
                             <entry key="sourceFile" value="C:\Users\Guilherme Eyng" />
                           </map>
                         </option>
