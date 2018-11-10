@@ -1,6 +1,6 @@
 package Modules;
 
-import com.example.guilhermeeyng.projetomobile.utilitarios.TipoRetornoDirectionsAPI;
+import com.example.guilhermeeyng.projetomobile.enums.TipoRetornoDirectionsAPI;
 
 import java.util.List;
 

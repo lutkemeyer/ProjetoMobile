@@ -18,8 +18,7 @@ import com.example.guilhermeeyng.projetomobile.entidades.Endereco;
 import com.example.guilhermeeyng.projetomobile.utilitarios.ActionMenuTelaMain;
 import com.example.guilhermeeyng.projetomobile.utilitarios.Dialogs;
 import com.example.guilhermeeyng.projetomobile.utilitarios.TextChangeListener;
-import com.example.guilhermeeyng.projetomobile.utilitarios.TipoRetornoDirectionsAPI;
-import com.example.guilhermeeyng.projetomobile.utilitarios.Util;
+import com.example.guilhermeeyng.projetomobile.enums.TipoRetornoDirectionsAPI;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 

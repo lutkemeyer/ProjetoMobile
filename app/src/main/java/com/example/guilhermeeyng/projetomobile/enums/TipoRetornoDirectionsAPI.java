@@ -1,4 +1,4 @@
-package com.example.guilhermeeyng.projetomobile.utilitarios;
+package com.example.guilhermeeyng.projetomobile.enums;
 
 /*
 enum criado para mapear o tipo do retorno do google maps com a mensagem

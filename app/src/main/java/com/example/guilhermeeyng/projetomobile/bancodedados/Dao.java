@@ -16,6 +16,7 @@ import com.example.guilhermeeyng.projetomobile.entidades.Marca;
 import com.example.guilhermeeyng.projetomobile.entidades.Motor;
 import com.example.guilhermeeyng.projetomobile.entidades.TipoCombustivel;
 import com.example.guilhermeeyng.projetomobile.entidades.Veiculo;
+import com.example.guilhermeeyng.projetomobile.enums.Tema;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -365,5 +366,10 @@ public class Dao {
             }
             return linhas;
         }
+    }
+
+
+    public Tema getTemaUsuario(){
+        return Tema.PADRAO;
     }
 }

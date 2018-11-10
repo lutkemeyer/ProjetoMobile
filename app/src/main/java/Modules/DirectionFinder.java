@@ -3,7 +3,7 @@ package Modules;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.guilhermeeyng.projetomobile.utilitarios.TipoRetornoDirectionsAPI;
+import com.example.guilhermeeyng.projetomobile.enums.TipoRetornoDirectionsAPI;
 import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONArray;
 import org.json.JSONException;

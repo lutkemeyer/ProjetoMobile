@@ -1,9 +1,7 @@
 package com.example.guilhermeeyng.projetomobile.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.guilhermeeyng.projetomobile.R;
 import com.example.guilhermeeyng.projetomobile.entidades.Veiculo;
-import com.example.guilhermeeyng.projetomobile.utilitarios.LogoMarcaAutomotiva;
+import com.example.guilhermeeyng.projetomobile.enums.LogoMarcaAutomotiva;
 
 import java.util.ArrayList;
 

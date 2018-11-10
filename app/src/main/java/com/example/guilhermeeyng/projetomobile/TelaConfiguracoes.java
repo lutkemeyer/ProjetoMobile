@@ -7,6 +7,9 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
+import com.example.guilhermeeyng.projetomobile.bancodedados.Dao;
+import com.example.guilhermeeyng.projetomobile.enums.Tema;
+
 public class TelaConfiguracoes extends AppCompatActivity {
 
     private Switch swTemaClaro, swTemaEscuro, swTemaCustomizado, swTemaPadrao;
@@ -24,7 +27,27 @@ public class TelaConfiguracoes extends AppCompatActivity {
 
         containerTemaCustomizado = findViewById(R.id.containerTemaCustomizado);
 
+        Tema temaUsuario = new Dao(TelaConfiguracoes.this).getTemaUsuario();
 
+        switch (temaUsuario){
+            case PADRAO:
+                swTemaPadrao.setChecked(true);
+
+                break;
+            case CLARO:
+                swTemaClaro.setChecked(true);
+
+                break;
+            case ESCURO:
+                swTemaEscuro.setChecked(true);
+
+                break;
+            case CUSTOMIZADO:
+                swTemaCustomizado.setChecked(true);
+
+                break;
+
+        }
 
 
 
@@ -42,12 +65,14 @@ public class TelaConfiguracoes extends AppCompatActivity {
                     swTemaClaro.setChecked(false);
                     swTemaEscuro.setChecked(false);
                     swTemaCustomizado.setChecked(false);
+                    aplicarTema(Tema.PADRAO);
                 }else{
-
+                    if(!swTemaClaro.isChecked() && !swTemaEscuro.isChecked() && !swTemaCustomizado.isChecked()){
+                        swTemaPadrao.setChecked(true);
+                    }
                 }
             }
         });
-
         swTemaClaro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -55,8 +80,11 @@ public class TelaConfiguracoes extends AppCompatActivity {
                     swTemaPadrao.setChecked(false);
                     swTemaEscuro.setChecked(false);
                     swTemaCustomizado.setChecked(false);
+                    aplicarTema(Tema.CLARO);
                 }else{
-
+                    if(!swTemaPadrao.isChecked() && !swTemaEscuro.isChecked() && !swTemaCustomizado.isChecked()){
+                        swTemaClaro.setChecked(true);
+                    }
                 }
             }
         });
@@ -68,8 +96,11 @@ public class TelaConfiguracoes extends AppCompatActivity {
                     swTemaPadrao.setChecked(false);
                     swTemaClaro.setChecked(false);
                     swTemaCustomizado.setChecked(false);
+                    aplicarTema(Tema.ESCURO);
                 }else{
-
+                    if(!swTemaClaro.isChecked() && !swTemaPadrao.isChecked() && !swTemaCustomizado.isChecked()){
+                        swTemaEscuro.setChecked(true);
+                    }
                 }
             }
         });
@@ -81,12 +112,20 @@ public class TelaConfiguracoes extends AppCompatActivity {
                     swTemaPadrao.setChecked(false);
                     swTemaClaro.setChecked(false);
                     swTemaEscuro.setChecked(false);
+                    aplicarTema(Tema.CUSTOMIZADO);
                     containerTemaCustomizado.setVisibility(View.VISIBLE);
                 }else{
                     containerTemaCustomizado.setVisibility(View.GONE);
+                    if(!swTemaClaro.isChecked() && !swTemaEscuro.isChecked() && !swTemaPadrao.isChecked()){
+                        swTemaCustomizado.setChecked(true);
+                    }
                 }
             }
         });
+
+    }
+
+    public void aplicarTema(Tema tema){
 
     }
 }
