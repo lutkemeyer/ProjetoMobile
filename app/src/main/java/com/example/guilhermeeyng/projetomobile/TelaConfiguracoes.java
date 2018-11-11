@@ -1,19 +1,26 @@
 package com.example.guilhermeeyng.projetomobile;
 
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
+import com.example.guilhermeeyng.projetomobile.adapters.AdapterImagem;
 import com.example.guilhermeeyng.projetomobile.bancodedados.Dao;
 import com.example.guilhermeeyng.projetomobile.enums.Tema;
 
 public class TelaConfiguracoes extends AppCompatActivity {
 
     private Switch swTemaClaro, swTemaEscuro, swTemaCustomizado, swTemaPadrao;
-    private LinearLayout containerTemaCustomizado;
+    private GridLayout containerTemaCustomizado;
+    private ImageView imgTipoMapa;
+
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +33,8 @@ public class TelaConfiguracoes extends AppCompatActivity {
         swTemaCustomizado = findViewById(R.id.swTemaCustomizado);
 
         containerTemaCustomizado = findViewById(R.id.containerTemaCustomizado);
+        imgTipoMapa = findViewById(R.id.imgTipoMapa);
+        viewPager = findViewById(R.id.viewPager);
 
         Tema temaUsuario = new Dao(TelaConfiguracoes.this).getTemaUsuario();
 
@@ -44,11 +53,13 @@ public class TelaConfiguracoes extends AppCompatActivity {
                 break;
             case CUSTOMIZADO:
                 swTemaCustomizado.setChecked(true);
-
+                containerTemaCustomizado.setVisibility(View.VISIBLE);
                 break;
 
         }
 
+
+        viewPager.setAdapter(new AdapterImagem(TelaConfiguracoes.this));
 
 
 

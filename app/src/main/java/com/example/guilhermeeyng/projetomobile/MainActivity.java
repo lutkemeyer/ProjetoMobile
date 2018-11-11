@@ -1,12 +1,21 @@
 package com.example.guilhermeeyng.projetomobile;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,9 +24,7 @@ import android.widget.*;
 import com.example.guilhermeeyng.projetomobile.adapters.AdapterEndereco;
 import com.example.guilhermeeyng.projetomobile.bancodedados.Dao;
 import com.example.guilhermeeyng.projetomobile.entidades.Endereco;
-import com.example.guilhermeeyng.projetomobile.utilitarios.ActionMenuTelaMain;
-import com.example.guilhermeeyng.projetomobile.utilitarios.Dialogs;
-import com.example.guilhermeeyng.projetomobile.utilitarios.TextChangeListener;
+import com.example.guilhermeeyng.projetomobile.utilitarios.*;
 import com.example.guilhermeeyng.projetomobile.enums.TipoRetornoDirectionsAPI;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
@@ -25,9 +32,10 @@ import com.google.android.gms.maps.model.*;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+
 import Modules.*;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, DirectionFinderListener {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, DirectionFinderListener{
 
     private GoogleMap map;
     private ArrayList<Marker> marcadoresDeOrigem = new ArrayList<>();
@@ -42,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private String origem, destino;
     private Menu menu;
 
-    private Endereco enderecoOrigemSelecionado,enderecoDestinoSelecionado;
+    private Endereco enderecoOrigemSelecionado, enderecoDestinoSelecionado;
     private Duracao duracao;
     private Distancia distancia;
 
@@ -226,10 +234,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.map = googleMap;
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        LatLng latLng = new LatLng(-25.703885, -53.097661);
-        CameraPosition position = CameraPosition.builder().target(latLng).zoom(15).tilt(90).build();
-        map.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+        LatLng local = new LatLng(-25.750386484247976, -53.06071836501361);
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.builder().target(local).zoom(14.2933f).build()));
     }
+
     /*
     assim que a rota inicia o calculo, retira todos os pontos marcados no mapa e
     abre a barra de carregamento
@@ -332,4 +340,5 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void mostra(String s){
         Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
     }
+
 }

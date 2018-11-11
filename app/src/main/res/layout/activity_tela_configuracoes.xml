@@ -42,7 +42,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnCount="4"
-        android:rowCount="2">
+        android:rowCount="2"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,6 +52,7 @@
             android:layout_column="0"
             android:layout_gravity="center"
             android:text="Cor primária" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,6 +60,7 @@
             android:layout_column="1"
             android:layout_gravity="center"
             android:text="Cor primária" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,6 +68,7 @@
             android:layout_column="2"
             android:layout_gravity="center"
             android:text="Cor primária" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,36 +80,94 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_column="0"
             android:layout_row="1"
-            android:layout_gravity="center"
+            android:layout_column="0"
             android:layout_columnWeight="1"
+            android:layout_gravity="center"
             android:text="COR1" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_row="1"
             android:layout_column="1"
-            android:layout_row="1"
-            android:layout_gravity="center"
             android:layout_columnWeight="1"
+            android:layout_gravity="center"
             android:text="COR2" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_row="1"
             android:layout_column="2"
-            android:layout_row="1"
-            android:layout_gravity="center"
             android:layout_columnWeight="1"
+            android:layout_gravity="center"
             android:text="COR3" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_column="3"
             android:layout_row="1"
-            android:layout_gravity="center"
+            android:layout_column="3"
             android:layout_columnWeight="1"
+            android:layout_gravity="center"
             android:text="COR4" />
     </GridLayout>
+
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbMapaNormal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Normal"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:id="@+id/rbMapaSatelite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Satélite"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:id="@+id/rbMapaTerreno"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Terreno"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:id="@+id/rbMapaHibrido"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Híbrido"
+                android:layout_weight="1"/>
+
+
+        </RadioGroup>
+
+    <ImageView
+        android:id="@+id/imgTipoMapa"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </android.support.v4.view.ViewPager>
 
 
 </LinearLayout>
