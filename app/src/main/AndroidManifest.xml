@@ -32,7 +32,8 @@
         <activity
             android:name=".TelaEstimativaGastos"
             android:screenOrientation="portrait" />
-        <activity android:name=".TelaConfiguracoes"></activity>
+        <activity android:name=".TelaConfiguracoes"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
