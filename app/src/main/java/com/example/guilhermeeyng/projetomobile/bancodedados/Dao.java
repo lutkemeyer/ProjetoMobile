@@ -14,9 +14,11 @@ import com.example.guilhermeeyng.projetomobile.entidades.Ano;
 import com.example.guilhermeeyng.projetomobile.entidades.Endereco;
 import com.example.guilhermeeyng.projetomobile.entidades.Marca;
 import com.example.guilhermeeyng.projetomobile.entidades.Motor;
+import com.example.guilhermeeyng.projetomobile.entidades.Preferencia;
 import com.example.guilhermeeyng.projetomobile.entidades.TipoCombustivel;
 import com.example.guilhermeeyng.projetomobile.entidades.Veiculo;
 import com.example.guilhermeeyng.projetomobile.enums.Tema;
+import com.example.guilhermeeyng.projetomobile.enums.TipoMapa;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -293,6 +295,61 @@ public class Dao {
 
         return veiculo;
     }
+
+    public TipoMapa getTipoMapaUsuario() {
+        return TipoMapa.TERRENO;
+    }
+
+    public void salvarTema(Tema tema){
+        ContentValues valor1 = new ContentValues();
+        valor1.put(Preferencia.VALOR, tema.getCorDestaque());
+
+        ContentValues valor2 = new ContentValues();
+        valor2.put(Preferencia.VALOR, tema.getCorDestaqueClaro());
+
+        ContentValues valor3 = new ContentValues();
+        valor3.put(Preferencia.VALOR, tema.getCorSecundaria());
+
+        ContentValues valor4 = new ContentValues();
+        valor4.put(Preferencia.VALOR, tema.getCorSecundariaClaro());
+
+        SQLiteDatabase db = banco.getWritableDatabase();
+
+        long resultado1 = db.update(Preferencia.NOME_TABELA, valor1, Preferencia.ID + " =? ",  new String[]{String.valueOf( Preferencia.ID_COR_DESTAQUE )});
+        long resultado2 = db.update(Preferencia.NOME_TABELA, valor2, Preferencia.ID + " =? ",  new String[]{String.valueOf( Preferencia.ID_COR_DESTAQUE_CLARO )});
+        long resultado3 = db.update(Preferencia.NOME_TABELA, valor3, Preferencia.ID + " =? ",  new String[]{String.valueOf( Preferencia.ID_COR_SECUNDARIA )});
+        long resultado4 = db.update(Preferencia.NOME_TABELA, valor4, Preferencia.ID + " =? ",  new String[]{String.valueOf( Preferencia.ID_COR_SECUNDARIA_CLARO )});
+
+        Log.i("Script", "salvando tema: " + resultado1 + " " + resultado2 + " " + resultado3 + " " + resultado4);
+        db.close();
+    }
+
+    public void salvarPreferencia(Preferencia preferencia){
+        ContentValues valores = new ContentValues();
+        valores.put(Preferencia.ID, preferencia.getValor());
+
+        SQLiteDatabase db = banco.getWritableDatabase();
+        long resultado = db.update(Preferencia.NOME_TABELA, valores, Preferencia.ID + " =? ",  new String[]{String.valueOf( preferencia.getId())});
+
+        Log.i("Script", "salvando preferencia: " + preferencia.getId() + " com valor: " + preferencia.getValor() + " com resultado: " + resultado);
+        db.close();
+    }
+
+    public Preferencia getPreferencia(int idPreferencia){
+        Preferencia preferencia = new Preferencia(idPreferencia);
+        SQLiteDatabase db = banco.getReadableDatabase();
+        Cursor cursor = db.query(Preferencia.NOME_TABELA, new String[]{Preferencia.VALOR}, Preferencia.ID+"=?", new String[]{String.valueOf( preferencia.getId())}, null, null, null, null);
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                int valor = cursor.getInt(cursor.getColumnIndex(Preferencia.VALOR));
+                preferencia.setValor(valor);
+            }
+        }
+        db.close();
+        return preferencia;
+    }
+
     /*
     inner class responsavel por popular o banco, e mostrar em tempo real a inserção
      */
@@ -330,6 +387,7 @@ public class Dao {
                 this.nomeTabelaPopulada = lista.get(i).split(" ")[2].replace("`", "");
                 publishProgress();
             }
+
             db.close();
             return null;
         }

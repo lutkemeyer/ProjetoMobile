@@ -5658,3 +5658,8 @@ INSERT INTO `veiculos` (_id,id_marca,modelo,id_motor,versao,id_tipo_combustivel,
 INSERT INTO `veiculos` (_id,id_marca,modelo,id_motor,versao,id_tipo_combustivel,cons_etanol_cidade,cons_etanol_estrada,cons_gasolina_diesel_cidade,cons_gasolina_diesel_estrada,id_ano) VALUES (5517,24,'Aventador',83,'Padrão',3,0.0,0.0,4.1,5.9,6);
 INSERT INTO `veiculos` (_id,id_marca,modelo,id_motor,versao,id_tipo_combustivel,cons_etanol_cidade,cons_etanol_estrada,cons_gasolina_diesel_cidade,cons_gasolina_diesel_estrada,id_ano) VALUES (5518,36,'Ghost',83,'Padrão',3,0.0,0.0,4.9,9.0,5);
 INSERT INTO `veiculos` (_id,id_marca,modelo,id_motor,versao,id_tipo_combustivel,cons_etanol_cidade,cons_etanol_estrada,cons_gasolina_diesel_cidade,cons_gasolina_diesel_estrada,id_ano) VALUES (5519,24,'Aventador',83,'Padrão',3,0.0,0.0,3.3,6.8,5);
+INSERT INTO `preferencias` (_id,valor) VALUES (1,-16757093);
+INSERT INTO `preferencias` (_id,valor) VALUES (2,-6109697);
+INSERT INTO `preferencias` (_id,valor) VALUES (3,-14606047);
+INSERT INTO `preferencias` (_id,valor) VALUES (4,-14079703);
+INSERT INTO `preferencias` (_id,valor) VALUES (5,1);

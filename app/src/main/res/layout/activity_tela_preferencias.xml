@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:animateLayoutChanges="true"
+    tools:context=".TelaConfiguracoes">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Personalização do tema" />
+
+            <Switch
+                android:id="@+id/swTemaPadrao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tema Padrão" />
+
+            <Switch
+                android:id="@+id/swTemaEscuro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tema Escuro" />
+
+            <Switch
+                android:id="@+id/swTemaCustomizado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tema Customizado" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/holo_red_light"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="150dp"
+                        android:layout_height="230dp"
+                        android:orientation="vertical"
+                        android:background="@color/colorAccent">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/branco_fundo">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="12dp"
+                                android:background="@drawable/background_layout_content">
+
+                            </LinearLayout>
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@color/colorAccent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cor de destaque"
+                        android:textAlignment="center" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/btnCorDestaque"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClickCor" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cor de destaque clara"
+                        android:textAlignment="center" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/btnCorDestaqueClara"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClickCor" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cor secundária"
+                        android:textAlignment="center" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/btnCorSecundaria"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClickCor" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cor secundária clara"
+                        android:textAlignment="center" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/btnCorSecundariaClara"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClickCor" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Personalização do tema" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbMapaNormal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Normal" />
+
+                <RadioButton
+                    android:id="@+id/rbMapaSatelite"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Satélite" />
+
+                <RadioButton
+                    android:id="@+id/rbMapaTerreno"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Terreno" />
+
+                <RadioButton
+                    android:id="@+id/rbMapaHibrido"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Híbrido" />
+
+
+            </RadioGroup>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="167dp">
+
+
+            </android.support.v4.view.ViewPager>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

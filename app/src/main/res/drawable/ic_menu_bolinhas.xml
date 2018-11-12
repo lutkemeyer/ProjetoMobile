@@ -10,7 +10,7 @@
         <path
             android:name="menu"
             android:pathData="@string/ic_menu_bolinhas"
-            android:strokeColor="@color/colorPrimaryLight"
+            android:strokeColor="@color/colorPrimaryDark"
             android:strokeLineCap="round"
             android:strokeWidth="9"/>
     </group>

@@ -13,7 +13,7 @@ import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 public class ColorPicker{
-    public static void mostra(Context c, final View botao, int corInicial){
+    public static void mostra(Context c, final View botao, int corInicial, final OnColorSelectedListener listener){
         ColorPickerDialogBuilder
                 .with(c)
                 .setTitle("Escolha a cor")
@@ -24,13 +24,13 @@ public class ColorPicker{
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int selectedColor) {
-
                     }
                 })
                 .setPositiveButton("OK", new ColorPickerClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
                         botao.setBackgroundTintList(ColorStateList.valueOf(selectedColor));
+                        listener.onColorSelected(selectedColor);
                     }
                 })
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

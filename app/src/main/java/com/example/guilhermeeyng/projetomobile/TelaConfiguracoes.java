@@ -1,33 +1,26 @@
 package com.example.guilhermeeyng.projetomobile;
 
-import android.content.DialogInterface;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.StateSet;
-import android.view.DragEvent;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.GridLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.guilhermeeyng.projetomobile.adapters.AdapterImagem;
 import com.example.guilhermeeyng.projetomobile.bancodedados.Dao;
+import com.example.guilhermeeyng.projetomobile.entidades.Preferencia;
 import com.example.guilhermeeyng.projetomobile.enums.Tema;
+import com.example.guilhermeeyng.projetomobile.enums.TipoMapa;
 import com.example.guilhermeeyng.projetomobile.utilitarios.ColorPicker;
-import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
-import com.flask.colorpicker.builder.ColorPickerClickListener;
-import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 public class TelaConfiguracoes extends AppCompatActivity {
 
@@ -40,10 +33,17 @@ public class TelaConfiguracoes extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tela_configuracoes);
+        setContentView(R.layout.activity_tela_preferencias);
+
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setElevation(0);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setTitle(getResources().getString(R.string.titulo_tela_selecao_carro));
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         swTemaPadrao = findViewById(R.id.swTemaPadrao);
-        swTemaClaro = findViewById(R.id.swTemaClaro);
+        //swTemaClaro = findViewById(R.id.swTemaClaro);
         swTemaEscuro = findViewById(R.id.swTemaEscuro);
         swTemaCustomizado = findViewById(R.id.swTemaCustomizado);
 
@@ -57,13 +57,17 @@ public class TelaConfiguracoes extends AppCompatActivity {
         btnCorSecundaria = findViewById(R.id.btnCorSecundaria);
         btnCorSecundariaClara = findViewById(R.id.btnCorSecundariaClara);
 
-        containerTemaCustomizado = findViewById(R.id.containerTemaCustomizado);
+        //containerTemaCustomizado = findViewById(R.id.containerTemaCustomizado);
         viewPager = findViewById(R.id.viewPager);
 
         btnCorDestaque.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
         btnCorDestaqueClara.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryLight)));
         btnCorSecundaria.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryDark)));
         btnCorSecundariaClara.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+
+        viewPager.setAdapter(new AdapterImagem(TelaConfiguracoes.this));
+
+
 
         Tema temaUsuario = new Dao(TelaConfiguracoes.this).getTemaUsuario();
 
@@ -86,9 +90,24 @@ public class TelaConfiguracoes extends AppCompatActivity {
 
         }
 
-        viewPager.setAdapter(new AdapterImagem(TelaConfiguracoes.this));
-
         listeners();
+
+        TipoMapa tipoMapaUsuario = new Dao(TelaConfiguracoes.this).getTipoMapaUsuario();
+
+        switch (tipoMapaUsuario){
+            case NORMAL:
+                rbMapaNormal.setChecked(true);
+                break;
+            case SATELITE:
+                rbMapaSatelite.setChecked(true);
+                break;
+            case TERRENO:
+                rbMapaTerreno.setChecked(true);
+                break;
+            case HIBRIDO:
+                rbMapaHibrido.setChecked(true);
+                break;
+        }
 
     }
 
@@ -161,6 +180,7 @@ public class TelaConfiguracoes extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     viewPager.setCurrentItem(0, true);
+                    //new Dao(TelaConfiguracoes.this).salvarPreferencia(new Preferencia(Preferencia.ID_TIPO_MAPA));
                 }else{
 
                 }
@@ -222,12 +242,42 @@ public class TelaConfiguracoes extends AppCompatActivity {
     }
 
     public void aplicarTema(Tema tema){
-
+        new Dao(TelaConfiguracoes.this).salvarTema(tema);
     }
 
-    public void onClickCor(View view){
+    public void onClickCor(final View view){
         int corDoBotao = view.getBackgroundTintList().getColorForState(new int[]{android.R.attr.state_pressed}, view.getBackgroundTintList().getDefaultColor());
-        ColorPicker.mostra(TelaConfiguracoes.this, view, corDoBotao);
+        ColorPicker.mostra(TelaConfiguracoes.this, view, corDoBotao, new OnColorSelectedListener() {
+            @Override
+            public void onColorSelected(int corSelecionada) {
+                Preferencia preferencia = null;
+                switch (view.getId()){
+                    case R.id.btnCorDestaque:
+                        preferencia = new Preferencia(Preferencia.ID_COR_DESTAQUE,corSelecionada);
+                        break;
+                    case R.id.btnCorDestaqueClara:
+                        preferencia = new Preferencia(Preferencia.ID_COR_DESTAQUE_CLARO,corSelecionada);
+                        break;
+                    case R.id.btnCorSecundaria:
+                        preferencia = new Preferencia(Preferencia.ID_COR_SECUNDARIA,corSelecionada);
+                        break;
+                    case R.id.btnCorSecundariaClara:
+                        preferencia = new Preferencia(Preferencia.ID_COR_SECUNDARIA_CLARO,corSelecionada);
+                        break;
+                }
+                new Dao(TelaConfiguracoes.this).salvarPreferencia(preferencia);
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void toast(String m){

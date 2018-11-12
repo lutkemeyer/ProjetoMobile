@@ -34,8 +34,7 @@
             android:layout_margin="@dimen/margin_btn_menu"
             android:background="@drawable/background_layout_botao2"
             android:onClick="onClickConfiguracoesDeConsumo"
-            android:text="@string/btn_configuracoes_consumo"
-            android:textColor="@color/colorPrimary" />
+            android:text="@string/btn_configuracoes_consumo"/>
     </LinearLayout>
 
     <LinearLayout

@@ -80,7 +80,7 @@ public class TelaEstimativaGastos extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
 
         actionBar.setElevation(0);
-        actionBar.setTitle( getString(R.string.titulo_tela_selecao_carro));
+        actionBar.setTitle( getString(R.string.titulo_tela_estimativa_gastos));
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 

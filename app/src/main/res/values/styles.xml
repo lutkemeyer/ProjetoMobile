@@ -9,6 +9,7 @@
         <item name="android:statusBarColor">@color/colorAccent</item>
         <item name="android:colorBackground">@color/colorLight</item>
         <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="android:itemTextAppearance">@style/AparenciaTextoMenu</item>
     </style>
 
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
@@ -32,6 +33,21 @@
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/dialog_in</item>
         <item name="android:windowExitAnimation">@anim/dialog_out</item>
+    </style>
+
+    <style name="AparenciaTextoMenu" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+
+
+
+    <style name="TemaPadrao" parent="AppTheme">
+
+    </style>
+
+    <style name="TemaClaro" parent="AppTheme">
+
     </style>
 
 
