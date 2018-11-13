@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-   <color name="colorPrimary">#292929</color>
-    <color name="colorPrimaryDark">#212121</color>
+    <color name="colorPrimary">#292929</color>
     <color name="colorPrimaryLight">#a7ceff</color>
+    <color name="colorPrimaryDark">@color/colorPrimary</color>
     <color name="colorAccent">#00529b</color>
     <color name="colorLight">#ffffff</color>
-
     <color name="buttonDialogColorDisabled">#5500529b</color>
     <color name="buttonDialogColorEnabled">@color/colorAccent</color>
-
-
     <color name="button1ColorDisabled">#33000000</color>
     <color name="button1ColorEnabled">@color/colorPrimary</color>
-
     <color name="colorIcons">@color/colorLight</color>
 </resources>

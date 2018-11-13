@@ -79,5 +79,6 @@
     <string name="msg_progress_popular_banco">Populando o banco...</string>
     <string name="msg_progress_popular_banco_dados_inseridos">Dados inseridos:</string>
     <string name="titulo_tela_estimativa_gastos">ESTIMATIVA DE GASTOS</string>
+    <string name="mn_salvar">Salvar</string>
 
 </resources>

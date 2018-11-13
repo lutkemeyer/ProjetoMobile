@@ -1,22 +1,30 @@
 package com.example.guilhermeeyng.projetomobile;
 
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.GridLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.guilhermeeyng.projetomobile.adapters.AdapterImagem;
 import com.example.guilhermeeyng.projetomobile.bancodedados.Dao;
 import com.example.guilhermeeyng.projetomobile.entidades.Preferencia;
+import com.example.guilhermeeyng.projetomobile.enums.LogoMarcaAutomotiva;
 import com.example.guilhermeeyng.projetomobile.enums.Tema;
 import com.example.guilhermeeyng.projetomobile.enums.TipoMapa;
 import com.example.guilhermeeyng.projetomobile.utilitarios.ColorPicker;
@@ -24,11 +32,20 @@ import com.flask.colorpicker.OnColorSelectedListener;
 
 public class TelaConfiguracoes extends AppCompatActivity {
 
-    private Switch swTemaClaro, swTemaEscuro, swTemaCustomizado, swTemaPadrao;
-    private GridLayout containerTemaCustomizado;
+    private Switch swTemaEscuro, swTemaCustomizado, swTemaPadrao;
     private FloatingActionButton btnCorDestaque, btnCorDestaqueClara, btnCorSecundaria, btnCorSecundariaClara;
     private RadioButton rbMapaNormal, rbMapaSatelite, rbMapaTerreno, rbMapaHibrido;
     private ViewPager viewPager;
+
+    private LinearLayout mn_llFundo, mn_llContainer, mn_llBotao;
+    private ImageView mn_imgMenu, mn_imgPreferencias, mn_imgOrigem, mn_imgDestino, mn_imgDistancia, mn_imgDuracao;
+    private TextView mn_lblTitulo, mn_lblOrigem, mn_lblDestino;
+    private View mn_viewOrigem, mn_viewDestino;
+
+
+    private int corDestaquePadrao, corDestaqueClaraPadrao, corSecundariaPadrao;
+    private int corDestaqueEscuro, corDestaqueClaraEscuro, corSecundariaEscuro;
+    private int corDestaqueCustomizado, corDestaqueClaraCustomizado, corSecundariaCustomizado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,18 +72,41 @@ public class TelaConfiguracoes extends AppCompatActivity {
         btnCorDestaque = findViewById(R.id.btnCorDestaque);
         btnCorDestaqueClara = findViewById(R.id.btnCorDestaqueClara);
         btnCorSecundaria = findViewById(R.id.btnCorSecundaria);
-        btnCorSecundariaClara = findViewById(R.id.btnCorSecundariaClara);
 
         //containerTemaCustomizado = findViewById(R.id.containerTemaCustomizado);
         viewPager = findViewById(R.id.viewPager);
 
         btnCorDestaque.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
         btnCorDestaqueClara.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryLight)));
-        btnCorSecundaria.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryDark)));
-        btnCorSecundariaClara.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+        btnCorSecundaria.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
 
         viewPager.setAdapter(new AdapterImagem(TelaConfiguracoes.this));
 
+        mn_llFundo = findViewById(R.id.mn_llFundo);
+        mn_llContainer = findViewById(R.id.mn_llContainer);
+        mn_llBotao = findViewById(R.id.mn_llBotao);
+
+        mn_imgMenu = findViewById(R.id.mn_imgMenu);
+        mn_imgPreferencias = findViewById(R.id.mn_imgPreferencias);
+        mn_imgOrigem = findViewById(R.id.mn_imgOrigem);
+        mn_imgDestino = findViewById(R.id.mn_imgDestino);
+        mn_imgDistancia = findViewById(R.id.mn_imgDistancia);
+        mn_imgDuracao = findViewById(R.id.mn_imgDuracao);
+
+        mn_lblTitulo = findViewById(R.id.mn_lblTitulo);
+        mn_lblOrigem = findViewById(R.id.mn_lblOrigem);
+        mn_lblDestino = findViewById(R.id.mn_lblDestino);
+
+        mn_viewOrigem = findViewById(R.id.mn_viewOrigem);
+        mn_viewDestino = findViewById(R.id.mn_viewDestino);
+
+        corDestaquePadrao = -16757093;
+        corDestaqueClaraPadrao = -6109697;
+        corSecundariaPadrao = -14079703;
+
+        corDestaqueEscuro = -16777216;
+        corDestaqueClaraEscuro = -5197648;
+        corSecundariaEscuro = -13750738;
 
 
         Tema temaUsuario = new Dao(TelaConfiguracoes.this).getTemaUsuario();
@@ -75,19 +115,12 @@ public class TelaConfiguracoes extends AppCompatActivity {
             case PADRAO:
                 swTemaPadrao.setChecked(true);
                 break;
-            case CLARO:
-                swTemaClaro.setChecked(true);
-
-                break;
             case ESCURO:
                 swTemaEscuro.setChecked(true);
-
                 break;
             case CUSTOMIZADO:
                 swTemaCustomizado.setChecked(true);
-                containerTemaCustomizado.setVisibility(View.VISIBLE);
                 break;
-
         }
 
         listeners();
@@ -116,42 +149,32 @@ public class TelaConfiguracoes extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    swTemaClaro.setChecked(false);
                     swTemaEscuro.setChecked(false);
                     swTemaCustomizado.setChecked(false);
                     aplicarTema(Tema.PADRAO);
+                    colorirBotoes(Tema.PADRAO);
+                    ativarBotoes();
+                    desativarBotoes();
+                    colorirBotoes(Tema.PADRAO);
                 }else{
-                    if(!swTemaClaro.isChecked() && !swTemaEscuro.isChecked() && !swTemaCustomizado.isChecked()){
+                    if(!swTemaEscuro.isChecked() && !swTemaCustomizado.isChecked()){
                         swTemaPadrao.setChecked(true);
                     }
                 }
             }
         });
-        swTemaClaro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    swTemaPadrao.setChecked(false);
-                    swTemaEscuro.setChecked(false);
-                    swTemaCustomizado.setChecked(false);
-                    aplicarTema(Tema.CLARO);
-                }else{
-                    if(!swTemaPadrao.isChecked() && !swTemaEscuro.isChecked() && !swTemaCustomizado.isChecked()){
-                        swTemaClaro.setChecked(true);
-                    }
-                }
-            }
-        });
+
         swTemaEscuro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     swTemaPadrao.setChecked(false);
-                    swTemaClaro.setChecked(false);
                     swTemaCustomizado.setChecked(false);
                     aplicarTema(Tema.ESCURO);
+                    desativarBotoes();
+                    colorirBotoes(Tema.ESCURO);
                 }else{
-                    if(!swTemaClaro.isChecked() && !swTemaPadrao.isChecked() && !swTemaCustomizado.isChecked()){
+                    if(!swTemaPadrao.isChecked() && !swTemaCustomizado.isChecked()){
                         swTemaEscuro.setChecked(true);
                     }
                 }
@@ -162,15 +185,15 @@ public class TelaConfiguracoes extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     swTemaPadrao.setChecked(false);
-                    swTemaClaro.setChecked(false);
                     swTemaEscuro.setChecked(false);
                     aplicarTema(Tema.CUSTOMIZADO);
-                    containerTemaCustomizado.setVisibility(View.VISIBLE);
+                    colorirBotoes(Tema.CUSTOMIZADO);
+                    ativarBotoes();
                 }else{
-                    if(!swTemaClaro.isChecked() && !swTemaEscuro.isChecked() && !swTemaPadrao.isChecked()){
+                    if(!swTemaEscuro.isChecked() && !swTemaPadrao.isChecked()){
                         swTemaCustomizado.setChecked(true);
                     }else{
-                        containerTemaCustomizado.setVisibility(View.GONE);
+
                     }
                 }
             }
@@ -241,8 +264,69 @@ public class TelaConfiguracoes extends AppCompatActivity {
         });
     }
 
+    private void desativarBotoes() {
+        btnCorDestaque.setEnabled(false);
+        btnCorDestaqueClara.setEnabled(false);
+        btnCorSecundaria.setEnabled(false);
+    }
+
+    private void ativarBotoes() {
+        btnCorDestaque.setEnabled(true);
+        btnCorDestaqueClara.setEnabled(true);
+        btnCorSecundaria.setEnabled(true);
+    }
+
+    private void colorirBotoes(Tema tema) {
+        switch (tema){
+            case PADRAO:
+                btnCorDestaque.setBackgroundTintList(ColorStateList.valueOf(corDestaquePadrao));
+                btnCorDestaqueClara.setBackgroundTintList(ColorStateList.valueOf(corDestaqueClaraPadrao));
+                btnCorSecundaria.setBackgroundTintList(ColorStateList.valueOf(corSecundariaPadrao));
+                break;
+            case ESCURO:
+                btnCorDestaque.setBackgroundTintList(ColorStateList.valueOf(corDestaqueEscuro));
+                btnCorDestaqueClara.setBackgroundTintList(ColorStateList.valueOf(corDestaqueClaraEscuro));
+                btnCorSecundaria.setBackgroundTintList(ColorStateList.valueOf(corSecundariaEscuro));
+                break;
+            case CUSTOMIZADO:
+                btnCorDestaque.setBackgroundTintList(ColorStateList.valueOf(corDestaqueCustomizado));
+                btnCorDestaqueClara.setBackgroundTintList(ColorStateList.valueOf(corDestaqueClaraCustomizado));
+                btnCorSecundaria.setBackgroundTintList(ColorStateList.valueOf(corSecundariaCustomizado));
+                break;
+        }
+
+    }
+
     public void aplicarTema(Tema tema){
-        new Dao(TelaConfiguracoes.this).salvarTema(tema);
+
+        switch (tema){
+            case PADRAO:
+                colorirViews(1, corDestaquePadrao);
+                colorirViews(2, corDestaqueClaraPadrao);
+                colorirViews(3, corSecundariaPadrao);
+
+                corDestaqueCustomizado = corDestaquePadrao;
+                corDestaqueClaraCustomizado = corDestaqueClaraPadrao;
+                corSecundariaCustomizado = corSecundariaPadrao;
+
+                break;
+            case ESCURO:
+                colorirViews(1, corDestaqueEscuro);
+                colorirViews(2, corDestaqueClaraEscuro);
+                colorirViews(3, corSecundariaEscuro);
+
+                corDestaqueCustomizado = corDestaqueEscuro;
+                corDestaqueClaraCustomizado = corDestaqueClaraEscuro;
+                corSecundariaCustomizado = corSecundariaEscuro;
+
+
+                break;
+            case CUSTOMIZADO:
+                colorirViews(1, corDestaqueCustomizado);
+                colorirViews(2, corDestaqueClaraCustomizado);
+                colorirViews(3, corSecundariaCustomizado);
+                break;
+        }
     }
 
     public void onClickCor(final View view){
@@ -250,24 +334,26 @@ public class TelaConfiguracoes extends AppCompatActivity {
         ColorPicker.mostra(TelaConfiguracoes.this, view, corDoBotao, new OnColorSelectedListener() {
             @Override
             public void onColorSelected(int corSelecionada) {
-                Preferencia preferencia = null;
                 switch (view.getId()){
                     case R.id.btnCorDestaque:
-                        preferencia = new Preferencia(Preferencia.ID_COR_DESTAQUE,corSelecionada);
+                        colorirViews(1,corSelecionada);
                         break;
                     case R.id.btnCorDestaqueClara:
-                        preferencia = new Preferencia(Preferencia.ID_COR_DESTAQUE_CLARO,corSelecionada);
+                        colorirViews(2,corSelecionada);
                         break;
                     case R.id.btnCorSecundaria:
-                        preferencia = new Preferencia(Preferencia.ID_COR_SECUNDARIA,corSelecionada);
-                        break;
-                    case R.id.btnCorSecundariaClara:
-                        preferencia = new Preferencia(Preferencia.ID_COR_SECUNDARIA_CLARO,corSelecionada);
+                        colorirViews(3,corSelecionada);
                         break;
                 }
-                new Dao(TelaConfiguracoes.this).salvarPreferencia(preferencia);
+                //new Dao(TelaConfiguracoes.this).salvarPreferencia(preferencia);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.preferencias_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -276,11 +362,49 @@ public class TelaConfiguracoes extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
+            case R.id.mn_salvar:
+                onClickSalvar();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onClickSalvar() {
+        toast("Salvar");
     }
 
     public void toast(String m){
         Toast.makeText(this, m, Toast.LENGTH_SHORT).show();
     }
+
+    public void colorirViews(int qualCor, int c){
+        Log.i("Script", c+"");
+        int cor = Color.parseColor("#"+Integer.toHexString(c));
+
+        switch (qualCor){
+            case 1: // cor destaque
+                mn_llFundo.setBackgroundColor(cor);
+                mn_viewOrigem.setBackgroundColor(cor);
+                mn_viewDestino.setBackgroundColor(cor);
+                break;
+            case 2: // cor destaque clara
+                mn_imgMenu.getDrawable().setTint(cor);
+                mn_imgPreferencias.getDrawable().setTint(cor);
+                mn_imgOrigem.getDrawable().setTint(cor);
+                mn_imgDestino.getDrawable().setTint(cor);
+                mn_imgDistancia.getDrawable().setTint(cor);
+                mn_imgDuracao.getDrawable().setTint(cor);
+                mn_llBotao.getBackground().setTint(cor);
+                mn_lblTitulo.setTextColor(cor);
+                mn_lblDestino.setTextColor(cor);
+                mn_lblOrigem.setTextColor(cor);
+                break;
+            case 3: // cor secundaria
+                mn_llContainer.getBackground().setTint(cor);
+                viewPager.setBackgroundColor(cor);
+                break;
+
+        }
+    }
+
+
 }
