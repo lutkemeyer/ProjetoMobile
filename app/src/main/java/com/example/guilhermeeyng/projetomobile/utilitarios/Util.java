@@ -1,7 +1,6 @@
 package com.example.guilhermeeyng.projetomobile.utilitarios;
 
 import com.example.guilhermeeyng.projetomobile.entidades.Preferencia;
-import com.example.guilhermeeyng.projetomobile.enums.Tema;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
@@ -20,16 +19,5 @@ public class Util {
     }
     public static String toConsumo(double v){
         return String.format("%.2f", v ) + " km/L";
-    }
-    public static Tema tipoDoTema(Preferencia... preferencias){
-        if(Tema.PADRAO.isPadrao(preferencias)){
-            return Tema.PADRAO;
-        }else if(Tema.CLARO.isClaro(preferencias)){
-            return Tema.CLARO;
-        }else if(Tema.ESCURO.isEscuro(preferencias)){
-            return Tema.ESCURO;
-        }else{
-            return Tema.CUSTOMIZADO;
-        }
     }
 }

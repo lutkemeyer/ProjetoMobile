@@ -1,29 +1,30 @@
 package com.example.guilhermeeyng.projetomobile;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
-import android.support.annotation.NonNull;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
-import android.util.Log;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.*;
 
 import com.example.guilhermeeyng.projetomobile.adapters.AdapterEndereco;
 import com.example.guilhermeeyng.projetomobile.bancodedados.Dao;
+import com.example.guilhermeeyng.projetomobile.customviews.DiagonalView;
 import com.example.guilhermeeyng.projetomobile.entidades.Endereco;
+import com.example.guilhermeeyng.projetomobile.entidades.Tema;
 import com.example.guilhermeeyng.projetomobile.utilitarios.*;
 import com.example.guilhermeeyng.projetomobile.enums.TipoRetornoDirectionsAPI;
 import com.google.android.gms.maps.*;
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Duracao duracao;
     private Distancia distancia;
 
+    private Tema temaUsuario;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,18 +82,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ActionBar actionBar = getSupportActionBar();
 
         actionBar.setElevation(0);
-        actionBar.setTitle(getResources().getString(R.string.titulo_tela_pirncipal));
+        actionBar.setTitle(getResources().getString(R.string.titulo_tela_principal));
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_bolinhas);
-
 
         /*
         o mapa só é colocado na tela neste momento, substituindo por um container setado no layout
         assim que o mapa é carregado, ele chama o OnMapReady, nesta mesma classe
          */
-
         SupportMapFragment mapFrag = SupportMapFragment.newInstance();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.layoutContainer, mapFrag);
@@ -100,11 +99,80 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         listeners();
     }
+
+    // PERSONALIZA O LAYOUT
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Window window = MainActivity.this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        Drawable ic_menu_bolinhas = getDrawable(R.drawable.ic_menu_bolinhas);
+
+        ActionBar actionBar = getSupportActionBar();
+        DiagonalView diagonalView = findViewById(R.id.diagonalView);
+        Button btnConfiguracoesDeConsumo = findViewById(R.id.btnConfiguracoesDeConsumo);
+        LinearLayout conteudoLayoutMain = findViewById(R.id.conteudoLayoutMain);
+        AutoCompleteTextView txtOrigem = findViewById(R.id.txtOrigem);
+        AutoCompleteTextView txtDestino = findViewById(R.id.txtDestino);
+        Button btnCalcular = findViewById(R.id.btnCalcular);
+        ImageView imgDistancia = findViewById(R.id.imgDistancia);
+        TextView lblDistancia = findViewById(R.id.lblDistancia);
+        ImageView imgDuracao = findViewById(R.id.imgDuracao);
+        TextView lblDuracao = findViewById(R.id.lblDuracao);
+
+        temaUsuario = new Dao(MainActivity.this).getTemaUsuario();
+
+        // cor da status bar
+        window.setStatusBarColor( temaUsuario.getCorDestaqueInt() );
+        actionBar.setBackgroundDrawable(new ColorDrawable( temaUsuario.getCorDestaqueInt() ));
+
+        // cor do icone que abre o menu
+        ic_menu_bolinhas.setTint( temaUsuario.getCorDestaqueClaraInt() );
+        actionBar.setHomeAsUpIndicator(ic_menu_bolinhas);
+
+        // cor do titulo da tela
+        Spannable spannablerTitle = new SpannableString(actionBar.getTitle().toString());
+        spannablerTitle.setSpan(new ForegroundColorSpan( temaUsuario.getCorDestaqueClaraInt() ), 0, spannablerTitle.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        actionBar.setTitle(spannablerTitle);
+
+        // cor do fundo
+        conteudoLayoutMain.getBackground().setTint( temaUsuario.getCorSecundariaInt() );
+        diagonalView.getBackground().setTint( temaUsuario.getCorDestaqueInt() );
+
+        // cor do botao configuracoes de consumo
+        btnConfiguracoesDeConsumo.getBackground().setTint( temaUsuario.getCorDestaqueClaraInt() );
+        btnConfiguracoesDeConsumo.setTextColor( temaUsuario.getCorSecundariaInt() );
+
+        // cor dos campos
+        txtOrigem.getCompoundDrawablesRelative()[0].setTint( temaUsuario.getCorDestaqueClaraInt() );
+        //txtOrigem.setTextColor(  );
+        txtOrigem.setHintTextColor( temaUsuario.getCorDestaqueClaraInt() );
+        txtOrigem.setBackgroundTintList(ColorStateList.valueOf( temaUsuario.getCorDestaqueClaraInt() ));
+        txtDestino.getCompoundDrawablesRelative()[0].setTint( temaUsuario.getCorDestaqueClaraInt() );
+        //txtOrigem.setTextColor(  );
+        txtDestino.setHintTextColor( temaUsuario.getCorDestaqueClaraInt() );
+        txtDestino.setBackgroundTintList(ColorStateList.valueOf( temaUsuario.getCorDestaqueClaraInt() ));
+
+        // cor do botao calcular
+        btnCalcular.getBackground().setTint( temaUsuario.getCorDestaqueClaraInt() );
+        btnCalcular.setTextColor( temaUsuario.getCorDestaqueInt() );
+
+        // cor das labels distancia e duracao
+        imgDistancia.getDrawable().setTint( temaUsuario.getCorDestaqueClaraInt() );
+        lblDistancia.setTextColor( temaUsuario.getCorDestaqueClaraInt() );
+
+        imgDuracao.getDrawable().setTint( temaUsuario.getCorDestaqueClaraInt() );
+        lblDuracao.setTextColor( temaUsuario.getCorDestaqueClaraInt() );
+
+    }
+
     /*
-    pega o endereço que foi selecionado no campo, e aponta para
-    variaveis que depois serão usadas para armazenar no banco
-    verifica se pode calcular rota todas as vezes que o texto muda nos campos
-     */
+        pega o endereço que foi selecionado no campo, e aponta para
+        variaveis que depois serão usadas para armazenar no banco
+        verifica se pode calcular rota todas as vezes que o texto muda nos campos
+         */
     private void listeners() {
         txtOrigem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -219,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 break;
             case R.id.mn_preferencias:
-                Intent it = new Intent(MainActivity.this, TelaConfiguracoes.class);
+                Intent it = new Intent(MainActivity.this, TelaPreferencias.class);
                 startActivityForResult(it, 0);
                 break;
         }
@@ -232,8 +300,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.map = googleMap;
-        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
+        map.setMapType(new Dao(MainActivity.this).getTipoMapaUsuario().getId());
         LatLng local = new LatLng(-25.750386484247976, -53.06071836501361);
         map.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.builder().target(local).zoom(14.2933f).build()));
     }
@@ -324,12 +391,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        for(int i=0; i<menu.size(); i++){
+            menu.getItem(i).getIcon().setTint( temaUsuario.getCorDestaqueClaraInt() );
+        }
         this.menu = menu;
         return super.onCreateOptionsMenu(menu);
     }
+
     /*
     chamado assim que uma outra tela finaliza e volta pra esta
-     */
+    */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.view.View;
 
-import com.example.guilhermeeyng.projetomobile.R;
-import com.example.guilhermeeyng.projetomobile.TelaConfiguracoes;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;

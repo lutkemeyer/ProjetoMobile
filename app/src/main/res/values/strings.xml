@@ -9,7 +9,7 @@
     <string name="ic_menu_riscos">M20 30,L80 30,  M20 50,L80 50,  M20 70,L80 70</string>
 
     <string name="titulo_tela_selecao_carro">CONSUMO</string>
-    <string name="titulo_tela_pirncipal">PROJETO MOBILE</string>
+    <string name="titulo_tela_principal">PROJETO MOBILE</string>
     <string name="titulo_dialog_nao_informou_consumo">Você ainda não informou o consumo do seu veículo</string>
     <string name="titulo_dialog_inserir_consumo_manualmente">Insira o consumo manualmente</string>
     <string name="mensagem_dialog_nao_informou_consumo">Deseja informar o consumo agora?</string>

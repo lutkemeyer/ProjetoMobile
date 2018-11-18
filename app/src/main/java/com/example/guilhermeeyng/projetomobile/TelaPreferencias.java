@@ -2,7 +2,6 @@ package com.example.guilhermeeyng.projetomobile;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -13,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -23,17 +21,12 @@ import android.widget.Toast;
 
 import com.example.guilhermeeyng.projetomobile.adapters.AdapterImagem;
 import com.example.guilhermeeyng.projetomobile.bancodedados.Dao;
-import com.example.guilhermeeyng.projetomobile.entidades.Preferencia;
-import com.example.guilhermeeyng.projetomobile.enums.LogoMarcaAutomotiva;
-import com.example.guilhermeeyng.projetomobile.enums.Tema;
+import com.example.guilhermeeyng.projetomobile.entidades.Tema;
 import com.example.guilhermeeyng.projetomobile.enums.TipoMapa;
 import com.example.guilhermeeyng.projetomobile.utilitarios.ColorPicker;
 import com.flask.colorpicker.OnColorSelectedListener;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
-public class TelaConfiguracoes extends AppCompatActivity {
+public class TelaPreferencias extends AppCompatActivity {
 
     private Switch swTemaEscuro, swTemaCustomizado, swTemaPadrao;
     private FloatingActionButton btnCorDestaque, btnCorDestaqueClara, btnCorSecundaria, btnCorSecundariaClara;
@@ -83,7 +76,7 @@ public class TelaConfiguracoes extends AppCompatActivity {
         btnCorDestaqueClara.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryLight)));
         btnCorSecundaria.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
 
-        viewPager.setAdapter(new AdapterImagem(TelaConfiguracoes.this));
+        viewPager.setAdapter(new AdapterImagem(TelaPreferencias.this));
 
         mn_llFundo = findViewById(R.id.mn_llFundo);
         mn_llContainer = findViewById(R.id.mn_llContainer);
@@ -111,8 +104,9 @@ public class TelaConfiguracoes extends AppCompatActivity {
         corDestaqueClaraEscuro = -5197648;
         corSecundariaEscuro = -13750738;
 
-        Tema temaUsuario = new Dao(TelaConfiguracoes.this).getTemaUsuario();
+        Tema temaUsuario = new Dao(TelaPreferencias.this).getTemaUsuario();
 
+        /*
         switch (temaUsuario){
             case PADRAO:
                 swTemaPadrao.setChecked(true);
@@ -124,10 +118,11 @@ public class TelaConfiguracoes extends AppCompatActivity {
                 swTemaCustomizado.setChecked(true);
                 break;
         }
+        */
 
         listeners();
 
-        TipoMapa tipoMapaUsuario = new Dao(TelaConfiguracoes.this).getTipoMapaUsuario();
+        TipoMapa tipoMapaUsuario = new Dao(TelaPreferencias.this).getTipoMapaUsuario();
 
         switch (tipoMapaUsuario){
             case NORMAL:
@@ -144,33 +139,6 @@ public class TelaConfiguracoes extends AppCompatActivity {
                 break;
         }
 
-        try {
-            log("Cor antiga: " + getResources().getColor(R.color.colorPrimary));
-
-            setStatic(Class.forName("com.example.guilhermeeyng.projetomobile.R$color"), "colorPrimary", getResources().getColor(R.color.colorAccent));
-            log("Cor nova: " + getResources().getColor(R.color.colorPrimary));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public static boolean setStatic(Class<?> classeColor, String staticFieldName, int toSet) {
-        try {
-            //Field declaredField = aClass.getDeclaredField(staticFieldName);
-            Field campo = classeColor.getDeclaredField("colorPrimary");
-            campo.setAccessible(true);
-            log("valor1: " + campo.get(classeColor).toString());
-
-            int corSetada = Color.parseColor("#"+Integer.toHexString(toSet));
-            log("Valor sendo setado: " + corSetada);
-            campo.setInt(R.color.class, corSetada);
-            log("valor2: " + campo.get(classeColor).toString());
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     private void listeners() {
@@ -180,11 +148,8 @@ public class TelaConfiguracoes extends AppCompatActivity {
                 if(isChecked){
                     swTemaEscuro.setChecked(false);
                     swTemaCustomizado.setChecked(false);
-                    aplicarTema(Tema.PADRAO);
-                    colorirBotoes(Tema.PADRAO);
                     ativarBotoes();
                     desativarBotoes();
-                    colorirBotoes(Tema.PADRAO);
                 }else{
                     if(!swTemaEscuro.isChecked() && !swTemaCustomizado.isChecked()){
                         swTemaPadrao.setChecked(true);
@@ -199,9 +164,7 @@ public class TelaConfiguracoes extends AppCompatActivity {
                 if(isChecked){
                     swTemaPadrao.setChecked(false);
                     swTemaCustomizado.setChecked(false);
-                    aplicarTema(Tema.ESCURO);
                     desativarBotoes();
-                    colorirBotoes(Tema.ESCURO);
                 }else{
                     if(!swTemaPadrao.isChecked() && !swTemaCustomizado.isChecked()){
                         swTemaEscuro.setChecked(true);
@@ -215,8 +178,6 @@ public class TelaConfiguracoes extends AppCompatActivity {
                 if(isChecked){
                     swTemaPadrao.setChecked(false);
                     swTemaEscuro.setChecked(false);
-                    aplicarTema(Tema.CUSTOMIZADO);
-                    colorirBotoes(Tema.CUSTOMIZADO);
                     ativarBotoes();
                 }else{
                     if(!swTemaEscuro.isChecked() && !swTemaPadrao.isChecked()){
@@ -303,6 +264,7 @@ public class TelaConfiguracoes extends AppCompatActivity {
         btnCorDestaqueClara.setEnabled(true);
         btnCorSecundaria.setEnabled(true);
     }
+/*
 
     private void colorirBotoes(Tema tema) {
         switch (tema){
@@ -324,6 +286,8 @@ public class TelaConfiguracoes extends AppCompatActivity {
         }
 
     }
+*/
+/*
 
     public void aplicarTema(Tema tema){
 
@@ -355,10 +319,11 @@ public class TelaConfiguracoes extends AppCompatActivity {
                 break;
         }
     }
+*/
 
     public void onClickCor(final View view){
         int corDoBotao = view.getBackgroundTintList().getColorForState(new int[]{android.R.attr.state_pressed}, view.getBackgroundTintList().getDefaultColor());
-        ColorPicker.mostra(TelaConfiguracoes.this, view, corDoBotao, new OnColorSelectedListener() {
+        ColorPicker.mostra(TelaPreferencias.this, view, corDoBotao, new OnColorSelectedListener() {
             @Override
             public void onColorSelected(int corSelecionada) {
 

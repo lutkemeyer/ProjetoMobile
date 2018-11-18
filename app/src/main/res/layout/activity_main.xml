@@ -16,6 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <com.example.guilhermeeyng.projetomobile.customviews.DiagonalView
+            android:id="@+id/diagonalView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorAccent"/>
@@ -29,6 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
         <Button
+            android:id="@+id/btnConfiguracoesDeConsumo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_btn_menu"
@@ -96,7 +98,9 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
+
                     <ImageView
+                        android:id="@+id/imgDistancia"
                         android:layout_width="@dimen/tamanho_ic_pequeno"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_distancia" />
@@ -117,7 +121,9 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
+
                     <ImageView
+                        android:id="@+id/imgDuracao"
                         android:layout_width="@dimen/tamanho_ic_pequeno"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_tempo" />

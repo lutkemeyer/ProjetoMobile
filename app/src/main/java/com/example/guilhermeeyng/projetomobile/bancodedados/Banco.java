@@ -14,6 +14,7 @@ import com.example.guilhermeeyng.projetomobile.entidades.Endereco;
 import com.example.guilhermeeyng.projetomobile.entidades.Marca;
 import com.example.guilhermeeyng.projetomobile.entidades.Motor;
 import com.example.guilhermeeyng.projetomobile.entidades.Preferencia;
+import com.example.guilhermeeyng.projetomobile.entidades.Tema;
 import com.example.guilhermeeyng.projetomobile.entidades.TipoCombustivel;
 import com.example.guilhermeeyng.projetomobile.entidades.Veiculo;
 
@@ -51,6 +52,7 @@ public class Banco extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + Veiculo.NOME_TABELA + "(" + Veiculo.ID + " INTEGER NOT NULL PRIMARY KEY, " + Veiculo.MARCA + " INTEGER, " + Veiculo.MODELO + " TEXT, " + Veiculo.MOTOR + " INTEGER, " + Veiculo.VERSAO + " TEXT, " + Veiculo.TIPO_COMBUSTIVEL + " INTEGER, " + Veiculo.CONS_ETANOL_CIDADE + " REAL, " + Veiculo.CONS_ETANOL_ESTRADA + " REAL, " + Veiculo.CONS_GAS_DIESEL_CIDADE + " REAL, " + Veiculo.CONS_GAS_DIESEL_ESTRADA + " REAL, " + Veiculo.ANO + " INTEGER);");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + Endereco.NOME_TABELA + "(" + Endereco.ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " + Endereco.NOME + " TEXT, " + Endereco.QTD + " INTEGER);");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + Preferencia.NOME_TABELA + "(" + Preferencia.ID + " INTEGER NOT NULL PRIMARY KEY, " + Preferencia.VALOR + " INTEGER);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + Tema.NOME_TABELA + "(" + Tema.ID + " INTEGER NOT NULL PRIMARY KEY, " + Tema.NOME + " TEXT, " + Tema.COR_DESTAQUE + " TEXT, " + Tema.COR_DESTAQUE_CLARA + " TEXT, " + Tema.COR_SECUNDARIA + " TEXT);");
     }
 
     /*
@@ -68,6 +70,7 @@ public class Banco extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Veiculo.NOME_TABELA + ";");
         db.execSQL("DROP TABLE IF EXISTS " + Endereco.NOME_TABELA + ";");
         db.execSQL("DROP TABLE IF EXISTS " + Preferencia.NOME_TABELA + ";");
+        db.execSQL("DROP TABLE IF EXISTS " + Tema.NOME_TABELA + ";");
         onCreate(db);
     }
 }

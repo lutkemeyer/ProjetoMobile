@@ -33,13 +33,4 @@
         <item name="android:windowExitAnimation">@anim/dialog_out</item>
     </style>
 
-    <style name="TemaPadrao" parent="AppTheme">
-
-    </style>
-
-    <style name="TemaClaro" parent="AppTheme">
-
-    </style>
-
-
 </resources>
