@@ -30,6 +30,9 @@ import com.example.guilhermeeyng.projetomobile.enums.TipoMapa;
 import com.example.guilhermeeyng.projetomobile.utilitarios.ColorPicker;
 import com.flask.colorpicker.OnColorSelectedListener;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 public class TelaConfiguracoes extends AppCompatActivity {
 
     private Switch swTemaEscuro, swTemaCustomizado, swTemaPadrao;
@@ -108,7 +111,6 @@ public class TelaConfiguracoes extends AppCompatActivity {
         corDestaqueClaraEscuro = -5197648;
         corSecundariaEscuro = -13750738;
 
-
         Tema temaUsuario = new Dao(TelaConfiguracoes.this).getTemaUsuario();
 
         switch (temaUsuario){
@@ -142,6 +144,33 @@ public class TelaConfiguracoes extends AppCompatActivity {
                 break;
         }
 
+        try {
+            log("Cor antiga: " + getResources().getColor(R.color.colorPrimary));
+
+            setStatic(Class.forName("com.example.guilhermeeyng.projetomobile.R$color"), "colorPrimary", getResources().getColor(R.color.colorAccent));
+            log("Cor nova: " + getResources().getColor(R.color.colorPrimary));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static boolean setStatic(Class<?> classeColor, String staticFieldName, int toSet) {
+        try {
+            //Field declaredField = aClass.getDeclaredField(staticFieldName);
+            Field campo = classeColor.getDeclaredField("colorPrimary");
+            campo.setAccessible(true);
+            log("valor1: " + campo.get(classeColor).toString());
+
+            int corSetada = Color.parseColor("#"+Integer.toHexString(toSet));
+            log("Valor sendo setado: " + corSetada);
+            campo.setInt(R.color.class, corSetada);
+            log("valor2: " + campo.get(classeColor).toString());
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private void listeners() {
@@ -203,7 +232,6 @@ public class TelaConfiguracoes extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     viewPager.setCurrentItem(0, true);
-                    //new Dao(TelaConfiguracoes.this).salvarPreferencia(new Preferencia(Preferencia.ID_TIPO_MAPA));
                 }else{
 
                 }
@@ -319,7 +347,6 @@ public class TelaConfiguracoes extends AppCompatActivity {
                 corDestaqueClaraCustomizado = corDestaqueClaraEscuro;
                 corSecundariaCustomizado = corSecundariaEscuro;
 
-
                 break;
             case CUSTOMIZADO:
                 colorirViews(1, corDestaqueCustomizado);
@@ -334,6 +361,11 @@ public class TelaConfiguracoes extends AppCompatActivity {
         ColorPicker.mostra(TelaConfiguracoes.this, view, corDoBotao, new OnColorSelectedListener() {
             @Override
             public void onColorSelected(int corSelecionada) {
+
+                int decimal = Color.parseColor("0x"+Integer.toHexString(corSelecionada));
+
+
+                toast("Cor selecionada: " + decimal);
                 switch (view.getId()){
                     case R.id.btnCorDestaque:
                         colorirViews(1,corSelecionada);
@@ -345,7 +377,6 @@ public class TelaConfiguracoes extends AppCompatActivity {
                         colorirViews(3,corSelecionada);
                         break;
                 }
-                //new Dao(TelaConfiguracoes.this).salvarPreferencia(preferencia);
             }
         });
     }
@@ -369,12 +400,19 @@ public class TelaConfiguracoes extends AppCompatActivity {
     }
 
     private void onClickSalvar() {
-        toast("Salvar");
+        toast(getResources().getColor(R.color.colorPrimary) + " - " + getResources().getColor(R.color.colorPrimaryDark));
     }
 
     public void toast(String m){
         Toast.makeText(this, m, Toast.LENGTH_SHORT).show();
+        log(m);
     }
+
+    public static void log(String s){
+        Log.i("ScriptGui", s);
+    }
+
+
 
     public void colorirViews(int qualCor, int c){
         Log.i("Script", c+"");
