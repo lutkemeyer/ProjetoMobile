@@ -22,6 +22,7 @@ public class AdapterVeiculo extends BaseAdapter{
     private ArrayList<Veiculo> veiculos;
     private int selecionadoIndex;
     private RadioButton[] radioButtons;
+    private int corIcone;
 
     public AdapterVeiculo(Activity activity, ArrayList<Veiculo> veiculos) {
         this.veiculos = veiculos;
@@ -62,7 +63,7 @@ public class AdapterVeiculo extends BaseAdapter{
         lblAno.setText( v.getAno() );
 
         Drawable drawable = LogoMarcaAutomotiva.valueOf(v.getMarca().getNome().replace(" ","").replace("-", "").toUpperCase()).getLogo(activity);
-        drawable.setTint(activity.getResources().getColor(R.color.colorLight));
+        drawable.setTint( corIcone == 0 ? activity.getResources().getColor(R.color.colorLight) : corIcone);
 
         ivMarca.setImageDrawable( drawable );
 
@@ -81,5 +82,9 @@ public class AdapterVeiculo extends BaseAdapter{
 
     public Veiculo getVeiculoSelecionado(){
         return (selecionadoIndex >= 0) ? veiculos.get(this.selecionadoIndex) : null;
+    }
+
+    public void setCorIcone(int corIcone) {
+        this.corIcone = corIcone;
     }
 }

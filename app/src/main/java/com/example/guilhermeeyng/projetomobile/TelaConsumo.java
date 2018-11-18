@@ -1,12 +1,22 @@
 package com.example.guilhermeeyng.projetomobile;
 
+import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.BounceInterpolator;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -22,6 +32,7 @@ import com.example.guilhermeeyng.projetomobile.adapters.AdapterVeiculo;
 import com.example.guilhermeeyng.projetomobile.bancodedados.Dao;
 import com.example.guilhermeeyng.projetomobile.entidades.Ano;
 import com.example.guilhermeeyng.projetomobile.entidades.Marca;
+import com.example.guilhermeeyng.projetomobile.entidades.Tema;
 import com.example.guilhermeeyng.projetomobile.entidades.Veiculo;
 import com.example.guilhermeeyng.projetomobile.utilitarios.ActionMenuTelaConsumo;
 
@@ -38,6 +49,8 @@ public class TelaConsumo extends AppCompatActivity {
     public static Marca marcaSelecionada;
     public static Ano anoSelecionado;
     public static String modeloSelecionado;
+
+    private Tema temaUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +86,53 @@ public class TelaConsumo extends AppCompatActivity {
         spAno.getBackground().setColorFilter(getResources().getColor(R.color.colorLight), PorterDuff.Mode.SRC_ATOP);
 
         listeners();
+
+        invalidateOptionsMenu();
     }
+
+    // PERSONALIZA O LAYOUT
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Window window = TelaConsumo.this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        Drawable ic_voltar = getDrawable(R.drawable.ic_voltar);
+        ActionBar actionBar = getSupportActionBar();
+        Button btnInserirConsumoManualmente = findViewById(R.id.btnInserirConsumoManualmente);
+        Spinner spMarca = findViewById(R.id.spMarca);
+        ListView lstVeiculos = findViewById(R.id.lstVeiculos);
+
+        temaUsuario = new Dao(TelaConsumo.this).getTemaUsuario();
+
+        // cor da status bar
+        window.setStatusBarColor( temaUsuario.getCorDestaqueInt() );
+        actionBar.setBackgroundDrawable(new ColorDrawable( temaUsuario.getCorDestaqueInt() ));
+
+        // cor do icone voltar
+        ic_voltar.setTint( temaUsuario.getCorDestaqueClaraInt() );
+        actionBar.setHomeAsUpIndicator( ic_voltar );
+
+
+        // cor do titulo da tela
+        Spannable spannablerTitle = new SpannableString(actionBar.getTitle().toString());
+        spannablerTitle.setSpan(new ForegroundColorSpan( temaUsuario.getCorDestaqueClaraInt() ), 0, spannablerTitle.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        actionBar.setTitle(spannablerTitle);
+
+        // cor do botao configuracoes de consumo
+        btnInserirConsumoManualmente.getBackground().setTint( temaUsuario.getCorDestaqueClaraInt() );
+        btnInserirConsumoManualmente.setTextColor( temaUsuario.getCorSecundariaInt() );
+
+        // cor do icone no spinner de marcas
+        ((AdapterMarca)spMarca.getAdapter()).setCorIcone( temaUsuario.getCorDestaqueInt() );
+
+        // cor do icone no spinner de marcas
+        //((AdapterVeiculo)lstVeiculos.getAdapter()).setCorIcone( temaUsuario.getCorDestaqueInt() );
+
+    }
+
+
     /*
     quando seleciona item do spinner de marca, carrega todos os modelos daquela marca no spinner de modelos
     quando seleciona item do spinner de modelo, carrega todos os anos daquele modelo no spinner de anos
@@ -158,8 +217,22 @@ public class TelaConsumo extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.consumo_menu, menu);
         this.botaoMenu = menu.getItem(0);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
+
+    /*
+    colore o menu "não encontrei" no topo
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        View view = findViewById(R.id.itemMenu);
+        if (view != null && view instanceof TextView) {
+            ((TextView) view).setTextColor( temaUsuario.getCorDestaqueClaraInt() );
+        }
+        return true;
+    }
+
     /*
     adiciona ação de voltar no botao de voltar e
     caso o botao superior esteja como "nao encontrei" ele abre o menu de selecao manual de consumo

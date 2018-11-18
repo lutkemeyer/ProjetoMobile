@@ -1,16 +1,20 @@
 package com.example.guilhermeeyng.projetomobile;
 
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.guilhermeeyng.projetomobile.bancodedados.Dao;
+import com.example.guilhermeeyng.projetomobile.entidades.Tema;
 import com.example.guilhermeeyng.projetomobile.entidades.Veiculo;
 import com.example.guilhermeeyng.projetomobile.utilitarios.Calculos;
 import com.example.guilhermeeyng.projetomobile.utilitarios.TextChangeListener;
@@ -47,6 +51,8 @@ public class TelaEstimativaGastos extends AppCompatActivity {
 
     private Veiculo veiculoUsuario;
     private String origem, destino;
+
+    private Tema temaUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +97,30 @@ public class TelaEstimativaGastos extends AppCompatActivity {
         preencheDados();
         listeners();
     }
+
+    // PERSONALIZA O LAYOUT
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Window window = TelaEstimativaGastos.this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        ActionBar actionBar = getSupportActionBar();
+
+        temaUsuario = new Dao(TelaEstimativaGastos.this).getTemaUsuario();
+
+        window.setStatusBarColor( temaUsuario.getCorDestaqueInt() );
+        actionBar.setBackgroundDrawable(new ColorDrawable( temaUsuario.getCorDestaqueInt() ));
+
+
+
+    }
+
     /*
-    pega os dados que foram passados pela tela MainActivity, como origem, destino, duracao e distancia
-     */
+        pega os dados que foram passados pela tela MainActivity, como origem, destino, duracao e distancia
+         */
     public void getDados() {
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){

@@ -20,6 +20,7 @@ public class AdapterMarca extends BaseAdapter{
     private Activity activity;
     private String hint;
     private ArrayList<Marca> marcas;
+    private int corIcone;
 
     public AdapterMarca(Activity activity, String hint, ArrayList<Marca> marcas) {
         this.marcas = marcas;
@@ -53,9 +54,13 @@ public class AdapterMarca extends BaseAdapter{
         }else{
             lblTexto.setText(marcas.get( posicao - 1 ).getNome());
             Drawable drawable = LogoMarcaAutomotiva.valueOf(marcas.get( posicao - 1 ).getNome().replace(" ","").replace("-", "").toUpperCase()).getLogo(activity);
-            drawable.setTint(activity.getResources().getColor(R.color.colorAccent));
+            drawable.setTint( corIcone == 0 ? activity.getResources().getColor(R.color.colorAccent) : corIcone);
             imgMarca.setImageDrawable(drawable);
         }
         return view;
+    }
+
+    public void setCorIcone(int corIcone) {
+        this.corIcone = corIcone;
     }
 }
