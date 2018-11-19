@@ -36,6 +36,8 @@ import com.example.guilhermeeyng.projetomobile.entidades.Tema;
 import com.example.guilhermeeyng.projetomobile.entidades.Veiculo;
 import com.example.guilhermeeyng.projetomobile.utilitarios.ActionMenuTelaConsumo;
 
+import java.util.ArrayList;
+
 public class TelaConsumo extends AppCompatActivity {
 
     private Spinner spMarca, spModelo, spAno;
@@ -85,6 +87,8 @@ public class TelaConsumo extends AppCompatActivity {
         spModelo.getBackground().setColorFilter(getResources().getColor(R.color.colorLight), PorterDuff.Mode.SRC_ATOP);
         spAno.getBackground().setColorFilter(getResources().getColor(R.color.colorLight), PorterDuff.Mode.SRC_ATOP);
 
+        lstVeiculos.setAdapter(new AdapterVeiculo(TelaConsumo.this, new ArrayList<Veiculo>()));
+
         listeners();
 
         invalidateOptionsMenu();
@@ -114,7 +118,6 @@ public class TelaConsumo extends AppCompatActivity {
         ic_voltar.setTint( temaUsuario.getCorDestaqueClaraInt() );
         actionBar.setHomeAsUpIndicator( ic_voltar );
 
-
         // cor do titulo da tela
         Spannable spannablerTitle = new SpannableString(actionBar.getTitle().toString());
         spannablerTitle.setSpan(new ForegroundColorSpan( temaUsuario.getCorDestaqueClaraInt() ), 0, spannablerTitle.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -127,9 +130,8 @@ public class TelaConsumo extends AppCompatActivity {
         // cor do icone no spinner de marcas
         ((AdapterMarca)spMarca.getAdapter()).setCorIcone( temaUsuario.getCorDestaqueInt() );
 
-        // cor do icone no spinner de marcas
         //((AdapterVeiculo)lstVeiculos.getAdapter()).setCorIcone( temaUsuario.getCorDestaqueInt() );
-
+        ((AdapterVeiculo)lstVeiculos.getAdapter()).setCorDestaque( temaUsuario.getCorDestaqueClaraInt() );
     }
 
 
@@ -191,7 +193,7 @@ public class TelaConsumo extends AppCompatActivity {
                 Ano anoSelecionado = (Ano)spAno.getAdapter().getItem(position);
                 if(anoSelecionado != null){
                     TelaConsumo.anoSelecionado = anoSelecionado;
-                    lstVeiculos.setAdapter(new AdapterVeiculo(TelaConsumo.this, new Dao(TelaConsumo.this).getVeiculos(marcaSelecionada, modeloSelecionado, anoSelecionado)));
+                    ((AdapterVeiculo)lstVeiculos.getAdapter()).setVeiculos(new Dao(TelaConsumo.this).getVeiculos(marcaSelecionada, modeloSelecionado, anoSelecionado));
                     lstVeiculos.setVisibility(View.VISIBLE);
                 }else{
                     lstVeiculos.setVisibility(View.GONE);
@@ -266,7 +268,7 @@ public class TelaConsumo extends AppCompatActivity {
     metodo chamado quando clica no botao de inserir consumo manualmente
      */
     public void onClickInserirManualmente(View view){
-        DialogInserirConsumoManualmente dialog = new DialogInserirConsumoManualmente(TelaConsumo.this, btnInserirConsumoManualmente);
+        DialogInserirConsumoManualmente dialog = new DialogInserirConsumoManualmente(TelaConsumo.this, temaUsuario);
         dialog.show();
         actionMenu.fechar();
     }

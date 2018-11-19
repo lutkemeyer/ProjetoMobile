@@ -7,12 +7,14 @@ import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.guilhermeeyng.projetomobile.R;
 import com.example.guilhermeeyng.projetomobile.entidades.Ano;
 import com.example.guilhermeeyng.projetomobile.entidades.Endereco;
 import com.example.guilhermeeyng.projetomobile.entidades.Marca;
 import com.example.guilhermeeyng.projetomobile.entidades.Motor;
+import com.example.guilhermeeyng.projetomobile.entidades.Preferencia;
 import com.example.guilhermeeyng.projetomobile.entidades.Tema;
 import com.example.guilhermeeyng.projetomobile.entidades.TipoCombustivel;
 import com.example.guilhermeeyng.projetomobile.entidades.Veiculo;
@@ -294,33 +296,24 @@ public class Dao {
         return veiculo;
     }
 
-/*
-
-    public void salvarTema(Tema tema){
-        ContentValues valor1 = new ContentValues();
-        valor1.put(Preferencia.VALOR, tema.getCorDestaque());
-
-        ContentValues valor2 = new ContentValues();
-        valor2.put(Preferencia.VALOR, tema.getCorDestaqueClaro());
-
-        ContentValues valor3 = new ContentValues();
-        valor3.put(Preferencia.VALOR, tema.getCorSecundaria());
-
-        ContentValues valor4 = new ContentValues();
-        valor4.put(Preferencia.VALOR, tema.getCorSecundariaClaro());
-
+    public void salvarTemaCustomizado(Tema temaCustomizado) {
+        ContentValues valor = new ContentValues();
+        valor.put(Tema.COR_DESTAQUE, temaCustomizado.getCorDestaque());
+        valor.put(Tema.COR_DESTAQUE_CLARA, temaCustomizado.getCorDestaqueClara());
+        valor.put(Tema.COR_SECUNDARIA, temaCustomizado.getCorSecundaria());
+        valor.put(Tema.COR_SECUNDARIA_CLARA, temaCustomizado.getCorSecundariaClara());
         SQLiteDatabase db = banco.getWritableDatabase();
-
-        long resultado1 = db.update(Preferencia.NOME_TABELA, valor1, Preferencia.ID + " =? ",  new String[]{String.valueOf( Preferencia.ID_COR_DESTAQUE )});
-        long resultado2 = db.update(Preferencia.NOME_TABELA, valor2, Preferencia.ID + " =? ",  new String[]{String.valueOf( Preferencia.ID_COR_DESTAQUE_CLARO )});
-        long resultado3 = db.update(Preferencia.NOME_TABELA, valor3, Preferencia.ID + " =? ",  new String[]{String.valueOf( Preferencia.ID_COR_SECUNDARIA )});
-        long resultado4 = db.update(Preferencia.NOME_TABELA, valor4, Preferencia.ID + " =? ",  new String[]{String.valueOf( Preferencia.ID_COR_SECUNDARIA_CLARO )});
-
-        Log.i("Script", "salvando tema: " + resultado1 + " " + resultado2 + " " + resultado3 + " " + resultado4);
+        db.update(Tema.NOME_TABELA, valor, Tema.ID + " =? ",  new String[]{"4"});
         db.close();
     }
-*/
 
+    public void salvarTemaUsuario(Tema temaUsuario) {
+        ContentValues valor = new ContentValues();
+        valor.put(Preferencia.VALOR, temaUsuario.getId());
+        SQLiteDatabase db = banco.getWritableDatabase();
+        db.update(Preferencia.NOME_TABELA, valor, Preferencia.ID + " =? ",  new String[]{"2"});
+        db.close();
+    }
 
     /*
     inner class responsavel por popular o banco, e mostrar em tempo real a inserção
@@ -400,12 +393,85 @@ public class Dao {
 
 
     public Tema getTemaUsuario(){
-        //return new Tema(1,"padrao","#00529b","#a7ceff","#292929");
-        return new Tema(2,"escuro","#ff0000","#ff9696","#00ff00");
+        Tema tema = null;
+
+        String sql = "SELECT * FROM " + Tema.NOME_TABELA
+                + " INNER JOIN " + Preferencia.NOME_TABELA
+                + " ON " + Preferencia.NOME_TABELA + "." + Preferencia.VALOR + " = " + Tema.NOME_TABELA + "." + Tema.ID
+                + " WHERE " + Preferencia.NOME_TABELA + "." + Preferencia.ID + " = 2;";
+
+        SQLiteDatabase db = banco.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow( Tema.ID ));
+                String nome = cursor.getString( cursor.getColumnIndex( Tema.NOME ) );
+                String corDestaque = cursor.getString( cursor.getColumnIndex( Tema.COR_DESTAQUE ) );
+                String corDestaqueClara = cursor.getString( cursor.getColumnIndex( Tema.COR_DESTAQUE_CLARA ) );
+                String corSecundaria = cursor.getString( cursor.getColumnIndex( Tema.COR_SECUNDARIA ) );
+                String corSecundariaClara = cursor.getString( cursor.getColumnIndex( Tema.COR_SECUNDARIA_CLARA ) );
+
+                tema = new Tema(id,nome,corDestaque,corDestaqueClara,corSecundaria,corSecundariaClara);
+
+            }
+        }
+
+        db.close();
+        Log.i("Script", "Banoo: "+tema);
+        return tema;
+    }
+
+    public ArrayList<Tema> getAllTemas(){
+        ArrayList<Tema> temas = new ArrayList<>();
+        SQLiteDatabase db = banco.getReadableDatabase();
+
+        String sql = "SELECT * FROM " + Tema.NOME_TABELA + ";";
+
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                do {
+                    int id = cursor.getInt(cursor.getColumnIndexOrThrow(Tema.ID));
+                    String nome = cursor.getString(cursor.getColumnIndexOrThrow(Tema.NOME));
+                    String corDestaque = cursor.getString(cursor.getColumnIndexOrThrow(Tema.COR_DESTAQUE));
+                    String corDestaqueClara = cursor.getString(cursor.getColumnIndexOrThrow(Tema.COR_DESTAQUE_CLARA));
+                    String corSecundaria = cursor.getString(cursor.getColumnIndexOrThrow(Tema.COR_SECUNDARIA));
+                    String corSecundariaClara = cursor.getString(cursor.getColumnIndexOrThrow(Tema.COR_SECUNDARIA_CLARA));
+                    temas.add(new Tema(id, nome, corDestaque,corDestaqueClara,corSecundaria,corSecundariaClara));
+                } while (cursor.moveToNext());
+            }
+        }
+        db.close();
+        return temas;
     }
 
     public TipoMapa getTipoMapaUsuario(){
-        return TipoMapa.TERRENO;
+        TipoMapa tipoMapa = null;
+        String sql = "SELECT * FROM " + Preferencia.NOME_TABELA + " WHERE " + Preferencia.NOME_TABELA + "." + Preferencia.ID + " = 1;";
+        SQLiteDatabase db = banco.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                int valor = cursor.getInt(cursor.getColumnIndexOrThrow( Preferencia.VALOR ));
+                tipoMapa = TipoMapa.values()[(valor-1)];
+            }
+        }
+        db.close();
+        return tipoMapa;
+    }
+
+    public void salvarTipoMapa(TipoMapa tipoMapa){
+        ContentValues valor = new ContentValues();
+        valor.put(Preferencia.VALOR, tipoMapa.getId());
+        SQLiteDatabase db = banco.getWritableDatabase();
+        db.update(Preferencia.NOME_TABELA, valor, Preferencia.ID + " =? ",  new String[]{"1"});
+        db.close();
     }
 
 }

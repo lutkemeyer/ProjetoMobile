@@ -5,6 +5,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,29 +21,33 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.guilhermeeyng.projetomobile.bancodedados.Dao;
+import com.example.guilhermeeyng.projetomobile.entidades.Tema;
 import com.example.guilhermeeyng.projetomobile.entidades.TipoCombustivel;
 import com.example.guilhermeeyng.projetomobile.entidades.Veiculo;
 import com.example.guilhermeeyng.projetomobile.utilitarios.TextChangeListener;
 
+import static com.example.guilhermeeyng.projetomobile.utilitarios.Util.setCursorColor;
+
 public class DialogInserirConsumoManualmente extends AlertDialog {
 
-    private Button btnInsiraConsumoManualmente;
     private Context ctx;
     private Button btnSalvar, btnCancelar;
     private EditText txtConsumo1, txtConsumo2;
     private RadioButton rbFlex, rbGasolina, rbEtanol, rbDiesel;
-    private LinearLayout container1, container2;
+    private LinearLayout container2;
+    private Tema temaUsuario;
 
     private double consumo1;
     private double consumo2;
 
-    protected DialogInserirConsumoManualmente(@NonNull Context ctx, Button btnInsiraConsumoManualmente) {
+    protected DialogInserirConsumoManualmente(@NonNull Context ctx, Tema tema) {
         super(ctx);
         this.ctx = ctx;
-        this.btnInsiraConsumoManualmente = btnInsiraConsumoManualmente;
+        this.temaUsuario = tema;
         getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
     }
 
@@ -59,7 +65,6 @@ public class DialogInserirConsumoManualmente extends AlertDialog {
         rbGasolina = findViewById(R.id.rbGasolina);
         rbEtanol = findViewById(R.id.rbEtanol);
         rbDiesel = findViewById(R.id.rbDiesel);
-        container1 = findViewById(R.id.container1);
         container2 = findViewById(R.id.container2);
 
         btnSalvar.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +81,42 @@ public class DialogInserirConsumoManualmente extends AlertDialog {
         });
 
         listeners();
+
+        TextView lblTitulo = findViewById(R.id.lblTitulo);
+        TextView lblSelecioneOCombustivel = findViewById(R.id.lblSelecioneOCombustivel);
+        TextView lblKmL1 = findViewById(R.id.lblKmL1);
+        TextView lblKmL2 = findViewById(R.id.lblKmL2);
+
+        lblTitulo.setTextColor(temaUsuario.getCorDestaqueInt());
+        lblSelecioneOCombustivel.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+        lblKmL1.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+        lblKmL2.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+
+        ColorStateList coresPadroesRadioButton = new ColorStateList(
+                new int[][]{ new int[]{-android.R.attr.state_checked}, new int[]{android.R.attr.state_checked} },
+                new int[]{ Color.DKGRAY, temaUsuario.getCorDestaqueInt()}
+        );
+
+        rbFlex.setButtonTintList(coresPadroesRadioButton);
+        rbGasolina.setButtonTintList(coresPadroesRadioButton);
+        rbEtanol.setButtonTintList(coresPadroesRadioButton);
+        rbDiesel.setButtonTintList(coresPadroesRadioButton);
+
+        txtConsumo1.setBackgroundTintList(ColorStateList.valueOf( temaUsuario.getCorDestaqueInt() ));
+        txtConsumo1.invalidate();
+
+        txtConsumo2.setBackgroundTintList(ColorStateList.valueOf( temaUsuario.getCorDestaqueInt() ));
+        txtConsumo2.invalidate();
+
+        // cor do cursor dos campos consumo
+        setCursorColor(txtConsumo1, temaUsuario.getCorDestaqueInt());
+        setCursorColor(txtConsumo2, temaUsuario.getCorDestaqueInt());
+
+        btnCancelar.setTextColor( temaUsuario.getCorDestaqueInt() );
+        btnSalvar.setTextColor( temaUsuario.getCorDestaqueInt() );
+
+
+
     }
 
     private void listeners() {

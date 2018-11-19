@@ -3,16 +3,21 @@ package com.example.guilhermeeyng.projetomobile;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,10 +36,13 @@ import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import Modules.*;
+
+import static com.example.guilhermeeyng.projetomobile.utilitarios.Util.setCursorColor;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, DirectionFinderListener{
 
@@ -115,7 +123,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Button btnConfiguracoesDeConsumo = findViewById(R.id.btnConfiguracoesDeConsumo);
         LinearLayout conteudoLayoutMain = findViewById(R.id.conteudoLayoutMain);
         AutoCompleteTextView txtOrigem = findViewById(R.id.txtOrigem);
+        Drawable drawableTxtOrigem = getResources().getDrawable(R.drawable.ic_inicio);
         AutoCompleteTextView txtDestino = findViewById(R.id.txtDestino);
+        Drawable drawableTxtDestino = getResources().getDrawable(R.drawable.ic_fim);
         Button btnCalcular = findViewById(R.id.btnCalcular);
         ImageView imgDistancia = findViewById(R.id.imgDistancia);
         TextView lblDistancia = findViewById(R.id.lblDistancia);
@@ -143,31 +153,59 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // cor do botao configuracoes de consumo
         btnConfiguracoesDeConsumo.getBackground().setTint( temaUsuario.getCorDestaqueClaraInt() );
-        btnConfiguracoesDeConsumo.setTextColor( temaUsuario.getCorSecundariaInt() );
+        btnConfiguracoesDeConsumo.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
 
-        // cor dos campos
-        txtOrigem.getCompoundDrawablesRelative()[0].setTint( temaUsuario.getCorDestaqueClaraInt() );
-        //txtOrigem.setTextColor(  );
+        // cor do campo origem
+        drawableTxtOrigem.setTint( temaUsuario.getCorDestaqueClaraInt() );
+        txtOrigem.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
         txtOrigem.setHintTextColor( temaUsuario.getCorDestaqueClaraInt() );
         txtOrigem.setBackgroundTintList(ColorStateList.valueOf( temaUsuario.getCorDestaqueClaraInt() ));
-        txtDestino.getCompoundDrawablesRelative()[0].setTint( temaUsuario.getCorDestaqueClaraInt() );
-        //txtOrigem.setTextColor(  );
+        txtOrigem.setCompoundDrawablesRelative(drawableTxtOrigem,null,null,null);
+
+        // cor do cursor do campo origem
+        setCursorColor(txtOrigem, temaUsuario.getCorDestaqueClaraInt());
+
+        // cor do campo destino
+        txtDestino.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
         txtDestino.setHintTextColor( temaUsuario.getCorDestaqueClaraInt() );
         txtDestino.setBackgroundTintList(ColorStateList.valueOf( temaUsuario.getCorDestaqueClaraInt() ));
+        drawableTxtDestino.setTint( temaUsuario.getCorDestaqueClaraInt() );
+        txtDestino.setCompoundDrawablesRelative(drawableTxtDestino,null,null,null);
+
+        // cor do cursor do campo destino
+        setCursorColor(txtDestino, temaUsuario.getCorDestaqueClaraInt());
 
         // cor do botao calcular
         btnCalcular.getBackground().setTint( temaUsuario.getCorDestaqueClaraInt() );
-        btnCalcular.setTextColor( temaUsuario.getCorDestaqueInt() );
+        btnCalcular.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
 
-        // cor das labels distancia e duracao
-        imgDistancia.getDrawable().setTint( temaUsuario.getCorDestaqueClaraInt() );
-        lblDistancia.setTextColor( temaUsuario.getCorDestaqueClaraInt() );
+        // cor do icone distancia
+        Drawable drawableDistancia = getResources().getDrawable(R.drawable.ic_distancia);
+        drawableDistancia.setTint( temaUsuario.getCorDestaqueClaraInt() );
+        imgDistancia.setImageDrawable(drawableDistancia);
+        imgDistancia.invalidate();
 
-        imgDuracao.getDrawable().setTint( temaUsuario.getCorDestaqueClaraInt() );
-        lblDuracao.setTextColor( temaUsuario.getCorDestaqueClaraInt() );
+        // cor da label distancia
+        lblDistancia.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
 
+        // cor do icone duracao
+        Drawable drawableDuracao = getResources().getDrawable(R.drawable.ic_tempo);
+        drawableDuracao.setTint( temaUsuario.getCorDestaqueClaraInt() );
+        imgDuracao.setImageDrawable(drawableDuracao);
+        imgDuracao.invalidate();
+
+        // cor da label duracao
+        lblDuracao.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+
+        // cor icone menu (quando anima)
+        actionMenuTelaMain.setIconColor( temaUsuario.getCorDestaqueClaraInt() );
+
+        if(map != null){
+            map.setMapType(new Dao(MainActivity.this).getTipoMapaUsuario().getId());
+        }
+
+        invalidateOptionsMenu();
     }
-
     /*
         pega o endereço que foi selecionado no campo, e aponta para
         variaveis que depois serão usadas para armazenar no banco

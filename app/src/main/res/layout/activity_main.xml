@@ -54,27 +54,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <AutoCompleteTextView
                 android:id="@+id/txtOrigem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:completionThreshold="1"
                 android:drawableStart="@drawable/ic_inicio"
                 android:drawablePadding="@dimen/padding_ic_edittext"
                 android:ems="10"
                 android:hint="@string/hint_txt_origem"
                 android:inputType="textPersonName"
-                android:completionThreshold="1"
                 android:textColor="@color/colorLight"
-                android:textColorHint="@color/colorPrimaryLight"/>
+                android:textColorHint="@color/colorPrimaryLight" />
+
             <AutoCompleteTextView
                 android:id="@+id/txtDestino"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:completionThreshold="1"
                 android:drawableStart="@drawable/ic_fim"
                 android:drawablePadding="@dimen/padding_ic_edittext"
                 android:ems="10"
                 android:hint="@string/hint_txt_destino"
-                android:completionThreshold="1"
                 android:textColor="@color/colorLight"
                 android:textColorHint="@color/colorPrimaryLight" />
             <LinearLayout

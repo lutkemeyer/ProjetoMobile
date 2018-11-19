@@ -2,15 +2,25 @@ package com.example.guilhermeeyng.projetomobile;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,23 +35,28 @@ import com.example.guilhermeeyng.projetomobile.entidades.Tema;
 import com.example.guilhermeeyng.projetomobile.enums.TipoMapa;
 import com.example.guilhermeeyng.projetomobile.utilitarios.ColorPicker;
 import com.flask.colorpicker.OnColorSelectedListener;
+import com.google.android.gms.vision.text.Line;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 public class TelaPreferencias extends AppCompatActivity {
 
-    private Switch swTemaEscuro, swTemaCustomizado, swTemaPadrao;
+    private Switch swTemaEscuro, swTemaCustomizado, swTemaPadrao, swTemaClaro;
     private FloatingActionButton btnCorDestaque, btnCorDestaqueClara, btnCorSecundaria, btnCorSecundariaClara;
     private RadioButton rbMapaNormal, rbMapaSatelite, rbMapaTerreno, rbMapaHibrido;
     private ViewPager viewPager;
 
     private LinearLayout mn_llFundo, mn_llContainer, mn_llBotao;
     private ImageView mn_imgMenu, mn_imgPreferencias, mn_imgOrigem, mn_imgDestino, mn_imgDistancia, mn_imgDuracao;
-    private TextView mn_lblTitulo, mn_lblOrigem, mn_lblDestino;
+    private TextView mn_lblTitulo, mn_lblDuracao, mn_lblDistancia, mn_txtBotao, mn_txtOrigem, mn_txtDestino;
     private View mn_viewOrigem, mn_viewDestino;
 
+    private Tema temaPadrao, temaClaro, temaEscuro, temaCustomizado;
+    private Tema temaUsuario;
 
-    private int corDestaquePadrao, corDestaqueClaraPadrao, corSecundariaPadrao;
-    private int corDestaqueEscuro, corDestaqueClaraEscuro, corSecundariaEscuro;
-    private int corDestaqueCustomizado, corDestaqueClaraCustomizado, corSecundariaCustomizado;
+    private TipoMapa tipoMapaUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +71,7 @@ public class TelaPreferencias extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         swTemaPadrao = findViewById(R.id.swTemaPadrao);
-        //swTemaClaro = findViewById(R.id.swTemaClaro);
+        swTemaClaro = findViewById(R.id.swTemaClaro);
         swTemaEscuro = findViewById(R.id.swTemaEscuro);
         swTemaCustomizado = findViewById(R.id.swTemaCustomizado);
 
@@ -68,13 +83,9 @@ public class TelaPreferencias extends AppCompatActivity {
         btnCorDestaque = findViewById(R.id.btnCorDestaque);
         btnCorDestaqueClara = findViewById(R.id.btnCorDestaqueClara);
         btnCorSecundaria = findViewById(R.id.btnCorSecundaria);
+        btnCorSecundariaClara = findViewById(R.id.btnCorSecundariaClara);
 
-        //containerTemaCustomizado = findViewById(R.id.containerTemaCustomizado);
         viewPager = findViewById(R.id.viewPager);
-
-        btnCorDestaque.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
-        btnCorDestaqueClara.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryLight)));
-        btnCorSecundaria.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
 
         viewPager.setAdapter(new AdapterImagem(TelaPreferencias.this));
 
@@ -89,40 +100,67 @@ public class TelaPreferencias extends AppCompatActivity {
         mn_imgDistancia = findViewById(R.id.mn_imgDistancia);
         mn_imgDuracao = findViewById(R.id.mn_imgDuracao);
 
+        mn_txtOrigem = findViewById(R.id.mn_txtOrigem);
+        mn_txtDestino = findViewById(R.id.mn_txtDestino);
+
+        mn_txtBotao = findViewById(R.id.mn_txtBotao);
+
         mn_lblTitulo = findViewById(R.id.mn_lblTitulo);
-        mn_lblOrigem = findViewById(R.id.mn_lblOrigem);
-        mn_lblDestino = findViewById(R.id.mn_lblDestino);
+        mn_lblDuracao = findViewById(R.id.mn_lblDuracao);
+        mn_lblDistancia = findViewById(R.id.mn_lblDistancia);
 
         mn_viewOrigem = findViewById(R.id.mn_viewOrigem);
         mn_viewDestino = findViewById(R.id.mn_viewDestino);
 
-        corDestaquePadrao = -16757093;
-        corDestaqueClaraPadrao = -6109697;
-        corSecundariaPadrao = -14079703;
+        temaUsuario = new Dao(TelaPreferencias.this).getTemaUsuario();
 
-        corDestaqueEscuro = -16777216;
-        corDestaqueClaraEscuro = -5197648;
-        corSecundariaEscuro = -13750738;
+        ArrayList<Tema> temas = new Dao(TelaPreferencias.this).getAllTemas();
+        temaPadrao = temas.get(0);
+        temaClaro = temas.get(1);
+        temaEscuro = temas.get(2);
+        temaCustomizado = temas.get(3);
 
-        Tema temaUsuario = new Dao(TelaPreferencias.this).getTemaUsuario();
-
-        /*
-        switch (temaUsuario){
-            case PADRAO:
+        switch (temaUsuario.getNome().toUpperCase()){
+            case "PADRÃO":
                 swTemaPadrao.setChecked(true);
+                colorirBotoes(temaPadrao);
+                colorirViews(1, temaPadrao.getCorDestaqueInt());
+                colorirViews(2, temaPadrao.getCorDestaqueClaraInt());
+                colorirViews(3, temaPadrao.getCorSecundariaInt());
+                colorirViews(4, temaPadrao.getCorSecundariaClaraInt());
+                desativarBotoes();
                 break;
-            case ESCURO:
+            case "CLARO":
+                swTemaClaro.setChecked(true);
+                colorirBotoes(temaClaro);
+                colorirViews(1, temaClaro.getCorDestaqueInt());
+                colorirViews(2, temaClaro.getCorDestaqueClaraInt());
+                colorirViews(3, temaClaro.getCorSecundariaInt());
+                colorirViews(4, temaClaro.getCorSecundariaClaraInt());
+                desativarBotoes();
+                break;
+            case "ESCURO":
                 swTemaEscuro.setChecked(true);
+                colorirBotoes(temaEscuro);
+                colorirViews(1, temaEscuro.getCorDestaqueInt());
+                colorirViews(2, temaEscuro.getCorDestaqueClaraInt());
+                colorirViews(3, temaEscuro.getCorSecundariaInt());
+                colorirViews(4, temaEscuro.getCorSecundariaClaraInt());
+                desativarBotoes();
                 break;
-            case CUSTOMIZADO:
+            case "CUSTOMIZADO":
                 swTemaCustomizado.setChecked(true);
+                colorirBotoes(temaCustomizado);
+                colorirViews(1, temaCustomizado.getCorDestaqueInt());
+                colorirViews(2, temaCustomizado.getCorDestaqueClaraInt());
+                colorirViews(3, temaCustomizado.getCorSecundariaInt());
+                colorirViews(4, temaCustomizado.getCorSecundariaClaraInt());
                 break;
         }
-        */
 
         listeners();
 
-        TipoMapa tipoMapaUsuario = new Dao(TelaPreferencias.this).getTipoMapaUsuario();
+        tipoMapaUsuario = new Dao(TelaPreferencias.this).getTipoMapaUsuario();
 
         switch (tipoMapaUsuario){
             case NORMAL:
@@ -141,32 +179,155 @@ public class TelaPreferencias extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Window window = TelaPreferencias.this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        Drawable ic_voltar = getDrawable(R.drawable.ic_voltar);
+        ActionBar actionBar = getSupportActionBar();
+        TextView lblCorDestaque = findViewById(R.id.lblCorDestaque);
+        TextView lblCorDestaqueClara = findViewById(R.id.lblCorDestaqueClara);
+        TextView lblCorSecundaria = findViewById(R.id.lblCorSecundaria);
+        TextView lblCorSecundariaClara = findViewById(R.id.lblCorSecundariaClara);
+        TextView lblPersonalizacaoTema = findViewById(R.id.lblPersonalizacaoTema);
+        TextView lblPersonalizacaoMapa = findViewById(R.id.lblPersonalizacaoMapa);
+        LinearLayout llPreferencias = findViewById(R.id.llPreferencias);
+
+        // cor da status bar
+        window.setStatusBarColor( temaUsuario.getCorDestaqueInt() );
+        actionBar.setBackgroundDrawable(new ColorDrawable( temaUsuario.getCorDestaqueInt() ));
+
+        // cor do icone voltar
+        ic_voltar.setTint( temaUsuario.getCorDestaqueClaraInt() );
+        actionBar.setHomeAsUpIndicator( ic_voltar );
+
+        // cor do titulo da tela
+        Spannable spannablerTitle = new SpannableString(actionBar.getTitle().toString());
+        spannablerTitle.setSpan(new ForegroundColorSpan( temaUsuario.getCorDestaqueClaraInt() ), 0, spannablerTitle.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        actionBar.setTitle(spannablerTitle);
+
+        llPreferencias.setBackgroundColor( temaUsuario.getCorDestaqueInt() );
+
+        // cor dos radio buttons
+        ColorStateList coresPadroesRadioButton = new ColorStateList(
+                new int[][]{ new int[]{-android.R.attr.state_checked}, new int[]{android.R.attr.state_checked} },
+                new int[]{ Color.DKGRAY, temaUsuario.getCorDestaqueClaraInt()}
+        );
+        rbMapaNormal.setButtonTintList(coresPadroesRadioButton);
+        rbMapaSatelite.setButtonTintList(coresPadroesRadioButton);
+        rbMapaTerreno.setButtonTintList(coresPadroesRadioButton);
+        rbMapaHibrido.setButtonTintList(coresPadroesRadioButton);
+
+        rbMapaNormal.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+        rbMapaSatelite.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+        rbMapaTerreno.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+        rbMapaHibrido.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+
+        swTemaPadrao.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+        swTemaClaro.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+        swTemaEscuro.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+        swTemaCustomizado.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+
+        if (Build.VERSION.SDK_INT == 23) {
+            ColorStateList coresSwitch = new ColorStateList(new int[][]{new int[]{-android.R.attr.state_enabled},new int[]{android.R.attr.state_checked},new int[]{}},new int[]{temaUsuario.getCorSecundariaClaraInt(),temaUsuario.getCorDestaqueClaraInt(),Color.DKGRAY});
+            swTemaPadrao.setThumbTintList(coresSwitch);
+            swTemaClaro.setThumbTintList(coresSwitch);
+            swTemaEscuro.setThumbTintList(coresSwitch);
+            swTemaCustomizado.setThumbTintList(coresSwitch);
+        }else if (Build.VERSION.SDK_INT >= 24) {
+            ColorStateList trackStates = new ColorStateList(
+                    new int[][]{
+                            new int[]{-android.R.attr.state_enabled},
+                            new int[]{}
+                    },
+                    new int[]{
+                            temaUsuario.getCorDestaqueClaraInt(),
+                            Color.LTGRAY
+                    }
+            );
+
+            swTemaPadrao.setTrackTintList(trackStates);
+            swTemaPadrao.setTrackTintMode(PorterDuff.Mode.OVERLAY);
+
+            swTemaClaro.setTrackTintList(trackStates);
+            swTemaClaro.setTrackTintMode(PorterDuff.Mode.OVERLAY);
+
+            swTemaEscuro.setTrackTintList(trackStates);
+            swTemaEscuro.setTrackTintMode(PorterDuff.Mode.OVERLAY);
+
+            swTemaCustomizado.setTrackTintList(trackStates);
+            swTemaCustomizado.setTrackTintMode(PorterDuff.Mode.OVERLAY);
+        }
+
+        lblPersonalizacaoTema.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+        lblPersonalizacaoMapa.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+        lblCorDestaque.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+        lblCorDestaqueClara.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+        lblCorSecundaria.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+        lblCorSecundariaClara.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+
+    }
+
     private void listeners() {
         swTemaPadrao.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     swTemaEscuro.setChecked(false);
+                    swTemaClaro.setChecked(false);
                     swTemaCustomizado.setChecked(false);
                     ativarBotoes();
                     desativarBotoes();
+                    colorirBotoes(temaPadrao);
+                    colorirViews(1, temaPadrao.getCorDestaqueInt());
+                    colorirViews(2, temaPadrao.getCorDestaqueClaraInt());
+                    colorirViews(3, temaPadrao.getCorSecundariaInt());
+                    colorirViews(4, temaPadrao.getCorSecundariaClaraInt());
                 }else{
-                    if(!swTemaEscuro.isChecked() && !swTemaCustomizado.isChecked()){
+                    if(!swTemaEscuro.isChecked() && !swTemaCustomizado.isChecked() && !swTemaClaro.isChecked()){
                         swTemaPadrao.setChecked(true);
                     }
                 }
             }
         });
-
+        swTemaClaro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    swTemaPadrao.setChecked(false);
+                    swTemaEscuro.setChecked(false);
+                    swTemaCustomizado.setChecked(false);
+                    desativarBotoes();
+                    colorirBotoes(temaClaro);
+                    colorirViews(1, temaClaro.getCorDestaqueInt());
+                    colorirViews(2, temaClaro.getCorDestaqueClaraInt());
+                    colorirViews(3, temaClaro.getCorSecundariaInt());
+                    colorirViews(4, temaClaro.getCorSecundariaClaraInt());
+                }else{
+                    if(!swTemaPadrao.isChecked() && !swTemaCustomizado.isChecked() && !swTemaEscuro.isChecked()){
+                        swTemaClaro.setChecked(true);
+                    }
+                }
+            }
+        });
         swTemaEscuro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     swTemaPadrao.setChecked(false);
+                    swTemaClaro.setChecked(false);
                     swTemaCustomizado.setChecked(false);
                     desativarBotoes();
+                    colorirBotoes(temaEscuro);
+                    colorirViews(1, temaEscuro.getCorDestaqueInt());
+                    colorirViews(2, temaEscuro.getCorDestaqueClaraInt());
+                    colorirViews(3, temaEscuro.getCorSecundariaInt());
+                    colorirViews(4, temaEscuro.getCorSecundariaClaraInt());
                 }else{
-                    if(!swTemaPadrao.isChecked() && !swTemaCustomizado.isChecked()){
+                    if(!swTemaPadrao.isChecked() && !swTemaCustomizado.isChecked() && !swTemaClaro.isChecked()){
                         swTemaEscuro.setChecked(true);
                     }
                 }
@@ -177,13 +338,17 @@ public class TelaPreferencias extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     swTemaPadrao.setChecked(false);
+                    swTemaClaro.setChecked(false);
                     swTemaEscuro.setChecked(false);
                     ativarBotoes();
+                    colorirBotoes(temaCustomizado);
+                    colorirViews(1, temaCustomizado.getCorDestaqueInt());
+                    colorirViews(2, temaCustomizado.getCorDestaqueClaraInt());
+                    colorirViews(3, temaCustomizado.getCorSecundariaInt());
+                    colorirViews(4, temaCustomizado.getCorSecundariaClaraInt());
                 }else{
-                    if(!swTemaEscuro.isChecked() && !swTemaPadrao.isChecked()){
+                    if(!swTemaEscuro.isChecked() && !swTemaPadrao.isChecked() && !swTemaClaro.isChecked()){
                         swTemaCustomizado.setChecked(true);
-                    }else{
-
                     }
                 }
             }
@@ -193,8 +358,7 @@ public class TelaPreferencias extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     viewPager.setCurrentItem(0, true);
-                }else{
-
+                    tipoMapaUsuario = TipoMapa.NORMAL;
                 }
             }
         });
@@ -203,8 +367,7 @@ public class TelaPreferencias extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     viewPager.setCurrentItem(1, true);
-                }else{
-
+                    tipoMapaUsuario = TipoMapa.SATELITE;
                 }
             }
         });
@@ -213,8 +376,7 @@ public class TelaPreferencias extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     viewPager.setCurrentItem(2, true);
-                }else{
-
+                    tipoMapaUsuario = TipoMapa.TERRENO;
                 }
             }
         });
@@ -223,8 +385,7 @@ public class TelaPreferencias extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     viewPager.setCurrentItem(3, true);
-                }else{
-
+                    tipoMapaUsuario = TipoMapa.HIBRIDO;
                 }
             }
         });
@@ -257,91 +418,54 @@ public class TelaPreferencias extends AppCompatActivity {
         btnCorDestaque.setEnabled(false);
         btnCorDestaqueClara.setEnabled(false);
         btnCorSecundaria.setEnabled(false);
+        btnCorSecundariaClara.setEnabled(false);
     }
 
     private void ativarBotoes() {
         btnCorDestaque.setEnabled(true);
         btnCorDestaqueClara.setEnabled(true);
         btnCorSecundaria.setEnabled(true);
+        btnCorSecundariaClara.setEnabled(true);
     }
-/*
 
     private void colorirBotoes(Tema tema) {
-        switch (tema){
-            case PADRAO:
-                btnCorDestaque.setBackgroundTintList(ColorStateList.valueOf(corDestaquePadrao));
-                btnCorDestaqueClara.setBackgroundTintList(ColorStateList.valueOf(corDestaqueClaraPadrao));
-                btnCorSecundaria.setBackgroundTintList(ColorStateList.valueOf(corSecundariaPadrao));
-                break;
-            case ESCURO:
-                btnCorDestaque.setBackgroundTintList(ColorStateList.valueOf(corDestaqueEscuro));
-                btnCorDestaqueClara.setBackgroundTintList(ColorStateList.valueOf(corDestaqueClaraEscuro));
-                btnCorSecundaria.setBackgroundTintList(ColorStateList.valueOf(corSecundariaEscuro));
-                break;
-            case CUSTOMIZADO:
-                btnCorDestaque.setBackgroundTintList(ColorStateList.valueOf(corDestaqueCustomizado));
-                btnCorDestaqueClara.setBackgroundTintList(ColorStateList.valueOf(corDestaqueClaraCustomizado));
-                btnCorSecundaria.setBackgroundTintList(ColorStateList.valueOf(corSecundariaCustomizado));
-                break;
-        }
-
+        btnCorDestaque.setBackgroundTintList(ColorStateList.valueOf(tema.getCorDestaqueInt()));
+        btnCorDestaqueClara.setBackgroundTintList(ColorStateList.valueOf(tema.getCorDestaqueClaraInt()));
+        btnCorSecundaria.setBackgroundTintList(ColorStateList.valueOf(tema.getCorSecundariaInt()));
+        btnCorSecundariaClara.setBackgroundTintList(ColorStateList.valueOf(tema.getCorSecundariaClaraInt()));
     }
-*/
-/*
-
-    public void aplicarTema(Tema tema){
-
-        switch (tema){
-            case PADRAO:
-                colorirViews(1, corDestaquePadrao);
-                colorirViews(2, corDestaqueClaraPadrao);
-                colorirViews(3, corSecundariaPadrao);
-
-                corDestaqueCustomizado = corDestaquePadrao;
-                corDestaqueClaraCustomizado = corDestaqueClaraPadrao;
-                corSecundariaCustomizado = corSecundariaPadrao;
-
-                break;
-            case ESCURO:
-                colorirViews(1, corDestaqueEscuro);
-                colorirViews(2, corDestaqueClaraEscuro);
-                colorirViews(3, corSecundariaEscuro);
-
-                corDestaqueCustomizado = corDestaqueEscuro;
-                corDestaqueClaraCustomizado = corDestaqueClaraEscuro;
-                corSecundariaCustomizado = corSecundariaEscuro;
-
-                break;
-            case CUSTOMIZADO:
-                colorirViews(1, corDestaqueCustomizado);
-                colorirViews(2, corDestaqueClaraCustomizado);
-                colorirViews(3, corSecundariaCustomizado);
-                break;
-        }
-    }
-*/
 
     public void onClickCor(final View view){
         int corDoBotao = view.getBackgroundTintList().getColorForState(new int[]{android.R.attr.state_pressed}, view.getBackgroundTintList().getDefaultColor());
         ColorPicker.mostra(TelaPreferencias.this, view, corDoBotao, new OnColorSelectedListener() {
             @Override
             public void onColorSelected(int corSelecionada) {
+                int cor = Color.parseColor("#"+Integer.toHexString(corSelecionada));
+                String btn = "";
 
-                int decimal = Color.parseColor("0x"+Integer.toHexString(corSelecionada));
-
-
-                toast("Cor selecionada: " + decimal);
                 switch (view.getId()){
                     case R.id.btnCorDestaque:
-                        colorirViews(1,corSelecionada);
+                        colorirViews(1,cor);
+                        temaCustomizado.setCorDestaqueInt(cor);
+                        btn = "destaque";
                         break;
                     case R.id.btnCorDestaqueClara:
-                        colorirViews(2,corSelecionada);
+                        colorirViews(2,cor);
+                        temaCustomizado.setCorDestaqueClaraInt(cor);
+                        btn = "destaqueClara";
                         break;
                     case R.id.btnCorSecundaria:
-                        colorirViews(3,corSelecionada);
+                        colorirViews(3,cor);
+                        temaCustomizado.setCorSecundariaInt(cor);
+                        btn = "secundaria";
+                        break;
+                    case R.id.btnCorSecundariaClara:
+                        colorirViews(4,cor);
+                        temaCustomizado.setCorSecundariaClaraInt(cor);
+                        btn = "secundariaClara";
                         break;
                 }
+                Log.i("Script", "Cor: [" + btn + "] = " + cor + " = #"+Integer.toHexString(corSelecionada));
             }
         });
     }
@@ -349,6 +473,9 @@ public class TelaPreferencias extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.preferencias_menu, menu);
+        for(int i=0; i<menu.size(); i++){
+            menu.getItem(i).getIcon().setTint( temaUsuario.getCorDestaqueClaraInt() );
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -365,29 +492,24 @@ public class TelaPreferencias extends AppCompatActivity {
     }
 
     private void onClickSalvar() {
-        toast(getResources().getColor(R.color.colorPrimary) + " - " + getResources().getColor(R.color.colorPrimaryDark));
+        if(swTemaPadrao.isChecked()){
+            new Dao(TelaPreferencias.this).salvarTemaUsuario(temaPadrao);
+        }else if(swTemaClaro.isChecked()){
+            new Dao(TelaPreferencias.this).salvarTemaUsuario(temaClaro);
+        }else if(swTemaEscuro.isChecked()){
+            new Dao(TelaPreferencias.this).salvarTemaUsuario(temaEscuro);
+        }else if(swTemaCustomizado.isChecked()){
+            new Dao(TelaPreferencias.this).salvarTemaCustomizado(temaCustomizado);
+            new Dao(TelaPreferencias.this).salvarTemaUsuario(temaCustomizado);
+        }
+        new Dao(TelaPreferencias.this).salvarTipoMapa(tipoMapaUsuario);
+        finish();
     }
 
-    public void toast(String m){
-        Toast.makeText(this, m, Toast.LENGTH_SHORT).show();
-        log(m);
-    }
-
-    public static void log(String s){
-        Log.i("ScriptGui", s);
-    }
-
-
-
-    public void colorirViews(int qualCor, int c){
-        Log.i("Script", c+"");
-        int cor = Color.parseColor("#"+Integer.toHexString(c));
-
+    public void colorirViews(int qualCor, int cor){
         switch (qualCor){
             case 1: // cor destaque
-                mn_llFundo.setBackgroundColor(cor);
-                mn_viewOrigem.setBackgroundColor(cor);
-                mn_viewDestino.setBackgroundColor(cor);
+                mn_llFundo.setBackground(new ColorDrawable(cor));
                 break;
             case 2: // cor destaque clara
                 mn_imgMenu.getDrawable().setTint(cor);
@@ -398,14 +520,19 @@ public class TelaPreferencias extends AppCompatActivity {
                 mn_imgDuracao.getDrawable().setTint(cor);
                 mn_llBotao.getBackground().setTint(cor);
                 mn_lblTitulo.setTextColor(cor);
-                mn_lblDestino.setTextColor(cor);
-                mn_lblOrigem.setTextColor(cor);
+                mn_viewOrigem.setBackground(new ColorDrawable(cor));
+                mn_viewDestino.setBackground(new ColorDrawable(cor));
                 break;
             case 3: // cor secundaria
                 mn_llContainer.getBackground().setTint(cor);
                 viewPager.setBackgroundColor(cor);
                 break;
-
+            case 4: // cor secundaria clara
+                mn_lblDuracao.setTextColor(cor);
+                mn_lblDistancia.setTextColor(cor);
+                mn_txtOrigem.setTextColor(cor);
+                mn_txtDestino.setTextColor(cor);
+                mn_txtBotao.setTextColor(cor);
         }
     }
 

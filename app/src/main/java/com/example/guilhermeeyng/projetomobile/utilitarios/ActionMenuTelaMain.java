@@ -74,4 +74,9 @@ public class ActionMenuTelaMain {
             animacaoAbrirMenu.start();
         }
     }
+
+    public void setIconColor(int cor){
+        animacaoAbrirMenu.setTint(cor);
+        animacaoFecharMenu.setTint(cor);
+    }
 }

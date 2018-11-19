@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llPreferencias"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -19,6 +20,7 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/lblPersonalizacaoTema"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Personalização do tema" />
@@ -28,6 +30,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Tema Padrão" />
+
+            <Switch
+                android:id="@+id/swTemaClaro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tema Claro" />
 
             <Switch
                 android:id="@+id/swTemaEscuro"
@@ -53,214 +61,226 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-
                     <LinearLayout
-                        android:id="@+id/mn_llFundo"
-                        android:layout_width="170dp"
-                        android:layout_height="295dp"
-                        android:background="@color/colorAccent"
-                        android:orientation="vertical">
+                        android:layout_width="188dp"
+                        android:layout_height="369dp"
+                        android:gravity="center"
+                        android:background="@drawable/celular">
 
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/branco_fundo">
+                        <LinearLayout
+                            android:id="@+id/mn_llFundo"
+                            android:layout_width="170dp"
+                            android:layout_height="295dp"
+                            android:background="@color/colorAccent"
+                            android:orientation="vertical">
 
-                            <LinearLayout
+                            <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical">
+                                android:background="@drawable/branco_fundo">
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:paddingStart="3dp"
-                                    android:paddingEnd="3dp">
-
-                                    <ImageView
-                                        android:id="@+id/mn_imgMenu"
-                                        android:layout_width="15dp"
-                                        android:layout_height="wrap_content"
-                                        android:src="@drawable/ic_menu_bolinhas" />
-
-                                    <TextView
-                                        android:id="@+id/mn_lblTitulo"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:text="PROJETO MOBILE"
-                                        android:textColor="@color/colorPrimaryLight"
-                                        android:textSize="10sp" />
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="end"
-                                        android:orientation="horizontal">
-
-                                        <ImageView
-                                            android:id="@+id/mn_imgPreferencias"
-                                            android:layout_width="15dp"
-                                            android:layout_height="wrap_content"
-                                            android:src="@drawable/ic_preferencias" />
-
-                                    </LinearLayout>
-
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/mn_llContainer"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:layout_marginStart="7dp"
-                                    android:layout_marginEnd="7dp"
-                                    android:layout_marginBottom="7dp"
-                                    android:background="@drawable/background_layout_content_miniature"
-                                    android:gravity="bottom"
-                                    android:orientation="vertical"
-                                    android:padding="8dp">
+                                    android:orientation="vertical">
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="horizontal">
+                                        android:orientation="horizontal"
+                                        android:paddingStart="3dp"
+                                        android:paddingEnd="3dp">
 
                                         <ImageView
-                                            android:id="@+id/mn_imgOrigem"
-                                            android:layout_width="10dp"
-                                            android:layout_height="10dp"
-                                            android:layout_marginEnd="2dp"
-                                            android:src="@drawable/ic_inicio" />
+                                            android:id="@+id/mn_imgMenu"
+                                            android:layout_width="15dp"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/ic_menu_bolinhas" />
 
                                         <TextView
-                                            android:id="@+id/mn_lblOrigem"
-                                            android:layout_width="match_parent"
+                                            android:id="@+id/mn_lblTitulo"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="@string/hint_txt_origem"
+                                            android:layout_gravity="center"
+                                            android:text="PROJETO MOBILE"
                                             android:textColor="@color/colorPrimaryLight"
-                                            android:textSize="8sp" />
-
-                                    </LinearLayout>
-
-                                    <View
-                                        android:id="@+id/mn_viewOrigem"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="1dp"
-                                        android:layout_marginBottom="5dp"
-                                        android:background="@color/colorAccent" />
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:orientation="horizontal">
-
-                                        <ImageView
-                                            android:id="@+id/mn_imgDestino"
-                                            android:layout_width="10dp"
-                                            android:layout_height="10dp"
-                                            android:layout_marginEnd="2dp"
-                                            android:src="@drawable/ic_fim" />
-
-                                        <TextView
-                                            android:id="@+id/mn_lblDestino"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:text="@string/hint_txt_destino"
-                                            android:textColor="@color/colorPrimaryLight"
-                                            android:textSize="8sp" />
-
-                                    </LinearLayout>
-
-                                    <View
-                                        android:id="@+id/mn_viewDestino"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="1dp"
-                                        android:layout_marginBottom="5dp"
-                                        android:background="@color/colorPrimaryLight" />
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content">
+                                            android:textSize="10sp" />
 
                                         <LinearLayout
-                                            android:id="@+id/mn_llBotao"
-                                            android:layout_width="0dp"
-                                            android:layout_height="15dp"
-                                            android:layout_weight="1"
-                                            android:background="@drawable/background_layout_botao1_disabled"
-                                            android:gravity="center">
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:text="@string/btn_calcular"
-                                                android:textSize="5sp" />
-
-                                        </LinearLayout>
-
-                                        <LinearLayout
-                                            android:layout_width="0dp"
-                                            android:layout_height="15dp"
-                                            android:layout_weight="1"
-                                            android:gravity="center"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="end"
                                             android:orientation="horizontal">
 
                                             <ImageView
-                                                android:id="@+id/mn_imgDistancia"
-                                                android:layout_width="11dp"
-                                                android:layout_height="11dp"
-                                                android:src="@drawable/ic_distancia" />
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
+                                                android:id="@+id/mn_imgPreferencias"
+                                                android:layout_width="15dp"
                                                 android:layout_height="wrap_content"
-                                                android:text="@string/lbl_distancia"
-                                                android:textColor="@color/colorLight"
-                                                android:textSize="6sp" />
-
+                                                android:src="@drawable/ic_preferencias" />
 
                                         </LinearLayout>
 
-                                        <LinearLayout
-                                            android:layout_width="0dp"
-                                            android:layout_height="15dp"
-                                            android:layout_weight="1"
-                                            android:gravity="center"
-                                            android:orientation="horizontal">
-
-                                            <ImageView
-                                                android:id="@+id/mn_imgDuracao"
-                                                android:layout_width="11dp"
-                                                android:layout_height="11dp"
-                                                android:src="@drawable/ic_tempo" />
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:text="@string/lbl_duracao"
-                                                android:textColor="@color/colorLight"
-                                                android:textSize="6sp" />
-
-                                        </LinearLayout>
 
                                     </LinearLayout>
 
-                                    <android.support.v4.view.ViewPager
-                                        android:id="@+id/viewPager"
+                                    <LinearLayout
+                                        android:id="@+id/mn_llContainer"
                                         android:layout_width="match_parent"
-                                        android:layout_height="195dp"
-                                        android:background="@color/colorPrimary">
+                                        android:layout_height="match_parent"
+                                        android:layout_marginStart="7dp"
+                                        android:layout_marginEnd="7dp"
+                                        android:layout_marginBottom="7dp"
+                                        android:background="@drawable/background_layout_content_miniature"
+                                        android:gravity="bottom"
+                                        android:orientation="vertical"
+                                        android:padding="8dp">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <ImageView
+                                                android:id="@+id/mn_imgOrigem"
+                                                android:layout_width="10dp"
+                                                android:layout_height="10dp"
+                                                android:layout_marginEnd="2dp"
+                                                android:src="@drawable/ic_inicio" />
+
+                                            <TextView
+                                                android:id="@+id/mn_txtOrigem"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/hint_txt_origem"
+                                                android:textColor="@color/colorPrimaryLight"
+                                                android:textSize="8sp" />
+
+                                        </LinearLayout>
+
+                                        <View
+                                            android:id="@+id/mn_viewOrigem"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="1dp"
+                                            android:layout_marginBottom="5dp"
+                                            android:background="@color/colorAccent" />
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <ImageView
+                                                android:id="@+id/mn_imgDestino"
+                                                android:layout_width="10dp"
+                                                android:layout_height="10dp"
+                                                android:layout_marginEnd="2dp"
+                                                android:src="@drawable/ic_fim" />
+
+                                            <TextView
+                                                android:id="@+id/mn_txtDestino"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/hint_txt_destino"
+                                                android:textColor="@color/colorPrimaryLight"
+                                                android:textSize="8sp" />
+
+                                        </LinearLayout>
+
+                                        <View
+                                            android:id="@+id/mn_viewDestino"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="1dp"
+                                            android:layout_marginBottom="5dp"
+                                            android:background="@color/colorPrimaryLight" />
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content">
+
+                                            <LinearLayout
+                                                android:id="@+id/mn_llBotao"
+                                                android:layout_width="0dp"
+                                                android:layout_height="15dp"
+                                                android:layout_weight="1"
+                                                android:background="@drawable/background_layout_botao1_disabled"
+                                                android:gravity="center">
+
+                                                <TextView
+                                                    android:id="@+id/mn_txtBotao"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="@string/btn_calcular"
+                                                    android:textSize="5sp" />
+
+                                            </LinearLayout>
+
+                                            <LinearLayout
+                                                android:layout_width="0dp"
+                                                android:layout_height="15dp"
+                                                android:layout_weight="1"
+                                                android:gravity="center"
+                                                android:orientation="horizontal">
+
+                                                <ImageView
+                                                    android:id="@+id/mn_imgDistancia"
+                                                    android:layout_width="11dp"
+                                                    android:layout_height="11dp"
+                                                    android:src="@drawable/ic_distancia" />
+
+                                                <TextView
+                                                    android:id="@+id/mn_lblDistancia"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="@string/lbl_distancia"
+                                                    android:textColor="@color/colorLight"
+                                                    android:textSize="6sp" />
 
 
-                                    </android.support.v4.view.ViewPager>
+                                            </LinearLayout>
+
+                                            <LinearLayout
+                                                android:layout_width="0dp"
+                                                android:layout_height="15dp"
+                                                android:layout_weight="1"
+                                                android:gravity="center"
+                                                android:orientation="horizontal">
+
+                                                <ImageView
+                                                    android:id="@+id/mn_imgDuracao"
+                                                    android:layout_width="11dp"
+                                                    android:layout_height="11dp"
+                                                    android:src="@drawable/ic_tempo" />
+
+                                                <TextView
+                                                    android:id="@+id/mn_lblDuracao"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="@string/lbl_duracao"
+                                                    android:textColor="@color/colorLight"
+                                                    android:textSize="6sp" />
+
+                                            </LinearLayout>
+
+                                        </LinearLayout>
+
+                                        <android.support.v4.view.ViewPager
+                                            android:id="@+id/viewPager"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="195dp"
+                                            android:background="@color/colorPrimary">
 
 
+                                        </android.support.v4.view.ViewPager>
+
+
+                                    </LinearLayout>
                                 </LinearLayout>
-                            </LinearLayout>
-                        </FrameLayout>
+                            </FrameLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
+
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -271,6 +291,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/lblCorDestaque"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Cor de destaque"
@@ -284,6 +305,7 @@
                         android:onClick="onClickCor" />
 
                     <TextView
+                        android:id="@+id/lblCorDestaqueClara"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Cor de destaque clara"
@@ -297,6 +319,7 @@
                         android:onClick="onClickCor" />
 
                     <TextView
+                        android:id="@+id/lblCorSecundaria"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Cor secundária"
@@ -306,6 +329,20 @@
                         android:id="@+id/btnCorSecundaria"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:onClick="onClickCor" />
+
+                    <TextView
+                        android:id="@+id/lblCorSecundariaClara"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cor secundária clara"
+                        android:textAlignment="center" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/btnCorSecundariaClara"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:onClick="onClickCor" />
 
                 </LinearLayout>
@@ -313,10 +350,10 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/lblPersonalizacaoMapa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Personalização do tema" />
+                android:text="Personalização do mapa" />
 
             <RadioGroup
                 android:layout_width="match_parent"

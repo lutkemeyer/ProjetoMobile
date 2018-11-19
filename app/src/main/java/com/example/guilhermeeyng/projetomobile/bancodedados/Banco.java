@@ -31,7 +31,7 @@ public class Banco extends SQLiteOpenHelper {
 
     private Context context;
 
-    public static final String NOME_BANCO = "banco8.db";
+    public static final String NOME_BANCO = "banco11.db";
     public static final int VERSAO = 1;
 
     public Banco(Context context) {
@@ -52,7 +52,7 @@ public class Banco extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + Veiculo.NOME_TABELA + "(" + Veiculo.ID + " INTEGER NOT NULL PRIMARY KEY, " + Veiculo.MARCA + " INTEGER, " + Veiculo.MODELO + " TEXT, " + Veiculo.MOTOR + " INTEGER, " + Veiculo.VERSAO + " TEXT, " + Veiculo.TIPO_COMBUSTIVEL + " INTEGER, " + Veiculo.CONS_ETANOL_CIDADE + " REAL, " + Veiculo.CONS_ETANOL_ESTRADA + " REAL, " + Veiculo.CONS_GAS_DIESEL_CIDADE + " REAL, " + Veiculo.CONS_GAS_DIESEL_ESTRADA + " REAL, " + Veiculo.ANO + " INTEGER);");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + Endereco.NOME_TABELA + "(" + Endereco.ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " + Endereco.NOME + " TEXT, " + Endereco.QTD + " INTEGER);");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + Preferencia.NOME_TABELA + "(" + Preferencia.ID + " INTEGER NOT NULL PRIMARY KEY, " + Preferencia.VALOR + " INTEGER);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + Tema.NOME_TABELA + "(" + Tema.ID + " INTEGER NOT NULL PRIMARY KEY, " + Tema.NOME + " TEXT, " + Tema.COR_DESTAQUE + " TEXT, " + Tema.COR_DESTAQUE_CLARA + " TEXT, " + Tema.COR_SECUNDARIA + " TEXT);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + Tema.NOME_TABELA + "(" + Tema.ID + " INTEGER NOT NULL PRIMARY KEY, " + Tema.NOME + " TEXT, " + Tema.COR_DESTAQUE + " TEXT, " + Tema.COR_DESTAQUE_CLARA + " TEXT, " + Tema.COR_SECUNDARIA + " TEXT, " + Tema.COR_SECUNDARIA_CLARA + " TEXT);");
     }
 
     /*
