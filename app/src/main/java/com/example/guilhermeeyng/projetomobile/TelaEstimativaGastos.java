@@ -1,6 +1,10 @@
 package com.example.guilhermeeyng.projetomobile;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -109,12 +114,110 @@ public class TelaEstimativaGastos extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
 
+        TextView lblValorCombustivel = findViewById(R.id.lblValorCombustivel);
+        EditText txtValorCombustivel1 = findViewById(R.id.txtValorCombustivel1);
+        Drawable drawableDinheiro = getResources().getDrawable(R.drawable.ic_dinheiro);
+        TextView lblTipoCombustivel1 = findViewById(R.id.lblTipoCombustivel1);
+        TextView txtValorCombustivel2 = findViewById(R.id.txtValorCombustivel2);
+        TextView lblTipoCombustivel2 = findViewById(R.id.lblTipoCombustivel2);
+
+        TextView lblDe = findViewById(R.id.lblDe);
+        TextView lblOrigem = findViewById(R.id.lblOrigem);
+        TextView lblAte = findViewById(R.id.lblAte);
+        TextView lblDestino = findViewById(R.id.lblDestino);
+
+        LinearLayout llSeparador1 = findViewById(R.id.llSeparador1);
+        TextView lbltxtDistancia = findViewById(R.id.lbltxtDistancia);
+        ImageView imgDistancia = findViewById(R.id.imgDistancia);
+        Drawable drawableDistancia = getDrawable(R.drawable.ic_distancia);
+        TextView lblDistancia = findViewById(R.id.lblDistancia);
+
+        LinearLayout llSeparador2 = findViewById(R.id.llSeparador2);
+        TextView lbltxtDuracao = findViewById(R.id.lbltxtDuracao);
+        ImageView imgDuracao = findViewById(R.id.imgDuracao);
+        Drawable drawableDuracao = getDrawable(R.drawable.ic_tempo);
+        TextView lblDuracao = findViewById(R.id.lblDuracao);
+
+        TextView lblConsumo1 = findViewById(R.id.lblConsumo1);
+        TextView lblResultadoConsumo1 = findViewById(R.id.lblResultadoConsumo1);
+        TextView lblConsumo2 = findViewById(R.id.lblConsumo2);
+        TextView lblResultadoConsumo2 = findViewById(R.id.lblResultadoConsumo2);
+
+        View viewSeparador1 = findViewById(R.id.viewSeparador1);
+
+        TextView lblEstimativaLitros1 = findViewById(R.id.lblEstimativaLitros1);
+        TextView lblResultadoLitros1 = findViewById(R.id.lblResultadoLitros1);
+        TextView lblEstimativaGastos1 = findViewById(R.id.lblEstimativaGastos1);
+        TextView lblResultadoGastos1 = findViewById(R.id.lblResultadoGastos1);
+
+        View viewSeparador2 = findViewById(R.id.viewSeparador2);
+
+        TextView lblEstimativaLitros2 = findViewById(R.id.lblEstimativaLitros2);
+        TextView lblResultadoLitros2 = findViewById(R.id.lblResultadoLitros2);
+        TextView lblEstimativaGastos2 = findViewById(R.id.lblEstimativaGastos2);
+        TextView lblResultadoGasto2 = findViewById(R.id.lblResultadoGasto2);
+
         temaUsuario = new Dao(TelaEstimativaGastos.this).getTemaUsuario();
 
         window.setStatusBarColor( temaUsuario.getCorDestaqueInt() );
         actionBar.setBackgroundDrawable(new ColorDrawable( temaUsuario.getCorDestaqueInt() ));
 
+        lblValorCombustivel.setTextColor(temaUsuario.getCorSecundariaClaraInt());
 
+        // cor do campo origem
+        drawableDinheiro.setTint( temaUsuario.getCorDestaqueClaraInt() );
+        txtValorCombustivel1.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+        txtValorCombustivel1.setHintTextColor( temaUsuario.getCorDestaqueClaraInt() );
+        txtValorCombustivel1.setBackgroundTintList(ColorStateList.valueOf( temaUsuario.getCorDestaqueClaraInt() ));
+        txtValorCombustivel1.setCompoundDrawablesRelative(drawableDinheiro,null,null,null);
+
+        lblTipoCombustivel1.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+
+        // cor do campo origem
+        txtValorCombustivel2.setTextColor( temaUsuario.getCorSecundariaClaraInt() );
+        txtValorCombustivel2.setHintTextColor( temaUsuario.getCorDestaqueClaraInt() );
+        txtValorCombustivel2.setBackgroundTintList(ColorStateList.valueOf( temaUsuario.getCorDestaqueClaraInt() ));
+        txtValorCombustivel2.setCompoundDrawablesRelative(drawableDinheiro,null,null,null);
+
+        lblTipoCombustivel2.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+
+        lblDe.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+        lblOrigem.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+        lblAte.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+        lblDestino.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+
+        llSeparador1.getBackground().setTint(temaUsuario.getCorDestaqueClaraInt());
+        lbltxtDistancia.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+        drawableDistancia.setTint(temaUsuario.getCorSecundariaInt());
+        imgDistancia.setImageDrawable(drawableDistancia);
+        lblDistancia.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+
+        GradientDrawable drawable = (GradientDrawable)llSeparador1.getBackground();
+        drawable.setStroke(3, temaUsuario.getCorSecundariaClaraInt());
+        llSeparador1.setBackground(drawable);
+
+        llSeparador2.getBackground().setTint(temaUsuario.getCorDestaqueClaraInt());
+        lbltxtDuracao.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+        drawableDuracao.setTint(temaUsuario.getCorSecundariaInt());
+        imgDuracao.setImageDrawable(drawableDistancia);
+        lblDuracao.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+
+        lblConsumo1.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+        lblConsumo2.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+        lblEstimativaLitros1.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+        lblEstimativaGastos1.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+        lblEstimativaLitros2.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+        lblEstimativaGastos2.setTextColor(temaUsuario.getCorSecundariaClaraInt());
+
+        lblResultadoConsumo1.setTextColor(temaUsuario.getCorDestaqueClaraInt());
+        lblResultadoConsumo2.setTextColor(temaUsuario.getCorDestaqueClaraInt());
+        lblResultadoLitros1.setTextColor(temaUsuario.getCorDestaqueClaraInt());
+        lblResultadoGastos1.setTextColor(temaUsuario.getCorDestaqueClaraInt());
+        lblResultadoLitros2.setTextColor(temaUsuario.getCorDestaqueClaraInt());
+        lblResultadoGasto2.setTextColor(temaUsuario.getCorDestaqueClaraInt());
+
+        viewSeparador1.setBackground(new ColorDrawable(temaUsuario.getCorSecundariaClaraInt()));
+        viewSeparador2.setBackground(new ColorDrawable(temaUsuario.getCorSecundariaClaraInt()));
 
     }
 
