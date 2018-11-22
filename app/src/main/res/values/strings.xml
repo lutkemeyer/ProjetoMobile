@@ -80,5 +80,19 @@
     <string name="msg_progress_popular_banco_dados_inseridos">Dados inseridos:</string>
     <string name="titulo_tela_estimativa_gastos">ESTIMATIVA DE GASTOS</string>
     <string name="mn_salvar">Salvar</string>
+    <string name="rb_hibrido">Híbrido</string>
+    <string name="rb_terreno">Terreno</string>
+    <string name="rb_satelite">Satélite</string>
+    <string name="rb_normal">Normal</string>
+    <string name="lbl_personalizacao_mapa">Personalização do mapa</string>
+    <string name="lbl_cor_secundaria_clara">Cor secundária clara</string>
+    <string name="lbl_cor_secundaria">Cor secundária</string>
+    <string name="lbl_cor_destaque_clara">Cor de destaque clara</string>
+    <string name="lbl_cor_destaque">Cor de destaque</string>
+    <string name="sw_tema_customizado">Tema Customizado</string>
+    <string name="sw_tema_escuro">Tema Escuro</string>
+    <string name="sw_tema_claro">Tema Claro</string>
+    <string name="sw_tema_padrao">Tema Padrão</string>
+    <string name="lbl_personalizacao_tema">Personalização do tema</string>
 
 </resources>

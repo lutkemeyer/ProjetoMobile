@@ -20,4 +20,9 @@
     <dimen name="width_img">40dp</dimen>
     <dimen name="margin_horizontal_lv_item">8dp</dimen>
     <dimen name="height_label_detalhes">20dp</dimen>
+    <dimen name="altura_mini_viewpager">195dp</dimen>
+    <dimen name="altura_miniatura_fundo">295dp</dimen>
+    <dimen name="largura_miniatura_fundo">170dp</dimen>
+    <dimen name="altura_miniatura_celular">369dp</dimen>
+    <dimen name="largura_miniatura_celular">188dp</dimen>
 </resources>

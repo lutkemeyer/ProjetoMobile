@@ -8,6 +8,9 @@ import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -113,6 +116,7 @@ public class TelaEstimativaGastos extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
         ActionBar actionBar = getSupportActionBar();
+        Drawable ic_voltar = getDrawable(R.drawable.ic_voltar);
 
         TextView lblValorCombustivel = findViewById(R.id.lblValorCombustivel);
         EditText txtValorCombustivel1 = findViewById(R.id.txtValorCombustivel1);
@@ -161,6 +165,15 @@ public class TelaEstimativaGastos extends AppCompatActivity {
 
         window.setStatusBarColor( temaUsuario.getCorDestaqueInt() );
         actionBar.setBackgroundDrawable(new ColorDrawable( temaUsuario.getCorDestaqueInt() ));
+
+        // cor do icone voltar
+        ic_voltar.setTint( temaUsuario.getCorDestaqueClaraInt() );
+        actionBar.setHomeAsUpIndicator( ic_voltar );
+
+        // cor do titulo da tela
+        Spannable spannablerTitle = new SpannableString(actionBar.getTitle().toString());
+        spannablerTitle.setSpan(new ForegroundColorSpan( temaUsuario.getCorDestaqueClaraInt() ), 0, spannablerTitle.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        actionBar.setTitle(spannablerTitle);
 
         lblValorCombustivel.setTextColor(temaUsuario.getCorSecundariaClaraInt());
 

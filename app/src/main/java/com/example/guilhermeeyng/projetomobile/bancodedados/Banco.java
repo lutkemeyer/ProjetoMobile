@@ -31,7 +31,7 @@ public class Banco extends SQLiteOpenHelper {
 
     private Context context;
 
-    public static final String NOME_BANCO = "banco11.db";
+    public static final String NOME_BANCO = "banco12.db";
     public static final int VERSAO = 1;
 
     public Banco(Context context) {
